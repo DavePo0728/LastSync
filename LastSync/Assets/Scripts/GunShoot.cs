@@ -1,38 +1,41 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GunShoot : MonoBehaviour
+public class GunShoot : WeaponBase
 {
+    [Header("weaponBaseData")]
+     private float fireForce = 500f;
+
     [SerializeField]
     GameObject bulletPrefab;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    public void Shoot(InputAction.CallbackContext context)
-    {
-        if (context.performed)
+        ownerStats = GetComponentInParent<CharacterStats>();
+        if (ownerStats == null)
         {
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
-            Rigidbody bulletRB = bullet.GetComponent<Rigidbody>();
-            bulletRB.AddForce(transform.forward * 500f);
-            Destroy(bullet, 3f);
+            Debug.LogWarning($"{gameObject.name} 找不到 CharacterStats，將以無乘數狀態運作。");
         }
     }
-    private void OnEnable()
-    {
-        InputSystem.actions.FindAction("Attack").performed += Shoot;
-    }
 
-    private void OnDisable()
+    protected override void PerformAttack()
     {
-        InputSystem.actions.FindAction("Attack").performed -= Shoot;
+        if (bulletPrefab == null) return;
+
+        GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+
+        // 傳遞最終傷害給子彈
+        if (bullet.TryGetComponent<Bullet>(out Bullet bulletScript))
+        {
+            bulletScript.SetDamage(GetFinalDamage());
+        }
+
+        if (bullet.TryGetComponent<Rigidbody>(out Rigidbody bulletRB))
+        {
+            bulletRB.AddForce(transform.forward * fireForce);
+        }
+
+        Destroy(bullet, 3f);
     }
 }

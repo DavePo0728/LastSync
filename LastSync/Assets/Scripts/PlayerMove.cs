@@ -6,15 +6,23 @@ public class PlayerMove : MonoBehaviour
 {
     Vector2 moveInput;
     Vector3 moveDirection;
+    [SerializeField]
+    CharacterStats characterStat;
+    float moveSpeed;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        characterStat = GetComponent<CharacterStats>();
+        if(characterStat != null)
+        {
+            moveSpeed = characterStat.MoveSpeed;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        transform.Translate(moveDirection * Time.fixedDeltaTime * 5f);
+        transform.Translate(moveDirection * Time.fixedDeltaTime * moveSpeed);
     }
     public void OnMove(InputAction.CallbackContext context)
     {
