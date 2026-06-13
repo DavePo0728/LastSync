@@ -28,7 +28,7 @@ public class PlayerMove : MonoBehaviour
     {
         moveInput = context.ReadValue<Vector2>();
         moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
-        Debug.Log("Move Input: " + moveDirection);
+        //Debug.Log("Move Input: " + moveDirection);
     }
     private void OnEnable()
     {

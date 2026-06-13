@@ -3,12 +3,28 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     int damage;
+    Vector3 startPosition;
+    float maxRangeSqr;
     public int Damage => damage; // 這樣外部就可以讀取 damage，但只能透過 SetDamage 設定
-    public void SetDamage(int damage)
+    public void Initialize(int finalDamage, float maxRange)
     {
-        this.damage = damage;
-        // 這裡可以將 damage 儲存到一個變數中，或直接在碰撞時使用
-        Debug.Log($"Bullet received damage value: {damage}");
+        damage = finalDamage;
+        startPosition = transform.position;
+
+        // 預先計算並儲存射程的平方
+        maxRangeSqr = maxRange * maxRange;
+    }
+    private void Update()
+    {
+        if ((transform.position - startPosition).sqrMagnitude >= maxRangeSqr)
+        {
+            HandleMaxRangeReached();
+        }
+    }
+    private void HandleMaxRangeReached()
+    {
+        // 實作：可在此加入子彈消散的粒子特效
+        Destroy(gameObject);
     }
     public void OnTriggerEnter(Collider other)
     {
@@ -17,7 +33,7 @@ public class Bullet : MonoBehaviour
             if (other.TryGetComponent<EnemyStats>(out EnemyStats enemyStats))
             {
                 enemyStats.TakeDamage(Damage);
-                Debug.Log($"Bullet hit {other.gameObject.name} for {Damage} damage.");
+                //Debug.Log($"Bullet hit {other.gameObject.name} for {Damage} damage.");
             }
             Destroy(gameObject); // 子彈碰撞後銷毀
         }

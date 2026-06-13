@@ -10,22 +10,15 @@ public class WeaponData : ScriptableObject
     [Tooltip("每秒發射量 (FPS)")]
     [SerializeField] private float fireRate = 2.0f;
 
-    [Tooltip("攻擊力百分比乘數 (1.2 代表 120%)")]
-    [SerializeField] private float attackMultiplier = 1.0f;
-
     [Tooltip("武器基礎傷害值")]
     [SerializeField] private int baseDamage = 10;
 
+    [SerializeField] private int accuracy = 10; // 武器精確度
+    [SerializeField] private float fireRange = 10f;
     // 唯讀屬性
-    public float FireRate => fireRate;
-    public float AttackMultiplier => attackMultiplier;
-    public float FireInterval => fireRate > 0f ? 1.0f / fireRate : float.MaxValue;
-
-    /// <summary>
-    /// 計算此武器輸出的最終傷害
-    /// </summary>
-    public int CalculateOutputDamage()
-    {
-        return Mathf.RoundToInt(baseDamage * attackMultiplier);
-    }
+    public float fire_Rate => fireRate;
+    public int base_Damage => baseDamage;
+    public int _accuracy => accuracy;
+    public float fire_Interval => fireRate > 0f ? 1.0f / fireRate : 0.5f;
+    public float fire_Range => fireRange;
 }
