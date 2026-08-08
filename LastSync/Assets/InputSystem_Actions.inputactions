@@ -95,6 +95,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "OpenInventory",
+                    "type": "Button",
+                    "id": "f5461ed0-b09e-4b8d-ad70-4dfe946ae3f6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Test",
+                    "type": "Button",
+                    "id": "8d116dd9-3e77-40e1-9f8c-9996387c0c91",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -452,12 +470,23 @@
                 },
                 {
                     "name": "",
-                    "id": "87b1228c-ca2c-4a01-933c-8e211b32ac33",
+                    "id": "0f80e9d8-49a4-4270-b4c4-727347380bb1",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenInventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1b66198f-9c41-4af2-98da-3e21f0c96450",
                     "path": "<Keyboard>/backquote",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "TestSpawn",
+                    "action": "Test",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

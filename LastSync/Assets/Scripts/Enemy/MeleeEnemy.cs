@@ -42,6 +42,6 @@ public class MeleeEnemy : EnemyStats
     protected override void Attack()
     {
         // 實作：發射近戰判定或直接對玩家呼叫 TakeDamage
-        Debug.Log("近戰蓄力完成，發動攻擊！");
+        //Debug.Log("近戰蓄力完成，發動攻擊！");
     }
 }

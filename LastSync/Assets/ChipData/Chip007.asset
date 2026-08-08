@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Chip007
   m_EditorClassIdentifier: Assembly-CSharp::ChipData
   chipID: 7
+  icon: {fileID: 21300000, guid: 7fe262ef56d9faf4fb694d6749e5ef05, type: 3}
+  chipName: Chip007
+  maxStackSize: 99
   modifiers:
   - statType: 3
     value: 10

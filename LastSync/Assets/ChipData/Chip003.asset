@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: Chip003
   m_EditorClassIdentifier: Assembly-CSharp::ChipData
   chipID: 3
+  icon: {fileID: 21300000, guid: 79c07bb3d7fb10c4597ea0d0f03b1f0f, type: 3}
+  chipName: Chip003
+  chipType: 0
+  maxStackSize: 99
   modifiers:
   - statType: 3
     value: 25
-  - statType: 0
-    value: -15
+  - statType: 1
+    value: 2.5
   specialMechanics: 

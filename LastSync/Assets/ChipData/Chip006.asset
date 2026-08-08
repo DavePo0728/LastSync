@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Chip006
   m_EditorClassIdentifier: Assembly-CSharp::ChipData
   chipID: 6
+  icon: {fileID: 21300000, guid: 605f61ab72fc26541b61e68d4a985ee2, type: 3}
+  chipName: Chipp6
+  maxStackSize: 99
   modifiers:
-  - statType: 1
-    value: -1.5
+  - statType: 3
+    value: -10
   specialMechanics: 
