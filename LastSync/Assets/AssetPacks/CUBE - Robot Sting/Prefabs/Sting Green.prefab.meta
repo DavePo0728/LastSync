@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d993d8e91a025584dacedc4a7f039d0a
+timeCreated: 1517543911
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110904
+  packageName: CUBE - Robot Sting
+  packageVersion: 1.0
+  assetPath: Assets/CUBE - Robot Sting/Prefabs/Sting Green.prefab
+  uploadId: 228244

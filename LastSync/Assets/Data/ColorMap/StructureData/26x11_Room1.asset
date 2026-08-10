@@ -1,0 +1,233 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09cf9340e89b5414aa87bffe4706eaef, type: 3}
+  m_Name: 26x11_Room1
+  m_EditorClassIdentifier: Assembly-CSharp::StructureData
+  Structures:
+  - Position: {x: 0, y: 0}
+    End: {x: 25, y: 3}
+    Type: 2
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 0, y: 4}
+    End: {x: 3, y: 6}
+    Type: 2
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 22, y: 4}
+    End: {x: 25, y: 6}
+    Type: 2
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 0, y: 7}
+    End: {x: 25, y: 10}
+    Type: 2
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 0, y: 0}
+    End: {x: 0, y: 0}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 3, y: 0}
+    End: {x: 3, y: 0}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 7, y: 0}
+    End: {x: 7, y: 0}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 18, y: 0}
+    End: {x: 18, y: 0}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 22, y: 0}
+    End: {x: 22, y: 0}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 25, y: 0}
+    End: {x: 25, y: 0}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 0, y: 3}
+    End: {x: 0, y: 3}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 25, y: 3}
+    End: {x: 25, y: 3}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 0, y: 7}
+    End: {x: 0, y: 7}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 25, y: 7}
+    End: {x: 25, y: 7}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 0, y: 10}
+    End: {x: 0, y: 10}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 3, y: 10}
+    End: {x: 3, y: 10}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 7, y: 10}
+    End: {x: 7, y: 10}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 18, y: 10}
+    End: {x: 18, y: 10}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 22, y: 10}
+    End: {x: 22, y: 10}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 25, y: 10}
+    End: {x: 25, y: 10}
+    Type: 5
+    Direction: 0
+    Orientation: 2
+  - Position: {x: 1, y: 0}
+    End: {x: 2, y: 0}
+    Type: 3
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 8, y: 0}
+    End: {x: 17, y: 0}
+    Type: 3
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 23, y: 0}
+    End: {x: 24, y: 0}
+    Type: 3
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 0, y: 1}
+    End: {x: 0, y: 2}
+    Type: 3
+    Direction: 0
+    Orientation: 1
+  - Position: {x: 25, y: 1}
+    End: {x: 25, y: 2}
+    Type: 3
+    Direction: 0
+    Orientation: 1
+  - Position: {x: 0, y: 8}
+    End: {x: 0, y: 9}
+    Type: 3
+    Direction: 0
+    Orientation: 1
+  - Position: {x: 25, y: 8}
+    End: {x: 25, y: 9}
+    Type: 3
+    Direction: 0
+    Orientation: 1
+  - Position: {x: 1, y: 10}
+    End: {x: 2, y: 10}
+    Type: 3
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 8, y: 10}
+    End: {x: 17, y: 10}
+    Type: 3
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 23, y: 10}
+    End: {x: 24, y: 10}
+    Type: 3
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 4, y: 0}
+    End: {x: 6, y: 0}
+    Type: 4
+    Direction: 2
+    Orientation: 0
+  - Position: {x: 19, y: 0}
+    End: {x: 21, y: 0}
+    Type: 4
+    Direction: 2
+    Orientation: 0
+  - Position: {x: 0, y: 4}
+    End: {x: 0, y: 6}
+    Type: 4
+    Direction: 3
+    Orientation: 1
+  - Position: {x: 25, y: 4}
+    End: {x: 25, y: 6}
+    Type: 4
+    Direction: 1
+    Orientation: 1
+  - Position: {x: 4, y: 10}
+    End: {x: 6, y: 10}
+    Type: 4
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 19, y: 10}
+    End: {x: 21, y: 10}
+    Type: 4
+    Direction: 0
+    Orientation: 0
+  Doors:
+  - Position: {x: 4, y: 0}
+    End: {x: 6, y: 0}
+    Type: 4
+    Direction: 2
+    Orientation: 0
+  - Position: {x: 19, y: 0}
+    End: {x: 21, y: 0}
+    Type: 4
+    Direction: 2
+    Orientation: 0
+  - Position: {x: 0, y: 4}
+    End: {x: 0, y: 6}
+    Type: 4
+    Direction: 3
+    Orientation: 1
+  - Position: {x: 25, y: 4}
+    End: {x: 25, y: 6}
+    Type: 4
+    Direction: 1
+    Orientation: 1
+  - Position: {x: 4, y: 10}
+    End: {x: 6, y: 10}
+    Type: 4
+    Direction: 0
+    Orientation: 0
+  - Position: {x: 19, y: 10}
+    End: {x: 21, y: 10}
+    Type: 4
+    Direction: 0
+    Orientation: 0
+  StructureID: 26x11_Room1
+  Size: {x: 26, y: 11}
+  Category: 0
+  PresetRole: 0
+  Stage: 0
+  Weight: 1
+  Tags: 

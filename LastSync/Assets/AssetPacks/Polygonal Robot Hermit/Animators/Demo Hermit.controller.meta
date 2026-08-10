@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 7116523197e66e14ab4c9bb0da65570b
+timeCreated: 1524649039
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117494
+  packageName: Polygonal - Robot Hermit
+  packageVersion: 1.0
+  assetPath: Assets/Polygonal Robot Hermit/Animators/Demo Hermit.controller
+  uploadId: 242551

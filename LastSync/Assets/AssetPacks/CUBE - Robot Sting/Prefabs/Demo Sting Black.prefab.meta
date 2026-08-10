@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 13a15b1320665254ead20f02934df697
+timeCreated: 1517733630
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110904
+  packageName: CUBE - Robot Sting
+  packageVersion: 1.0
+  assetPath: Assets/CUBE - Robot Sting/Prefabs/Demo Sting Black.prefab
+  uploadId: 228244

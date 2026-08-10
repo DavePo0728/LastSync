@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 79b574f830b244341b2b6723239c4fdb
+timeCreated: 1521615536
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117494
+  packageName: Polygonal - Robot Hermit
+  packageVersion: 1.0
+  assetPath: Assets/Polygonal Robot Hermit/PPP/Robot PPP.asset
+  uploadId: 242551

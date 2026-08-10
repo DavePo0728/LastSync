@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 0b23288a475856d4cae7fb3b78cd9a03
+timeCreated: 1524719712
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 117494
+  packageName: Polygonal - Robot Hermit
+  packageVersion: 1.0
+  assetPath: Assets/Polygonal Robot Hermit/Prefabs/Polygonal Robot Hermit Yellow.prefab
+  uploadId: 242551

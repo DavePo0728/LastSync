@@ -1,0 +1,549 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4fecb9b8e19242489e17434a38b9948, type: 3}
+  m_Name: Melee_No001
+  m_EditorClassIdentifier: Assembly-CSharp::ActionTree.Data.ActionTreeAsset
+  Root:
+    rid: 2272018760476655684
+  Nodes:
+  - rid: 2272018760476655684
+  - rid: 2272018760476655685
+  - rid: 2272018760476655686
+  - rid: 2272018903360077897
+  - rid: 2272018903360077898
+  - rid: 2272018903360077900
+  - rid: 2272018903360077901
+  - rid: 2272018903360077902
+  - rid: 2272018903360077908
+  - rid: 2272018903360077909
+  - rid: 2272018903360077910
+  stableFormatVersion: 1
+  stableRootGuid: c706c03c-842b-4c04-9db9-c9cc1a02a3c1
+  stableNodes:
+  - typeId: root
+    guid: c706c03c-842b-4c04-9db9-c9cc1a02a3c1
+    rect:
+      serializedVersion: 2
+      x: 300
+      y: 200
+      width: 220
+      height: 50
+    title: Root
+    comment: 
+    isExpanded: 0
+    childGuids:
+    - 1997b485-043b-47cc-a5ac-25ebb04ff4cb
+    action:
+      componentType: 
+      methodName: 
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: selector
+    guid: 1997b485-043b-47cc-a5ac-25ebb04ff4cb
+    rect:
+      serializedVersion: 2
+      x: 300
+      y: 370
+      width: 220
+      height: 50
+    title: Selector
+    comment: 
+    isExpanded: 0
+    childGuids:
+    - 476bacfd715f4b06845aa34f5f1732f9
+    - 22bbed62f76a4755b82577ba8361a3aa
+    - 1ee1b20a-fb41-478b-9f45-510d36052ea0
+    action:
+      componentType: 
+      methodName: 
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: sequence
+    guid: 1ee1b20a-fb41-478b-9f45-510d36052ea0
+    rect:
+      serializedVersion: 2
+      x: -220
+      y: 540
+      width: 220
+      height: 50
+    title: Sequence
+    comment: 
+    isExpanded: 0
+    childGuids:
+    - 6f11301a3f3740c2a426754d9619780b
+    - 54c82e9f45b845dba059f5964bd30509
+    action:
+      componentType: 
+      methodName: 
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: condition
+    guid: 6f11301a3f3740c2a426754d9619780b
+    rect:
+      serializedVersion: 2
+      x: -350
+      y: 710
+      width: 220
+      height: 50
+    title: Condition
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AIPerception
+      methodName: IsTargetTooFar
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: action
+    guid: 115ec65089b2445cac80459747806d11
+    rect:
+      serializedVersion: 2
+      x: 950
+      y: 710
+      width: 220
+      height: 50
+    title: Action
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AISkill
+      methodName: Use
+      parameters:
+      - parameterName: skill
+        parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        intValue: 0
+        floatValue: 0
+        boolValue: 0
+        stringValue: 
+        vector2Value: {x: 0, y: 0}
+        vector3Value: {x: 0, y: 0, z: 0}
+        vector4Value: {x: 0, y: 0, z: 0, w: 0}
+        colorValue: {r: 0, g: 0, b: 0, a: 0}
+        objectValue: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+      skill: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+      enabled: 1
+  - typeId: condition
+    guid: 21c8669a89fe4cf08a5cc9d1a2627217
+    rect:
+      serializedVersion: 2
+      x: 170
+      y: 710
+      width: 220
+      height: 50
+    title: Condition
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AISkill
+      methodName: IsCooldown
+      parameters:
+      - parameterName: skill
+        parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        intValue: 0
+        floatValue: 0
+        boolValue: 0
+        stringValue: 
+        vector2Value: {x: 0, y: 0}
+        vector3Value: {x: 0, y: 0, z: 0}
+        vector4Value: {x: 0, y: 0, z: 0, w: 0}
+        colorValue: {r: 0, g: 0, b: 0, a: 0}
+        objectValue: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+      skill: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+      enabled: 1
+  - typeId: action
+    guid: 54c82e9f45b845dba059f5964bd30509
+    rect:
+      serializedVersion: 2
+      x: -90
+      y: 710
+      width: 220
+      height: 50
+    title: Action
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AIMovement
+      methodName: ChaseTarget
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: condition
+    guid: 7d3d599c3af5458db0a555996051ce32
+    rect:
+      serializedVersion: 2
+      x: 690
+      y: 710
+      width: 220
+      height: 50
+    title: Condition
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AISkill
+      methodName: IsSillRange
+      parameters:
+      - parameterName: skill
+        parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        intValue: 0
+        floatValue: 0
+        boolValue: 0
+        stringValue: 
+        vector2Value: {x: 0, y: 0}
+        vector3Value: {x: 0, y: 0, z: 0}
+        vector4Value: {x: 0, y: 0, z: 0, w: 0}
+        colorValue: {r: 0, g: 0, b: 0, a: 0}
+        objectValue: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+      skill: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+      enabled: 1
+  - typeId: sequence
+    guid: 476bacfd715f4b06845aa34f5f1732f9
+    rect:
+      serializedVersion: 2
+      x: 820
+      y: 540
+      width: 220
+      height: 50
+    title: Sequence
+    comment: 
+    isExpanded: 0
+    childGuids:
+    - 7d3d599c3af5458db0a555996051ce32
+    - 115ec65089b2445cac80459747806d11
+    action:
+      componentType: 
+      methodName: 
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: sequence
+    guid: 22bbed62f76a4755b82577ba8361a3aa
+    rect:
+      serializedVersion: 2
+      x: 300
+      y: 540
+      width: 220
+      height: 50
+    title: Sequence
+    comment: 
+    isExpanded: 0
+    childGuids:
+    - 21c8669a89fe4cf08a5cc9d1a2627217
+    - aa39a9bf37074c40a14020463c450aeb
+    action:
+      componentType: 
+      methodName: 
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: action
+    guid: aa39a9bf37074c40a14020463c450aeb
+    rect:
+      serializedVersion: 2
+      x: 430
+      y: 710
+      width: 220
+      height: 50
+    title: Action
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AIMovement
+      methodName: MoveAwayToSkillRange
+      parameters:
+      - parameterName: skill
+        parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        intValue: 0
+        floatValue: 0
+        boolValue: 0
+        stringValue: 
+        vector2Value: {x: 0, y: 0}
+        vector3Value: {x: 0, y: 0, z: 0}
+        vector4Value: {x: 0, y: 0, z: 0, w: 0}
+        colorValue: {r: 0, g: 0, b: 0, a: 0}
+        objectValue: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+      skill: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+      enabled: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 2272018760476655684
+      type: {class: RootNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: c706c03c-842b-4c04-9db9-c9cc1a02a3c1
+        rect:
+          serializedVersion: 2
+          x: 300
+          y: 200
+          width: 220
+          height: 50
+        title: Root
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children:
+        - rid: 2272018760476655685
+    - rid: 2272018760476655685
+      type: {class: SelectorNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: 1997b485-043b-47cc-a5ac-25ebb04ff4cb
+        rect:
+          serializedVersion: 2
+          x: 300
+          y: 370
+          width: 220
+          height: 50
+        title: Selector
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children:
+        - rid: 2272018903360077908
+        - rid: 2272018903360077909
+        - rid: 2272018760476655686
+    - rid: 2272018760476655686
+      type: {class: SequenceNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: 1ee1b20a-fb41-478b-9f45-510d36052ea0
+        rect:
+          serializedVersion: 2
+          x: -220
+          y: 540
+          width: 220
+          height: 50
+        title: Sequence
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children:
+        - rid: 2272018903360077897
+        - rid: 2272018903360077901
+    - rid: 2272018903360077897
+      type: {class: ConditionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: 6f11301a3f3740c2a426754d9619780b
+        rect:
+          serializedVersion: 2
+          x: -350
+          y: 710
+          width: 220
+          height: 50
+        title: Condition
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children: []
+        condition:
+          componentType: AIPerception
+          methodName: IsTargetTooFar
+          parameters: []
+          skill: {fileID: 0}
+          enabled: 1
+    - rid: 2272018903360077898
+      type: {class: ActionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: 115ec65089b2445cac80459747806d11
+        rect:
+          serializedVersion: 2
+          x: 950
+          y: 710
+          width: 220
+          height: 50
+        title: Action
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children: []
+        action:
+          componentType: AISkill
+          methodName: Use
+          parameters:
+          - parameterName: skill
+            parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            intValue: 0
+            floatValue: 0
+            boolValue: 0
+            stringValue: 
+            vector2Value: {x: 0, y: 0}
+            vector3Value: {x: 0, y: 0, z: 0}
+            vector4Value: {x: 0, y: 0, z: 0, w: 0}
+            colorValue: {r: 0, g: 0, b: 0, a: 0}
+            objectValue: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+          skill: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+          enabled: 1
+    - rid: 2272018903360077900
+      type: {class: ConditionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: 21c8669a89fe4cf08a5cc9d1a2627217
+        rect:
+          serializedVersion: 2
+          x: 170
+          y: 710
+          width: 220
+          height: 50
+        title: Condition
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children: []
+        condition:
+          componentType: AISkill
+          methodName: IsCooldown
+          parameters:
+          - parameterName: skill
+            parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            intValue: 0
+            floatValue: 0
+            boolValue: 0
+            stringValue: 
+            vector2Value: {x: 0, y: 0}
+            vector3Value: {x: 0, y: 0, z: 0}
+            vector4Value: {x: 0, y: 0, z: 0, w: 0}
+            colorValue: {r: 0, g: 0, b: 0, a: 0}
+            objectValue: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+          skill: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+          enabled: 1
+    - rid: 2272018903360077901
+      type: {class: ActionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: 54c82e9f45b845dba059f5964bd30509
+        rect:
+          serializedVersion: 2
+          x: -90
+          y: 710
+          width: 220
+          height: 50
+        title: Action
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children: []
+        action:
+          componentType: AIMovement
+          methodName: ChaseTarget
+          parameters: []
+          skill: {fileID: 0}
+          enabled: 1
+    - rid: 2272018903360077902
+      type: {class: ConditionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: 7d3d599c3af5458db0a555996051ce32
+        rect:
+          serializedVersion: 2
+          x: 690
+          y: 710
+          width: 220
+          height: 50
+        title: Condition
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children: []
+        condition:
+          componentType: AISkill
+          methodName: IsSillRange
+          parameters:
+          - parameterName: skill
+            parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            intValue: 0
+            floatValue: 0
+            boolValue: 0
+            stringValue: 
+            vector2Value: {x: 0, y: 0}
+            vector3Value: {x: 0, y: 0, z: 0}
+            vector4Value: {x: 0, y: 0, z: 0, w: 0}
+            colorValue: {r: 0, g: 0, b: 0, a: 0}
+            objectValue: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+          skill: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+          enabled: 1
+    - rid: 2272018903360077908
+      type: {class: SequenceNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: 476bacfd715f4b06845aa34f5f1732f9
+        rect:
+          serializedVersion: 2
+          x: 820
+          y: 540
+          width: 220
+          height: 50
+        title: Sequence
+        comment: 
+        isSelected: 1
+        isExpanded: 0
+        children:
+        - rid: 2272018903360077902
+        - rid: 2272018903360077898
+    - rid: 2272018903360077909
+      type: {class: SequenceNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: 22bbed62f76a4755b82577ba8361a3aa
+        rect:
+          serializedVersion: 2
+          x: 300
+          y: 540
+          width: 220
+          height: 50
+        title: Sequence
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children:
+        - rid: 2272018903360077900
+        - rid: 2272018903360077910
+    - rid: 2272018903360077910
+      type: {class: ActionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: aa39a9bf37074c40a14020463c450aeb
+        rect:
+          serializedVersion: 2
+          x: 430
+          y: 710
+          width: 220
+          height: 50
+        title: Action
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children: []
+        action:
+          componentType: AIMovement
+          methodName: MoveAwayToSkillRange
+          parameters:
+          - parameterName: skill
+            parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            intValue: 0
+            floatValue: 0
+            boolValue: 0
+            stringValue: 
+            vector2Value: {x: 0, y: 0}
+            vector3Value: {x: 0, y: 0, z: 0}
+            vector4Value: {x: 0, y: 0, z: 0, w: 0}
+            colorValue: {r: 0, g: 0, b: 0, a: 0}
+            objectValue: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+          skill: {fileID: 11400000, guid: 7add0a5f6012c5c498a7751fe501cf6c, type: 2}
+          enabled: 1
