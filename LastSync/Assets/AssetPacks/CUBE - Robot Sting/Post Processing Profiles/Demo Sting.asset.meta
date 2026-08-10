@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: d9459eac438d62240ab2aaca441a9ec8
+timeCreated: 1510068270
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110904
+  packageName: CUBE - Robot Sting
+  packageVersion: 1.0
+  assetPath: Assets/CUBE - Robot Sting/Post Processing Profiles/Demo Sting.asset
+  uploadId: 228244

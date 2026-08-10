@@ -8,6 +8,9 @@ TagManager:
   - Drop
   - Enemy
   - Chip
+  - PlayerEyes
+  - PlayerBullet
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX

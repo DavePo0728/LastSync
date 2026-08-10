@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 01377cc89922f6b4992de84e91a8862a
+timeCreated: 1517733624
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 100100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 110904
+  packageName: CUBE - Robot Sting
+  packageVersion: 1.0
+  assetPath: Assets/CUBE - Robot Sting/Prefabs/Demo Sting Yellow.prefab
+  uploadId: 228244
