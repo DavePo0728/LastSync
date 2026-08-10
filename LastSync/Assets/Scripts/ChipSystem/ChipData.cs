@@ -36,5 +36,7 @@ public enum ChipType
 {
     Attack,
     Defend,
-    Utility
+    Movement,
+    Support,
+    Other,
 }

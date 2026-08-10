@@ -9,6 +9,8 @@ public enum InventoryCategoryFilter
     All,
     Attack,
     Defence,
+    Movement,
+    Support,
     Other
 }
 
@@ -23,7 +25,10 @@ public class StaticInventoryDisplay : MonoBehaviour
     [SerializeField] private Button allButton;
     [SerializeField] private Button attackButton;
     [SerializeField] private Button defenceButton;
+    [SerializeField] private Button movementButton;
+    [SerializeField] private Button supportButton;
     [SerializeField] private Button otherButton;
+
     [Tooltip("Uses Button.interactable=false to indicate the selected category.")]
     [SerializeField] private bool disableSelectedCategoryButton = true;
 
@@ -91,7 +96,10 @@ public class StaticInventoryDisplay : MonoBehaviour
         allButton?.onClick.AddListener(ShowAll);
         attackButton?.onClick.AddListener(ShowAttack);
         defenceButton?.onClick.AddListener(ShowDefence);
+        movementButton?.onClick.AddListener(ShowMovement);
+        supportButton?.onClick.AddListener(ShowSupport);
         otherButton?.onClick.AddListener(ShowOther);
+
     }
 
     private void RemoveCategoryButtonListeners()
@@ -99,6 +107,8 @@ public class StaticInventoryDisplay : MonoBehaviour
         allButton?.onClick.RemoveListener(ShowAll);
         attackButton?.onClick.RemoveListener(ShowAttack);
         defenceButton?.onClick.RemoveListener(ShowDefence);
+        movementButton?.onClick.RemoveListener(ShowMovement);
+        supportButton?.onClick.RemoveListener(ShowSupport);
         otherButton?.onClick.RemoveListener(ShowOther);
     }
 
@@ -121,6 +131,18 @@ public class StaticInventoryDisplay : MonoBehaviour
     {
         SetCategory(InventoryCategoryFilter.Other);
     }
+
+    public void ShowMovement()
+    {
+        SetCategory(InventoryCategoryFilter.Movement);
+    }
+
+    public void ShowSupport()
+    {
+        SetCategory(InventoryCategoryFilter.Support);
+    }
+
+
 
     public void SetCategory(InventoryCategoryFilter category)
     {
@@ -163,7 +185,13 @@ public class StaticInventoryDisplay : MonoBehaviour
                 return inventorySlot._chipData.chipType == ChipType.Defend;
 
             case InventoryCategoryFilter.Other:
-                return inventorySlot._chipData.chipType == ChipType.Utility;
+                return inventorySlot._chipData.chipType == ChipType.Other;
+
+            case InventoryCategoryFilter.Movement:
+                return inventorySlot._chipData.chipType == ChipType.Movement;
+
+            case InventoryCategoryFilter.Support:
+                return inventorySlot._chipData.chipType == ChipType.Support;
 
             default:
                 return true;
@@ -185,6 +213,12 @@ public class StaticInventoryDisplay : MonoBehaviour
 
         if (otherButton != null)
             otherButton.interactable = allButtonsInteractable || currentCategory != InventoryCategoryFilter.Other;
+
+        if (movementButton != null)
+            movementButton.interactable = allButtonsInteractable || currentCategory != InventoryCategoryFilter.Movement;
+
+        if (supportButton != null)
+            supportButton.interactable = allButtonsInteractable || currentCategory != InventoryCategoryFilter.Support;
     }
 
     public void AssignSlot(InventorySystem inventoryToDisplay)

@@ -144,7 +144,6 @@ MonoBehaviour:
   assignedInventorySlot:
     chipData: {fileID: 0}
     stackSize: 0
-  usingMaterial: 0
 --- !u!1 &6425600376801310102
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +178,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -237.3, y: 0}
+  m_AnchoredPosition: {x: -224.6, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3585244946216267235
@@ -254,7 +253,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 52.1, y: -20}
+  m_AnchoredPosition: {x: 52.1, y: -16.2}
   m_SizeDelta: {x: -104.2, y: -40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2425443101501665200
@@ -391,7 +390,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 259.1, y: -36.7}
+  m_AnchoredPosition: {x: 253.6, y: -36.7}
   m_SizeDelta: {x: 50, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3706773403695714042
@@ -528,7 +527,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 52.100006, y: 35.00001}
+  m_AnchoredPosition: {x: 52.100006, y: 31.7}
   m_SizeDelta: {x: -104.2, y: -70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8926582639394797825
