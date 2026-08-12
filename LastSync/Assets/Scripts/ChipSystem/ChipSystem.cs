@@ -29,9 +29,12 @@ public class ChipSystem : MonoBehaviour
     private void Awake()
     {
         chipSystemInstance = this;
+
+    }
+    private void Start()
+    {
         RecalculateStats();
     }
-
     /// <summary>
     /// 裝備晶片並刷新數值
     /// </summary>
@@ -44,7 +47,6 @@ public class ChipSystem : MonoBehaviour
             RecalculateStats();
         }
     }
-
     /// <summary>
     /// 卸下晶片並刷新數值
     /// </summary>
@@ -94,7 +96,7 @@ public class ChipSystem : MonoBehaviour
                 }
             }
         }
-        characterChipStatusUI.UpdateAllUIText();
+        characterChipStatusUI?.UpdateAllUIText();
         Debug.Log($"Stats Recalculated: FireRate x{FireRateMultiplier}, Range x{RangeMultiplier}, Damage x{DamageMultiplier}, BonusBulletCount {BonusBulletCount}, BonusAccuracyOffset {BonusAccuracyOffset}");
     }
 }

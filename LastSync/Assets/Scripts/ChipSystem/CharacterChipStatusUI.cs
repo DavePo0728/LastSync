@@ -14,6 +14,7 @@ public class CharacterChipStatusUI : MonoBehaviour
     [SerializeField] private TMP_Text fireRangeText;
     [SerializeField] private TMP_Text bounsBulletText;
     [SerializeField] private TMP_Text fireAccuracyText;
+    private GameObject player;
     private void Awake()
     {
 
@@ -21,16 +22,18 @@ public class CharacterChipStatusUI : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        UpdateAllUIText();
+        TryResolveReferences();
     }
-
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        
+        // 每次打開背包／晶片面板時刷新。
+        UpdateAllUIText();
     }
     public void UpdateAllUIText()
     {
+        if (!TryResolveReferences())
+            return;
+
         if (hPText != null)
         {
             hPText.text = "HP: " +characterStats.CurrentHealth.ToString() + " / " + characterStats.CurrentMaxHealth.ToString();
@@ -56,5 +59,50 @@ public class CharacterChipStatusUI : MonoBehaviour
             fireAccuracyText.text = "BonusAccuracy: " + weaponStatus.Base_FireAccuracy.ToString() + " + " + chipSystem.BonusAccuracyOffset.ToString();
         }
 
+    }
+    private bool TryResolveReferences()
+    {
+        if (chipSystem == null)
+            chipSystem = FindAnyObjectByType<ChipSystem>();
+
+        if (characterStats == null || weaponStatus == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+
+            if (player != null)
+            {
+                if (characterStats == null)
+                    characterStats = player.GetComponent<CharacterStats>();
+
+                if (weaponStatus == null)
+                    weaponStatus = player.GetComponentInChildren<GunShoot>(true);
+            }
+        }
+
+        if (characterStats == null)
+        {
+            Debug.LogError(
+                "CharacterChipStatusUI 找不到 Player 的 CharacterStats。",
+                this);
+            return false;
+        }
+
+        if (weaponStatus == null)
+        {
+            Debug.LogError(
+                "CharacterChipStatusUI 找不到 Player 子物件的 GunShoot。",
+                this);
+            return false;
+        }
+
+        if (chipSystem == null)
+        {
+            Debug.LogError(
+                "CharacterChipStatusUI 找不到 ChipSystem。",
+                this);
+            return false;
+        }
+
+        return true;
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Unity.Cinemachine;
 
 public class ProceduralMapGenerator : MonoBehaviour
 {
@@ -31,6 +32,8 @@ public class ProceduralMapGenerator : MonoBehaviour
 	private RoomContentSpawner contentSpawner;
 
 	public GameObject playerPrefab;
+	[SerializeField]
+	private CinemachineCamera camera;
 	private void Start()
 	{
 		GenerateMap();
@@ -933,17 +936,8 @@ public class ProceduralMapGenerator : MonoBehaviour
 			playerPrefab,
 			spawnRoom.Transform.position,
 			Quaternion.identity);
-
-		CameraFollow cameraFollow =
-			Camera.main != null
-				? Camera.main.GetComponent<CameraFollow>()
-				: null;
-
-		if (cameraFollow != null)
-		{
-			cameraFollow.SetTarget(player.transform);
-		}
-	}
+		camera.Follow = player.transform;
+    }
 
 	private bool CanGenerateMap()
 	{
