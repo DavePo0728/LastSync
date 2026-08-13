@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: New Battle Config
   m_EditorClassIdentifier: Assembly-CSharp::BattleConfig
   Enemies:
-  - Prefab: {fileID: 634350777758490636, guid: 5c524bb89a80b0546b6aace55411e3b9, type: 3}
-    Count: 2
+  - Prefab: {fileID: 4113434695948964413, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+    Count: 1

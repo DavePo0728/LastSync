@@ -1,5 +1,7 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 [DisallowMultipleComponent]
 public class AIStatus : MonoBehaviour
@@ -26,6 +28,10 @@ public class AIStatus : MonoBehaviour
 
 	[SerializeField]
 	private float deathDestroyDelay = 1.5f;
+	[SerializeField]
+	private List<GameObject> chipDropPrefab;
+	[SerializeField]
+	private Image healthBar;
 
 	public float MaxHealth => maxHealth;
 	public float CurrentHealth => currentHealth;
@@ -64,6 +70,7 @@ public class AIStatus : MonoBehaviour
 		float finalDamage = Mathf.Max(1f, damage - defense);
 
 		currentHealth -= finalDamage;
+		UpdateUI();
 		Damaged?.Invoke(finalDamage);
 
 		if (currentHealth <= 0f)
@@ -72,10 +79,22 @@ public class AIStatus : MonoBehaviour
 			Die();
 		}
 	}
+    public virtual void UpdateUI()
+    {
+        if (healthBar != null)
+        {
+            healthBar.fillAmount = (float)CurrentHealth / maxHealth;
+        }
+    }
 
-	public void Die()
+    public void Die()
 	{
 		Died?.Invoke();
+		if (chipDropPrefab != null && chipDropPrefab.Count > 0)
+		{
+			int randomIndex = UnityEngine.Random.Range(0, chipDropPrefab.Count);
+			Instantiate(chipDropPrefab[randomIndex], transform.position, transform.rotation);
+		}
 		Destroy(gameObject, deathDestroyDelay);
 	}
 

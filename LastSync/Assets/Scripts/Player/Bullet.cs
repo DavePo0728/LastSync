@@ -30,12 +30,13 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            if (other.TryGetComponent<EnemyStats>(out EnemyStats enemyStats))
+            if (other.TryGetComponent(out AIStatus aiStatus))
             {
-                enemyStats.TakeDamage(Damage);
-                //Debug.Log($"Bullet hit {other.gameObject.name} for {Damage} damage.");
+                aiStatus.TakeDamage(damage);
+                Destroy(gameObject);
+                Debug.Log($"Bullet hit {other.name} and dealt {damage} damage.");
+                return;
             }
-            Destroy(gameObject); // 子彈碰撞後銷毀
         }
     }
 }

@@ -95,8 +95,8 @@ MonoBehaviour:
     guid: ranged-is-skill-range
     rect:
       serializedVersion: 2
-      x: -380
-      y: 710
+      x: -427.5
+      y: 705.8333
       width: 220
       height: 50
     title: Is Skill Range
@@ -390,13 +390,13 @@ MonoBehaviour:
         guid: ranged-is-skill-range
         rect:
           serializedVersion: 2
-          x: -380
-          y: 710
+          x: -427.5
+          y: 705.8333
           width: 220
           height: 50
         title: Is Skill Range
         comment: 
-        isSelected: 0
+        isSelected: 1
         isExpanded: 0
         children: []
         condition:

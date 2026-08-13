@@ -91,23 +91,24 @@ public class CharacterStats : MonoBehaviour
         lastDamageTime = Time.time;
         shieldRegenAccumulator = 0f;
 
-        if (CurrentShield > 0)
-        {
-            if (CurrentShield >= actualDamage)
-            {
-                CurrentShield -= actualDamage;
-                actualDamage = 0;
-            }
-            else
-            {
-                actualDamage -= CurrentShield;
-                CurrentShield = 0;
-            }
-        }
+        //if (CurrentShield > 0)
+        //{
+        //    if (CurrentShield >= actualDamage)
+        //    {
+        //        CurrentShield -= actualDamage;
+        //        actualDamage = 0;
+        //    }
+        //    else
+        //    {
+        //        actualDamage -= CurrentShield;
+        //        CurrentShield = 0;
+        //    }
+        //}
 
         if (actualDamage > 0)
         {
             CurrentHealth = Mathf.Clamp(CurrentHealth - actualDamage, 0, baseMaxHealth);
+            UpdateUI();
         }
 
         if (CurrentHealth <= 0)
