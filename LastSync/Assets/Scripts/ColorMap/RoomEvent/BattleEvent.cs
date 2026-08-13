@@ -7,6 +7,7 @@ public class BattleEvent : RoomEvent
 	private BattleConfig battleConfig;
 
 	private BattleSpawner battleSpawner;
+	private bool isRunning;
 
 	protected override void Awake()
 	{
@@ -21,9 +22,26 @@ public class BattleEvent : RoomEvent
 
 	public override void Execute()
 	{
-		Debug.Log(battleSpawner);
-		Debug.Log(battleConfig);
+		if (isRunning)
+		{
+			return;
+		}
 
+		if (battleSpawner == null)
+		{
+			Debug.LogWarning("BattleEvent failed: BattleSpawner is missing.");
+			Finish();
+			return;
+		}
+
+		if (battleConfig == null)
+		{
+			Debug.LogWarning("BattleEvent failed: BattleConfig is missing.");
+			Finish();
+			return;
+		}
+
+		isRunning = true;
 		battleSpawner.Spawn(battleConfig.Enemies);
 
 		StartCoroutine(CheckBattleRoutine());
@@ -35,6 +53,7 @@ public class BattleEvent : RoomEvent
 			yield return new WaitForSeconds(0.2f);
 		}
 
+		isRunning = false;
 		Finish();
 	}
 }

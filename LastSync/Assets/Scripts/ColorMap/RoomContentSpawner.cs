@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+using Unity.AI.Navigation;
+using UnityEngine;
+using UnityEngine.AI;
 
 public class RoomContentSpawner : MonoBehaviour
 {
@@ -37,6 +39,7 @@ public class RoomContentSpawner : MonoBehaviour
 
 				case RoomRole.Combat:
 					EnsureBattleSpawner(room);
+					BuildRoomNavMesh(room);
 					EventFactory.CreateBattleChain(
 						manager,
 						defaultBattleConfig);
@@ -63,5 +66,25 @@ public class RoomContentSpawner : MonoBehaviour
 		{
 			room.Transform.gameObject.AddComponent<BattleSpawner>();
 		}
+	}
+
+	private void BuildRoomNavMesh(RoomInstance room)
+	{
+		if (room.Transform == null)
+		{
+			return;
+		}
+
+		NavMeshSurface surface =
+			room.Transform.GetComponent<NavMeshSurface>();
+
+		if (surface == null)
+		{
+			surface = room.Transform.gameObject.AddComponent<NavMeshSurface>();
+		}
+
+		surface.collectObjects = CollectObjects.Children;
+		surface.useGeometry = NavMeshCollectGeometry.RenderMeshes;
+		surface.BuildNavMesh();
 	}
 }
