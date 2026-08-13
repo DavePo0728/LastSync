@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c80bcb307c8ff42abf65ed9cdf8f02, type: 3}
   m_Name: Floor1
   m_EditorClassIdentifier: Assembly-CSharp::FloorConfig
-  Seed: 1
-  MaxRoomCount: 3
+  Seed: 1211
+  MaxRoomCount: 5
   SpawnRoomCount: 1
-  CombatRoomCount: 1
+  CombatRoomCount: 3
   EliteRoomCount: 0
   TreasureRoomCount: 0
   EventRoomCount: 0

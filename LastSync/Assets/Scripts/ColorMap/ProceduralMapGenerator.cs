@@ -154,16 +154,45 @@ public class ProceduralMapGenerator : MonoBehaviour
 			Opposite(
 				bridgeExitDoor.Direction);
 
-		StructureData roomData =
-	roomLibrary.GetRandomRoom(
-		RoomCategory.Normal,
-		targetDirection);
+		List<StructureData> candidates =
+			GetWeightedRoomCandidates(
+				RoomCategory.Normal,
+				targetDirection);
 
-		if (roomData == null)
+		foreach (StructureData roomData in candidates)
 		{
-			return null;
+			RoomInstance room =
+				CreateRoom(
+					bridge,
+					roomData,
+					targetDirection);
+
+			if (room == null)
+			{
+				continue;
+			}
+
+			if (!CanPlaceStructure(room))
+			{
+				continue;
+			}
+
+			if (!CanPlaceRoom(room))
+			{
+				continue;
+			}
+
+			return room;
 		}
 
+		return null;
+	}
+
+	private RoomInstance CreateRoom(
+		RoomInstance bridge,
+		StructureData roomData,
+		Direction targetDirection)
+	{
 		roomEntryDoor =
 			roomData.Doors.First(
 				door =>
@@ -223,6 +252,66 @@ public class ProceduralMapGenerator : MonoBehaviour
 		return roomB;
 	}
 
+	private List<StructureData> GetWeightedRoomCandidates(
+		RoomCategory category,
+		Direction direction)
+	{
+		List<StructureData> candidates =
+			roomLibrary.GetRooms(
+				category,
+				direction);
+
+		List<StructureData> ordered = new();
+
+		while (candidates.Count > 0)
+		{
+			int index =
+				GetWeightedRandomIndex(candidates);
+
+			ordered.Add(candidates[index]);
+			candidates.RemoveAt(index);
+		}
+
+		return ordered;
+	}
+
+	private int GetWeightedRandomIndex(
+		List<StructureData> rooms)
+	{
+		int totalWeight =
+			rooms.Sum(
+				room =>
+					Mathf.Max(
+						0,
+						room.Weight));
+
+		if (totalWeight <= 0)
+		{
+			return Random.Range(
+				0,
+				rooms.Count);
+		}
+
+		int roll =
+			Random.Range(
+				0,
+				totalWeight);
+
+		for (int i = 0; i < rooms.Count; i++)
+		{
+			roll -= Mathf.Max(
+				0,
+				rooms[i].Weight);
+
+			if (roll < 0)
+			{
+				return i;
+			}
+		}
+
+		return rooms.Count - 1;
+	}
+
 	private bool ExpandRoom(
 	RoomInstance room)
 	{
@@ -244,15 +333,15 @@ public class ProceduralMapGenerator : MonoBehaviour
 			return false;
 		}
 
-		RoomInstance nextRoom =
-			CreateRoom(bridge);
-
-		if (nextRoom == null)
+		if (!CanPlaceStructure(bridge))
 		{
 			return false;
 		}
 
-		if (!CanPlaceStructure(bridge))
+		RoomInstance nextRoom =
+			CreateRoom(bridge);
+
+		if (nextRoom == null)
 		{
 			return false;
 		}
@@ -644,9 +733,18 @@ public class ProceduralMapGenerator : MonoBehaviour
 	}
 	private void CreateStartRoom()
 	{
+		StructureData startRoomData =
+			roomLibrary.GetRandomRoom(
+				RoomCategory.Normal);
+
+		if (startRoomData == null)
+		{
+			startRoomData = roomLibrary.Rooms[0];
+		}
+
 		RoomInstance roomA = new()
 		{
-			Data = roomLibrary.Rooms[0],
+			Data = startRoomData,
 			Position = Vector2.zero,
 			Rotation = 0
 		};
@@ -932,12 +1030,59 @@ public class ProceduralMapGenerator : MonoBehaviour
 			return;
 		}
 
+		Vector3 spawnPosition =
+			GetPlayerSpawnPosition(spawnRoom);
+
 		GameObject player = Instantiate(
 			playerPrefab,
-			spawnRoom.Transform.position,
+			spawnPosition,
 			Quaternion.identity);
-		camera.Follow = player.transform;
-    }
+
+		if (camera != null)
+		{
+			camera.Follow = player.transform;
+		}
+	}
+
+	private Vector3 GetPlayerSpawnPosition(RoomInstance room)
+	{
+		Structure floorStructure = room.Data.Structures
+			.Where(structure => structure.Type == CellType.Floor)
+			.OrderByDescending(GetStructureArea)
+			.FirstOrDefault();
+
+		if (floorStructure == null)
+		{
+			return room.Transform.position;
+		}
+
+		Vector2 floorCenter =
+			(floorStructure.Position + floorStructure.End) * 0.5f;
+
+		Vector2 localPosition =
+			floorCenter - GetStructureCenter(room.Data);
+
+		return room.Transform.TransformPoint(
+			new Vector3(
+				localPosition.x,
+				0,
+				localPosition.y));
+	}
+
+	private float GetStructureArea(Structure structure)
+	{
+		float width =
+			Mathf.Abs(
+				structure.End.x -
+				structure.Position.x) + 1;
+
+		float height =
+			Mathf.Abs(
+				structure.End.y -
+				structure.Position.y) + 1;
+
+		return width * height;
+	}
 
 	private bool CanGenerateMap()
 	{
