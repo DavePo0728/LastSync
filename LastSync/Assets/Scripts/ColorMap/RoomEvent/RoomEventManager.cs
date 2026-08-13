@@ -5,6 +5,8 @@ public class RoomEventManager : MonoBehaviour
 {
 	[SerializeField]
 	private List<EventEntry> events = new();
+	private readonly HashSet<EventTrigger> triggeredEvents = new();
+
 	public Transform DoorsRoot { get; private set; }
 
 	public RoomInstance Room { get; private set; }
@@ -18,22 +20,28 @@ public class RoomEventManager : MonoBehaviour
 		Room = room;
 	}
 	/// <summary>
-	/// Ä²µo¨Æ¥ó
+	/// è§¸ç™¼äº‹ä»¶
 	/// </summary>
 	public void Trigger(EventTrigger trigger)
 	{
+		if (triggeredEvents.Contains(trigger))
+		{
+			return;
+		}
+
 		foreach (EventEntry entry in events)
 		{
 			if (entry.Trigger != trigger)
 				continue;
 
+			triggeredEvents.Add(trigger);
 			entry.RootEvent?.Execute();
 			return;
 		}
 	}
 
 	/// <summary>
-	/// ·s¼W¨Æ¥óÃì
+	/// æ–°å¢äº‹ä»¶éˆ
 	/// </summary>
 	public void AddEvent(EventTrigger trigger, RoomEvent rootEvent)
 	{
@@ -45,7 +53,7 @@ public class RoomEventManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// ¨ú±o¨Æ¥ó
+	/// å–å¾—äº‹ä»¶
 	/// </summary>
 	public RoomEvent GetEvent(EventTrigger trigger)
 	{
@@ -61,5 +69,6 @@ public class RoomEventManager : MonoBehaviour
 	public void Clear()
 	{
 		events.Clear();
+		triggeredEvents.Clear();
 	}
 }

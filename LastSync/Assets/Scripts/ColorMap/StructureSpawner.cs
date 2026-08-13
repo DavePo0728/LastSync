@@ -1,7 +1,10 @@
+using Unity.AI.Navigation;
 using UnityEngine;
 
 public class StructureSpawner : MonoBehaviour
 {
+	private const int NotWalkableArea = 1;
+
 	[SerializeField]
 	private GameObject pillarPrefab;
 
@@ -123,6 +126,7 @@ public class StructureSpawner : MonoBehaviour
 			Instantiate(
 				pillarPrefab,
 				parent);
+		SetNotWalkable(obj);
 
 		obj.transform.localPosition =
 			new Vector3(
@@ -175,6 +179,7 @@ public class StructureSpawner : MonoBehaviour
 			Instantiate(
 				wallPrefab,
 				parent);
+		SetNotWalkable(obj);
 
 		obj.transform.localPosition =
 			center - pivot;
@@ -283,5 +288,19 @@ public class StructureSpawner : MonoBehaviour
 				width,
 				1,
 				height);
+	}
+
+	private void SetNotWalkable(GameObject obj)
+	{
+		NavMeshModifier modifier =
+			obj.GetComponent<NavMeshModifier>();
+
+		if (modifier == null)
+		{
+			modifier = obj.AddComponent<NavMeshModifier>();
+		}
+
+		modifier.overrideArea = true;
+		modifier.area = NotWalkableArea;
 	}
 }
