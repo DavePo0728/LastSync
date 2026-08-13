@@ -119,11 +119,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &1035883247 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1961268004144953379, guid: 72a21e88ece4d6044b4453093627d3d7, type: 3}
-  m_PrefabInstance: {fileID: 1714174383}
-  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &985486469
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4113434695948964413, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+      propertyPath: m_Name
+      value: Ranged_No001_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926651196579885514, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926651196579885514, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926651196579885514, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -11.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926651196579885514, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926651196579885514, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926651196579885514, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926651196579885514, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926651196579885514, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926651196579885514, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4926651196579885514, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
 --- !u!1 &1201069997
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d4c8b46799de754f8c8803dd69436ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  target: {fileID: 1035883247}
+  target: {fileID: 0}
   offset: {x: 0, y: 15, z: 0}
 --- !u!114 &1279006558
 MonoBehaviour:
@@ -754,6 +806,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Melee_No001
       objectReference: {fileID: 0}
+    - target: {fileID: 2876786609080843502, guid: 35ccf8573179d4e4d8f114e8b7c7b552, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7172730039315834351, guid: 35ccf8573179d4e4d8f114e8b7c7b552, type: 3}
       propertyPath: m_LocalPosition.x
       value: -8.2
@@ -808,5 +864,6 @@ SceneRoots:
   - {fileID: 1759839917}
   - {fileID: 1201070001}
   - {fileID: 6282014666184519149}
+  - {fileID: 985486469}
   - {fileID: 1714174383}
   - {fileID: 7461229757592013280}

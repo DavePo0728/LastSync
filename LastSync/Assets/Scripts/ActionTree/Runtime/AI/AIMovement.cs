@@ -9,6 +9,8 @@ using UnityEngine.AI;
 [RequireComponent(typeof(AIStatus))]
 public class AIMovement : MonoBehaviour
 {
+	private const float NavMeshSampleDistance = 3f;
+
 	#region Parameter
 
 	[SerializeField]
@@ -62,13 +64,19 @@ public class AIMovement : MonoBehaviour
 		if (!agent.enabled || IsMoveLocked())
 			return;
 
+		if (!EnsureAgentOnNavMesh())
+			return;
+
+		if (!TryGetNavMeshPosition(position, out Vector3 destination))
+			return;
+
 		agent.isStopped = false;
-		agent.SetDestination(position);
+		agent.SetDestination(destination);
 	}
 
 	public void Stop()
 	{
-		if (!agent.enabled)
+		if (!agent.enabled || !agent.isOnNavMesh)
 			return;
 
 		agent.isStopped = true;
@@ -197,7 +205,7 @@ public class AIMovement : MonoBehaviour
 
 	public bool DashForward(float distance, float duration)
 	{
-		if (!agent.enabled || controlLocked)
+		if (!agent.enabled || !EnsureAgentOnNavMesh() || controlLocked)
 			return false;
 
 		if (dashCoroutine != null)
@@ -251,12 +259,16 @@ public class AIMovement : MonoBehaviour
 
 	public bool HasPath()
 	{
-		return agent.hasPath;
+		return agent.enabled &&
+			   agent.isOnNavMesh &&
+			   agent.hasPath;
 	}
 
 	public bool IsMoving()
 	{
-		return !agent.isStopped &&
+		return agent.enabled &&
+			   agent.isOnNavMesh &&
+			   !agent.isStopped &&
 			   agent.hasPath &&
 			   !agent.pathPending &&
 			   agent.remainingDistance > agent.stoppingDistance;
@@ -264,6 +276,9 @@ public class AIMovement : MonoBehaviour
 
 	public bool Arrived()
 	{
+		if (!agent.enabled || !agent.isOnNavMesh)
+			return false;
+
 		if (agent.pathPending)
 			return false;
 
@@ -272,12 +287,53 @@ public class AIMovement : MonoBehaviour
 
 	public Vector3 Destination()
 	{
+		if (!agent.enabled || !agent.isOnNavMesh)
+			return transform.position;
+
 		return agent.destination;
 	}
 
 	public float RemainingDistance()
 	{
+		if (!agent.enabled || !agent.isOnNavMesh)
+			return Mathf.Infinity;
+
 		return agent.remainingDistance;
+	}
+
+	private bool EnsureAgentOnNavMesh()
+	{
+		if (agent.isOnNavMesh)
+			return true;
+
+		if (!NavMesh.SamplePosition(
+			transform.position,
+			out NavMeshHit hit,
+			NavMeshSampleDistance,
+			agent.areaMask))
+		{
+			return false;
+		}
+
+		return agent.Warp(hit.position);
+	}
+
+	private bool TryGetNavMeshPosition(
+		Vector3 position,
+		out Vector3 navMeshPosition)
+	{
+		if (NavMesh.SamplePosition(
+			position,
+			out NavMeshHit hit,
+			NavMeshSampleDistance,
+			agent.areaMask))
+		{
+			navMeshPosition = hit.position;
+			return true;
+		}
+
+		navMeshPosition = position;
+		return false;
 	}
 
 	#endregion

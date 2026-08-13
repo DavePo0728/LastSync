@@ -65,22 +65,29 @@ namespace ActionTree.Runtime
 
 				case ActionNodeData action:
 					{
-						return new ReflectionMethodNode(action.Action);
+						return new ReflectionMethodNode(CloneActionData(action.Action));
 					}
 
 				case ConditionNodeData condition:
 					{
-						return new ReflectionMethodNode(condition.Condition);
+						return new ReflectionMethodNode(CloneActionData(condition.Condition));
 					}
 
 				case MethodNodeData method:
 					{
-						return new ReflectionMethodNode(method.Action);
+						return new ReflectionMethodNode(CloneActionData(method.Action));
 					}
 				default:
 					Debug.LogWarning($"Unsupported node type: {node.GetType().Name}");
 					return null;
 			}
+		}
+
+		private static ActionData CloneActionData(ActionData action)
+		{
+			return action != null
+				? action.Clone()
+				: null;
 		}
 	}
 }

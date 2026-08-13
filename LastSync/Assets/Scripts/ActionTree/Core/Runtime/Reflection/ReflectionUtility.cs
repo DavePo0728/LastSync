@@ -115,7 +115,8 @@ namespace ActionTree
 
 			MonoBehaviour component = action.cachedComponent;
 
-			if (component == null)
+			if (component == null ||
+				component.gameObject != context.Owner)
 			{
 				component = GetComponent(context.Owner, action.componentType);
 				action.cachedComponent = component;
