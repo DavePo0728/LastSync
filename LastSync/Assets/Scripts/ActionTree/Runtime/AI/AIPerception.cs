@@ -131,13 +131,17 @@ public class AIPerception : MonoBehaviour
 		if (!IsTargetInRange(range))
 			return false;
 
-		if (target.TryGetComponent(out AIStatus aiStatus))
+		if (target.TryGetComponent(out CharacterStats characterStats))
 		{
-			aiStatus.TakeDamage(damage);
+			characterStats.TakeDamage((int)damage);
 			return true;
 		}
-
-		return false;
+        if (target.TryGetComponent(out AIStatus aiStatus))
+        {
+            aiStatus.TakeDamage(damage);
+            return true;
+        }
+        return false;
 	}
 
 	public bool DamageTargetIfInSkillRange(SkillData skill, float damage)
