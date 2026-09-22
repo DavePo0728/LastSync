@@ -32,8 +32,9 @@ public class AIStatus : MonoBehaviour
 	private List<GameObject> chipDropPrefab;
 	[SerializeField]
 	private Image healthBar;
-
-	public float MaxHealth => maxHealth;
+	[SerializeField]
+	private HPUIScreenPosReference healthUIReference;
+    public float MaxHealth => maxHealth;
 	public float CurrentHealth => currentHealth;
 	public float Attack => attack;
 	public float Defense => defense;
@@ -41,21 +42,25 @@ public class AIStatus : MonoBehaviour
 
 	public event Action<float> Damaged;
 	public event Action Died;
+	bool alreadyDead = false;
 
-	#endregion
+    #endregion
 
-	#region Unity
+    #region Unity
 
-	private void Awake()
+    private void Awake()
 	{
 		currentHealth = maxHealth;
 	}
+    private void Start()
+    {
+        healthBar = healthUIReference.GetHpUIGameObjectChild()?.GetComponent<Image>();
+    }
+    #endregion
 
-	#endregion
+    #region Method
 
-	#region Method
-
-	public void SetHealth(float value)
+    public void SetHealth(float value)
 	{
 		currentHealth = Mathf.Clamp(value, 0f, maxHealth);
 	}
@@ -72,19 +77,23 @@ public class AIStatus : MonoBehaviour
 		currentHealth -= finalDamage;
 		UpdateUI();
 		Damaged?.Invoke(finalDamage);
-
-		if (currentHealth <= 0f)
+		
+		if (currentHealth <= 0f&& !alreadyDead)
 		{
 			currentHealth = 0f;
+			alreadyDead = true;
 			Die();
 		}
 	}
     public virtual void UpdateUI()
     {
+		if (healthBar == null&&!alreadyDead)
+			healthBar = healthUIReference.GetHpUIGameObjectChild()?.GetComponent<Image>();
+
         if (healthBar != null)
         {
             healthBar.fillAmount = (float)CurrentHealth / maxHealth;
-        }
+		}
     }
 
     public void Die()
@@ -94,7 +103,8 @@ public class AIStatus : MonoBehaviour
 		{
 			int randomIndex = UnityEngine.Random.Range(0, chipDropPrefab.Count);
 			Instantiate(chipDropPrefab[randomIndex], transform.position, transform.rotation);
-		}
+			healthUIReference.DeadDestroyUI();
+        }
 		Destroy(gameObject, deathDestroyDelay);
 	}
 

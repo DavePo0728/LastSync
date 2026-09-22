@@ -24,6 +24,9 @@ public class ChipSystem : MonoBehaviour
     // 絕對值加成 (基礎值預設為 0)
     public int BonusBulletCount { get; private set; }
     public float BonusAccuracyOffset { get; private set; }
+    public float MoveSpeedMultiplier { get; private set; }
+    public float DefenceMultiplier { get; private set; }
+    public float dashesMultiplier { get; private set; }
     [SerializeField]
     CharacterChipStatusUI characterChipStatusUI;
     private void Awake()

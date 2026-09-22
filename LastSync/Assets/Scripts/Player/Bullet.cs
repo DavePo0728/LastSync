@@ -33,10 +33,15 @@ public class Bullet : MonoBehaviour
             if (other.TryGetComponent(out AIStatus aiStatus))
             {
                 aiStatus.TakeDamage(damage);
-                Destroy(gameObject);
+                HandleMaxRangeReached();
                 Debug.Log($"Bullet hit {other.name} and dealt {damage} damage.");
                 return;
             }
+        }
+        if(other.CompareTag("Wall"))
+        {
+            HandleMaxRangeReached();
+            //Debug.Log($"Bullet hit a wall: {other.name}.");
         }
     }
 }

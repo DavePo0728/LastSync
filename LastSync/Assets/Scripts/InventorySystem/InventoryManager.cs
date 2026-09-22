@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
-using System.Linq;
 public class InventoryManager : MonoBehaviour, IChipUnlockPricePayer
 {
     public static InventoryManager inventoryManagerInstance;
@@ -11,12 +12,10 @@ public class InventoryManager : MonoBehaviour, IChipUnlockPricePayer
     private int inventorySize;
     [SerializeField]
     InventorySystem inventorySystem;
-    //[SerializeField]
-    //private ChipDisplay craftDisplay;
-
     public InventorySystem InventorySystem => inventorySystem;
-
-    public static UnityAction<InventorySystem> OnDynamicInventoryDisplayResquested;
+    //public static UnityAction<InventorySystem> OnDynamicInventoryDisplayResquested;
+    public event Action<ChipType> OnCategoryHasNewItem;
+    private List<ChipType> unreadCategories =new List<ChipType>();
     [SerializeField]
     int currency = 1000; // Example currency amount, replace with your actual currency management
     private void Awake()
@@ -24,26 +23,54 @@ public class InventoryManager : MonoBehaviour, IChipUnlockPricePayer
         inventoryManagerInstance = this;
         inventorySystem = new InventorySystem(inventorySize);
     }
+    public bool TryAddChip(
+       ChipData chipData,
+       int amount,
+       out bool isNewChip)
+    {
+        isNewChip = false;
+
+        if (chipData == null || amount <= 0)
+            return false;
+
+        isNewChip = !CheckInventoryHaveItem(chipData);
+
+        // 最好讓 AddToInventory 回傳 bool，
+        // 用來表示背包是否成功加入。
+        bool addedSuccessfully = AddToInventory(chipData, amount);
+
+        if (!addedSuccessfully)
+            return false;
+
+        if (isNewChip)
+        {
+            unreadCategories.Add(chipData.chipType);
+            OnCategoryHasNewItem?.Invoke(chipData.chipType);
+            Debug.Log($"New chip added: {chipData.chipName}, Type: {chipData.chipType}");
+        }
+        return true;
+    }
+
+    public bool HasUnreadCategory(ChipType chipType)
+    {
+        return unreadCategories.Contains(chipType);
+    }
+
+    public void MarkCategoryAsRead(ChipType chipType)
+    {
+        unreadCategories.Remove(chipType);
+    }
     public bool CheckInventoryHaveItem(ChipData chipData)
     {
         List<ChipData> chipDataList = new List<ChipData>();
-        foreach (var item in inventorySystem.inventory_Slots)
-        {
-            if (item._chipData != null)
-            {
-                chipDataList.Add(chipData);
-            }
-        }
-        if (chipDataList.Contains(chipData))
-        {
-            return true;
-        }
-        else
-        {
+        if (chipData == null)
             return false;
-        }
+
+        return inventorySystem.inventory_Slots.Any(slot =>
+            slot._chipData != null &&
+            slot._chipData.chipID == chipData.chipID);
     }
-    public void AddToInventory(ChipData chipToAdd, int amount)
+    public bool AddToInventory(ChipData chipToAdd, int amount)
     {
 
         if (ContainItem(chipToAdd, out List<InventoryChipSlot> invSlot)) //Check whether item exists in inventory.
@@ -54,7 +81,7 @@ public class InventoryManager : MonoBehaviour, IChipUnlockPricePayer
                 {
                     slot.AddToStack(amount);
                     inventorySystem.OnInventorySlotChange?.Invoke(slot);
-                    return;
+                    return true;
                 }
             }
         }
@@ -63,14 +90,20 @@ public class InventoryManager : MonoBehaviour, IChipUnlockPricePayer
             {
                 freeSlot.UpdateInventorySlot(chipToAdd,amount);
                 inventorySystem.OnInventorySlotChange?.Invoke(freeSlot);
-
+                return true;
             }
         }
+        return false;
     }
     public bool ContainItem(ChipData itemToAdd, out List<InventoryChipSlot> invSlot)  //Do any of our slots have the items to add to them?
     {
-        invSlot = inventorySystem.inventory_Slots.Where(i => i._chipData == itemToAdd).ToList(); //if they do, the get a list of all of them
-        return invSlot == null ? false : true;   // if they do return true, if not return false.
+        invSlot = inventorySystem.inventory_Slots
+                .Where(slot =>
+                    slot._chipData != null &&
+                    slot._chipData.chipID == itemToAdd.chipID)
+                .ToList();
+
+        return invSlot.Count > 0;
     }
     public bool HasFreeSlot(out InventoryChipSlot freeSlot)
     {

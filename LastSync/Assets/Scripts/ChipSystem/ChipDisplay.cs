@@ -37,6 +37,7 @@ public class ChipDisplay : MonoBehaviour
     [SerializeField] private ChipSlot_UI chipSlotPrefab;
     [SerializeField] private RectTransform slotContainer;
     [SerializeField, Min(1f)] private float slotStep = 135f;
+    [SerializeField] private Sprite emptySprite;
     [SerializeField] private Sprite plusSprite;
 
     [Header("Unlock price")]
@@ -146,7 +147,7 @@ public class ChipDisplay : MonoBehaviour
             gridPosition,
             inventorySlot,
             isExpansionSlot,
-            plusSprite);
+            emptySprite);
 
         slotsByCoordinate.Add(gridPosition, newSlot);
 

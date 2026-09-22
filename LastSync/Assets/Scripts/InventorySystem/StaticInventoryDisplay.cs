@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-
+using TMPro;
 public enum InventoryCategoryFilter
 {
     All,
@@ -23,11 +23,23 @@ public class StaticInventoryDisplay : MonoBehaviour
 
     [Header("Category buttons")]
     [SerializeField] private Button allButton;
+    [SerializeField] private TMP_Text allButtonText;
+    [SerializeField] private GameObject allNewImage;
     [SerializeField] private Button attackButton;
+    [SerializeField] private TMP_Text attackButtonText;
+    [SerializeField] private GameObject attackNewItemImage;
     [SerializeField] private Button defenceButton;
+    [SerializeField] private TMP_Text defenceButtonText;
+    [SerializeField] private GameObject defenceNewItemImage;
     [SerializeField] private Button movementButton;
+    [SerializeField] private TMP_Text movementButtonText;
+    [SerializeField] private GameObject movementNewItemImage;
     [SerializeField] private Button supportButton;
+    [SerializeField] private TMP_Text supportButtonText;
+    [SerializeField] private GameObject supportNewItemImage;
     [SerializeField] private Button otherButton;
+    [SerializeField] private TMP_Text otherButtonText;
+    [SerializeField] private GameObject otherNewItemImage;
 
     [Tooltip("Uses Button.interactable=false to indicate the selected category.")]
     [SerializeField] private bool disableSelectedCategoryButton = true;
@@ -35,8 +47,6 @@ public class StaticInventoryDisplay : MonoBehaviour
     private InventorySystem inventorySystem;
     private Dictionary<InventorySlot_UI, InventoryChipSlot> slotDictionary;
     private InventoryCategoryFilter currentCategory = InventoryCategoryFilter.All;
-
-    public InventorySystem InventorySystem => inventorySystem;
     public Dictionary<InventorySlot_UI, InventoryChipSlot> SlotDictionary => slotDictionary;
     public InventoryCategoryFilter CurrentCategory => currentCategory;
 
@@ -44,7 +54,6 @@ public class StaticInventoryDisplay : MonoBehaviour
     {
         AddCategoryButtonListeners();
     }
-
     private void Start()
     {
         if (inventoryManager == null)
@@ -66,15 +75,77 @@ public class StaticInventoryDisplay : MonoBehaviour
         AssignSlot(inventorySystem);
         SetCategory(InventoryCategoryFilter.All);
     }
+    private void OnEnable()
+    {
+        inventoryManager = InventoryManager.inventoryManagerInstance;
 
+        if (inventoryManager == null)
+            return;
+
+        inventoryManager.OnCategoryHasNewItem += HandleCategoryHasNewItem;
+
+        // UI 關閉期間可能取得新晶片，所以開啟時重新讀取狀態。
+        RefreshNewItemImages();
+    }
     private void OnDestroy()
     {
         if (inventorySystem != null)
             inventorySystem.OnInventorySlotChange -= UpdateSlot;
-
+        if (inventoryManager != null)
+            inventoryManager.OnCategoryHasNewItem -= HandleCategoryHasNewItem;
         RemoveCategoryButtonListeners();
     }
+    private void HandleCategoryHasNewItem(ChipType chipType)
+    {
+        SetCategoryNewItemImage(chipType, true);
+    }
 
+    private void SetCategoryNewItemImage(ChipType chipType, bool active)
+    {
+        switch (chipType)
+        {
+            case ChipType.Attack:
+                attackNewItemImage?.SetActive(active);
+                allNewImage?.SetActive(active);
+                break;
+
+            case ChipType.Defend:
+                defenceNewItemImage?.SetActive(active);
+                allNewImage?.SetActive(active);
+                break;
+
+            case ChipType.Movement:
+                movementNewItemImage?.SetActive(active);
+                allNewImage?.SetActive(active);
+                break;
+            case ChipType.Support:
+                supportNewItemImage?.SetActive(active);
+                allNewImage?.SetActive(active);
+                break;
+            case ChipType.Other:
+                otherNewItemImage?.SetActive(active);
+                allNewImage?.SetActive(active);
+                break;
+        }
+    }
+
+    private void RefreshNewItemImages()
+    {
+        attackNewItemImage?.SetActive(
+            inventoryManager.HasUnreadCategory(ChipType.Attack));
+
+        defenceNewItemImage?.SetActive(
+            inventoryManager.HasUnreadCategory(ChipType.Defend));
+        
+        movementNewItemImage?.SetActive(
+            inventoryManager.HasUnreadCategory(ChipType.Movement));
+
+        supportNewItemImage?.SetActive(
+            inventoryManager.HasUnreadCategory(ChipType.Support));
+
+        otherNewItemImage?.SetActive(
+            inventoryManager.HasUnreadCategory(ChipType.Other));
+    }
     private void Update()
     {
         if (mouseItemData == null ||
@@ -115,31 +186,47 @@ public class StaticInventoryDisplay : MonoBehaviour
     public void ShowAll()
     {
         SetCategory(InventoryCategoryFilter.All);
+        allNewImage?.SetActive(false);
     }
 
     public void ShowAttack()
     {
         SetCategory(InventoryCategoryFilter.Attack);
+        inventoryManager.MarkCategoryAsRead(ChipType.Attack);
+        attackNewItemImage?.SetActive(false);
+        allNewImage?.SetActive(false);
     }
 
     public void ShowDefence()
     {
         SetCategory(InventoryCategoryFilter.Defence);
+        inventoryManager.MarkCategoryAsRead(ChipType.Defend);
+        allNewImage?.SetActive(false);
+        defenceNewItemImage?.SetActive(false);
     }
 
     public void ShowOther()
     {
         SetCategory(InventoryCategoryFilter.Other);
+        inventoryManager.MarkCategoryAsRead(ChipType.Other);
+        allNewImage?.SetActive(false);
+        otherNewItemImage?.SetActive(false);
     }
 
     public void ShowMovement()
     {
         SetCategory(InventoryCategoryFilter.Movement);
+        inventoryManager.MarkCategoryAsRead(ChipType.Movement);
+        allNewImage?.SetActive(false);
+        movementNewItemImage?.SetActive(false);
     }
 
     public void ShowSupport()
     {
         SetCategory(InventoryCategoryFilter.Support);
+        inventoryManager.MarkCategoryAsRead(ChipType.Support);
+        allNewImage?.SetActive(false);
+        supportNewItemImage?.SetActive(false);
     }
 
 
@@ -204,21 +291,45 @@ public class StaticInventoryDisplay : MonoBehaviour
 
         if (allButton != null)
             allButton.interactable = allButtonsInteractable || currentCategory != InventoryCategoryFilter.All;
+        if(allButton.interactable) 
+            allButtonText.color = Color.white;
+        else
+            allButtonText.color = Color.black;
 
         if (attackButton != null)
             attackButton.interactable = allButtonsInteractable || currentCategory != InventoryCategoryFilter.Attack;
+        if (attackButton.interactable)
+            attackButtonText.color = Color.white;
+        else
+            attackButtonText.color = Color.black;
 
         if (defenceButton != null)
             defenceButton.interactable = allButtonsInteractable || currentCategory != InventoryCategoryFilter.Defence;
+        if (defenceButton.interactable)
+            defenceButtonText.color = Color.white;
+        else
+            defenceButtonText.color = Color.black;
 
         if (otherButton != null)
             otherButton.interactable = allButtonsInteractable || currentCategory != InventoryCategoryFilter.Other;
+        if (otherButton.interactable)
+            otherButtonText.color = Color.white;
+        else
+            otherButtonText.color = Color.black;
 
         if (movementButton != null)
             movementButton.interactable = allButtonsInteractable || currentCategory != InventoryCategoryFilter.Movement;
+        if (movementButton.interactable)
+            movementButtonText.color = Color.white;
+        else
+            movementButtonText.color = Color.black;
 
         if (supportButton != null)
             supportButton.interactable = allButtonsInteractable || currentCategory != InventoryCategoryFilter.Support;
+        if (supportButton.interactable)
+            supportButtonText.color = Color.white;
+        else
+            supportButtonText.color = Color.black;
     }
 
     public void AssignSlot(InventorySystem inventoryToDisplay)

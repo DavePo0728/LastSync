@@ -8,6 +8,8 @@ public abstract class WeaponBase : MonoBehaviour
     [SerializeField] protected float fireRnage;
     [SerializeField] protected float fireRate;
     [SerializeField] protected int baseBulletCount;
+    [SerializeField] protected int fireBulletPenetration;
+    [SerializeField] protected float criticalChance;
 
     [SerializeField]
     protected WeaponData weaponData;
@@ -15,6 +17,8 @@ public abstract class WeaponBase : MonoBehaviour
     public float Fire_Range => fireRnage;
     public float Fire_Rate => fireRate;
     public int Base_BulletCount => baseBulletCount;
+    public int fire_BulletPenetration => fireBulletPenetration;
+    public float critical_Chance => criticalChance;
 
     public float Base_FireAccuracy => baseFireAccuracy;
     private float fireIntervalTimer;

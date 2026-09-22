@@ -9,6 +9,7 @@ public class ChipSlot_UI : MonoBehaviour
 {
     [SerializeField] private Image itemSprite;
     [SerializeField] private Button button;
+    [SerializeField] private Sprite plusSprite;
     [SerializeField] private InventoryChipSlot assignedInventorySlot;
 
     public InventoryChipSlot assigned_Inventory_Slot => assignedInventorySlot;
@@ -70,11 +71,11 @@ public class ChipSlot_UI : MonoBehaviour
         UpdateUISlot();
     }
 
-    public void SetAsExpansionSlot(Sprite plusSprite)
+    public void SetAsExpansionSlot(Sprite emptySprite)
     {
         IsExpansionSlot = true;
         button.interactable = true;
-        itemSprite.sprite = plusSprite;
+        itemSprite.sprite = emptySprite;
         itemSprite.color = Color.white;
     }
 
@@ -116,7 +117,7 @@ public class ChipSlot_UI : MonoBehaviour
             return;
         }
 
-        itemSprite.sprite = null;
+        itemSprite.sprite = plusSprite;
         itemSprite.color = Color.white;
     }
 
@@ -126,7 +127,7 @@ public class ChipSlot_UI : MonoBehaviour
             return;
 
         assignedInventorySlot?.ClearSlot();
-        itemSprite.sprite = null;
+        itemSprite.sprite = plusSprite;
         itemSprite.color = Color.white;
     }
 }

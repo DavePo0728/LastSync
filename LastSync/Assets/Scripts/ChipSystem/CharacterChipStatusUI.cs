@@ -9,11 +9,17 @@ public class CharacterChipStatusUI : MonoBehaviour
     [SerializeField] private CharacterStats characterStats;
     [SerializeField] private GunShoot weaponStatus;
     [SerializeField] private TMP_Text hPText;
+    [SerializeField] private TMP_Text defenceText;
+    [SerializeField] private TMP_Text defenceReductionText;
     [SerializeField] private TMP_Text fireDamageText;
     [SerializeField] private TMP_Text fireRateText;
     [SerializeField] private TMP_Text fireRangeText;
+    [SerializeField] private TMP_Text criticalChanceText;
     [SerializeField] private TMP_Text bounsBulletText;
     [SerializeField] private TMP_Text fireAccuracyText;
+    [SerializeField] private TMP_Text bulletPeneText;
+    [SerializeField] private TMP_Text MovementText;
+    [SerializeField] private TMP_Text DashCoolDownText;
     private GameObject player;
     private void Awake()
     {
@@ -36,27 +42,50 @@ public class CharacterChipStatusUI : MonoBehaviour
 
         if (hPText != null)
         {
-            hPText.text = "HP: " +characterStats.CurrentHealth.ToString() + " / " + characterStats.CurrentMaxHealth.ToString();
+            hPText.text = characterStats.CurrentHealth.ToString() /*+ " / " + characterStats.CurrentMaxHealth.ToString()*/;
         }
-
+        if (defenceText != null)
+        {
+            defenceText.text = characterStats.CurrentDefence.ToString();
+        }
+        if (defenceReductionText != null)
+        {
+            defenceReductionText.text = characterStats.CurrentDefenceReduction.ToString();
+        }
+        if (criticalChanceText != null)
+        {
+            criticalChanceText.text = weaponStatus.critical_Chance.ToString();
+        }
+        if (bulletPeneText != null)
+        {
+            bulletPeneText.text = weaponStatus.fire_BulletPenetration.ToString();
+        }
         if (fireDamageText != null) {
-            fireDamageText.text = "Damage: " + weaponStatus.Base_Damage.ToString() + " + " + chipSystem.DamageMultiplier.ToString();
+            fireDamageText.text = (weaponStatus.Base_Damage + chipSystem.DamageMultiplier).ToString();
         }
         if (fireRateText != null)
         {
-            fireRateText.text = "FireRate: "+weaponStatus.Fire_Rate.ToString() + " + " + chipSystem.FireRateMultiplier.ToString();
+            fireRateText.text = (weaponStatus.Fire_Rate + chipSystem.FireRateMultiplier).ToString();
         }
         if (fireRangeText != null)
         {
-            fireRangeText.text = "FireRange: " + weaponStatus.Fire_Range.ToString() + " + " + chipSystem.RangeMultiplier.ToString();
+            fireRangeText.text = (weaponStatus.Fire_Range + chipSystem.RangeMultiplier).ToString();
         }
         if (bounsBulletText != null)
         {
-            bounsBulletText.text = "BonusBullet: "+weaponStatus.Base_BulletCount.ToString() + " + " + chipSystem.BonusBulletCount.ToString();
+            bounsBulletText.text = (weaponStatus.Base_BulletCount + chipSystem.BonusBulletCount).ToString();
         }
         if (fireAccuracyText != null)
         {
-            fireAccuracyText.text = "BonusAccuracy: " + weaponStatus.Base_FireAccuracy.ToString() + " + " + chipSystem.BonusAccuracyOffset.ToString();
+            fireAccuracyText.text = (weaponStatus.Base_FireAccuracy + chipSystem.BonusAccuracyOffset).ToString();
+        }
+        if(MovementText != null)
+        {
+            MovementText.text = (characterStats.MoveSpeed + chipSystem.MoveSpeedMultiplier).ToString();
+        }
+        if(DashCoolDownText != null)
+        {
+            DashCoolDownText.text = (characterStats.DashCooldown + chipSystem.dashesMultiplier).ToString();
         }
 
     }

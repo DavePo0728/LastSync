@@ -15,5 +15,6 @@ MonoBehaviour:
   weaponName: HandGun
   fireRate: 2
   baseDamage: 10
-  accuracy: 10
+  baseFireAccuracy: 10
   fireRange: 10
+  baseBulletCount: 10

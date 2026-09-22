@@ -1,13 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Cinemachine;
 
 public class CharacterStats : MonoBehaviour
 {
     [Header("Base stats")]
     [SerializeField] private int baseMaxHealth = 100;
-    [SerializeField] private int baseMaxShield = 50;
+    [SerializeField] private int baseDefence = 50;
+    private float defenceReduction = 0.5f; // 50% 防禦減傷
     [SerializeField] private float baseMoveSpeed = 5f;
+    [SerializeField] private float dashCooldown = 1.0f;
 
     [Header("Shield")]
     [SerializeField] private float shieldRegenDelay = 3.0f;
@@ -15,11 +18,14 @@ public class CharacterStats : MonoBehaviour
 
     [Header("UI Elements")]
     [SerializeField] private Image healthBar;
+    [SerializeField] private Image hitFlashImage;
+    [SerializeField] private CinemachineImpulseSource impulseSource;
 
     // 當前狀態數值
     public int CurrentHealth { get; private set; }
     public int CurrentMaxHealth { get; private set; }
-    public int CurrentShield { get; private set; }
+    public int CurrentDefence { get; private set; }
+    public float CurrentDefenceReduction { get; private set; }
 
     // 乘數儲存清單
     private List<float> damageTakenModifiers = new List<float>();
@@ -34,9 +40,10 @@ public class CharacterStats : MonoBehaviour
 
     public float DamageTakenMultiplier => CalculateMultiplier(damageTakenModifiers);
     public float MoveSpeedMultiplier => CalculateMultiplier(moveSpeedModifiers);
-    public float AttackMultiplier => CalculateMultiplier(attackModifiers);
 
-    public float MoveSpeed => baseMoveSpeed * MoveSpeedMultiplier;
+    public float MoveSpeed => baseMoveSpeed ;
+    public float DashCooldown => dashCooldown;
+
 
     #endregion
 
@@ -44,13 +51,19 @@ public class CharacterStats : MonoBehaviour
     {
         CurrentHealth = baseMaxHealth;
         CurrentMaxHealth = baseMaxHealth;
-        CurrentShield = baseMaxShield;
+        CurrentDefence = baseDefence;
+        CurrentDefenceReduction = defenceReduction;
         lastDamageTime = -shieldRegenDelay;
     }
-
+    void Start()
+    {
+        hitFlashImage = GameObject.Find("HitFlashImage")?.GetComponent<Image>();
+        hitFlashImageInitalize();
+        impulseSource = GetComponent<CinemachineImpulseSource>();
+    }
     private void Update()
     {
-        HandleShieldRegeneration();
+        //HandleShieldRegeneration();
     }
     void UpdateUI()
     {
@@ -108,6 +121,11 @@ public class CharacterStats : MonoBehaviour
         if (actualDamage > 0)
         {
             CurrentHealth = Mathf.Clamp(CurrentHealth - actualDamage, 0, baseMaxHealth);
+            CameraShake(0.1f); 
+            hitFlashImage.gameObject.SetActive(true);
+            Invoke("InactiveFlashImage", 0.02f);
+            //shakeTimer = hurtShakeDuration;   //hpbar shake timer
+            //currentShakeStrength = hurtShakeStrength;    //hpbar shake strength
             UpdateUI();
         }
 
@@ -117,26 +135,43 @@ public class CharacterStats : MonoBehaviour
         }
     }
 
-    private void HandleShieldRegeneration()
+    //private void HandleShieldRegeneration()
+    //{
+    //    if (CurrentShield < baseMaxShield && (Time.time - lastDamageTime) >= shieldRegenDelay)
+    //    {
+    //        shieldRegenAccumulator += shieldRegenPerSecond * Time.deltaTime;
+
+    //        if (shieldRegenAccumulator >= 1f)
+    //        {
+    //            int regenAmount = Mathf.FloorToInt(shieldRegenAccumulator);
+    //            CurrentShield = Mathf.Clamp(CurrentShield + regenAmount, 0, baseMaxShield);
+    //            shieldRegenAccumulator -= regenAmount;
+    //        }
+    //    }
+    //}
+    void hitFlashImageInitalize()
     {
-        if (CurrentShield < baseMaxShield && (Time.time - lastDamageTime) >= shieldRegenDelay)
+        if (hitFlashImage != null)
         {
-            shieldRegenAccumulator += shieldRegenPerSecond * Time.deltaTime;
-
-            if (shieldRegenAccumulator >= 1f)
-            {
-                int regenAmount = Mathf.FloorToInt(shieldRegenAccumulator);
-                CurrentShield = Mathf.Clamp(CurrentShield + regenAmount, 0, baseMaxShield);
-                shieldRegenAccumulator -= regenAmount;
-            }
+            Color c = hitFlashImage.color;
+            c.a = 0.69f;
+            hitFlashImage.color = c;
         }
+        hitFlashImage.gameObject.SetActive(false);
     }
-
     private void HandleDeath()
     {
         Debug.Log($"{gameObject.name} 判定死亡。");
     }
 
     #endregion
+    void InactiveFlashImage()
+    {
+        hitFlashImage.gameObject.SetActive(false);
+    }
+    void CameraShake(float intensity)
+    {
+        impulseSource.GenerateImpulseWithForce(intensity);
+    }
 }
 

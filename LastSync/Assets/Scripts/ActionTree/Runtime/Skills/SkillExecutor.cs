@@ -166,7 +166,7 @@ public sealed class SkillExecutor
 		try
 		{
 			method.Invoke(null, arguments);
-			Debug.Log($"AISkill -> {runtime.Data.SkillName} -> {action.MethodName}");
+			//Debug.Log($"AISkill -> {runtime.Data.SkillName} -> {action.MethodName}");
 		}
 		catch (Exception e)
 		{

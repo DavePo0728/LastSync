@@ -30,5 +30,10 @@ public class EnemyBullet : MonoBehaviour
                 return;
             }
         }
+        if (other.CompareTag("Wall"))
+        {
+            Destroy(gameObject);
+            Debug.Log($"Bullet hit a wall: {other.name}.");
+        }
     }
 }

@@ -12,8 +12,18 @@ public class ChipPickUp : MonoBehaviour
         {
             if (chipData != null)
             {
-                InventoryManager.inventoryManagerInstance.AddToInventory(chipData,1);
-                Debug.Log($"[系統] 玩家拾取並裝備了晶片: {chipData.chipID}");
+                if (!InventoryManager.inventoryManagerInstance.TryAddChip(chipData, 1, out bool isNewChip))
+                {
+                    Debug.Log(isNewChip);
+                    Debug.LogWarning($"[系統] 玩家無法拾取晶片: {chipData.chipID}，背包可能已滿或其他原因。");
+                    return; // 如果無法加入背包，則直接返回
+                }
+                Debug.Log($"[系統] 玩家拾取了晶片: {chipData.chipID}");
+
+                string pickupName = string.IsNullOrWhiteSpace(chipData.chipName)
+                    ? $"Chip {chipData.chipID}"
+                    : chipData.chipName;
+                ItemPickupToast.ShowPickup(pickupName, 1);
 
                 // 實作：可在此處播放拾取音效或特效
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
 public class GunShoot : WeaponBase
 {
@@ -9,6 +10,7 @@ public class GunShoot : WeaponBase
     [SerializeField]
     
     private int BaseBulletAmount = 1;
+    [SerializeField] private CinemachineImpulseSource impulseSource;
 
     [SerializeField]
     GameObject bulletPrefab;
@@ -25,6 +27,7 @@ public class GunShoot : WeaponBase
     {
         if (bulletPrefab == null) return;
         int BulletAmount = BaseBulletAmount + ChipSystem.chipSystemInstance.BonusBulletCount;
+        CameraShake(0.1f);
         for (int i = 0; i < BulletAmount; i++)
         {
             float half = baseFireAccuracy+ChipSystem.chipSystemInstance.BonusAccuracyOffset * 0.5f;
@@ -47,5 +50,9 @@ public class GunShoot : WeaponBase
                 bulletRB.AddForce(bullet.transform.forward * fireForce);
             }
         }
+    }
+    void CameraShake(float intensity)
+    {
+        impulseSource.GenerateImpulseWithForce(intensity);
     }
 }
