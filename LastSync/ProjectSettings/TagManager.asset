@@ -12,6 +12,7 @@ TagManager:
   - PlayerBullet
   - EnemyBullet
   - Wall
+  - Trap
   layers:
   - Default
   - TransparentFX

@@ -18,6 +18,8 @@ public class StructureSpawner : MonoBehaviour
 	private GameObject floorPrefab;
 
 	[SerializeField]
+	private GameObject trapFloorPrefab;
+    [SerializeField]
 	private Transform mapRoot;
 	[SerializeField]
 	private Transform bRoot;
@@ -96,6 +98,13 @@ public class StructureSpawner : MonoBehaviour
 
 				case CellType.Floor:
 					SpawnFloorSegment(
+						structure,
+						floorRoot,
+						pivot);
+					break;
+
+				case CellType.TrapFloor:
+					SpawnTrapFloorSegment(
 						structure,
 						floorRoot,
 						pivot);
@@ -289,8 +298,53 @@ public class StructureSpawner : MonoBehaviour
 				1,
 				height);
 	}
+    public void SpawnTrapFloorSegment(
+        Structure floor,
+        Transform parent,
+        Vector3 pivot)
+    {
+        Vector3 center =
+        (
+            new Vector3(
+                floor.Position.x,
+                0,
+                floor.Position.y)
+            +
+            new Vector3(
+                floor.End.x,
+                0,
+                floor.End.y)
+        ) * 0.5f;
 
-	private void SetNotWalkable(GameObject obj)
+        float width =
+            Mathf.Abs(
+                floor.End.x -
+                floor.Position.x) + 1;
+
+        float height =
+            Mathf.Abs(
+                floor.End.y -
+                floor.Position.y) + 1;
+
+        GameObject obj =
+            Instantiate(
+                trapFloorPrefab,
+                parent);
+
+        obj.transform.localPosition =
+            center - pivot;
+
+        obj.transform.localRotation =
+            Quaternion.identity;
+
+        obj.transform.localScale =
+            new Vector3(
+                width,
+                1,
+                height);
+    }
+
+    private void SetNotWalkable(GameObject obj)
 	{
 		NavMeshModifier modifier =
 			obj.GetComponent<NavMeshModifier>();

@@ -11,7 +11,7 @@ public class GunShoot : WeaponBase
     
     private int BaseBulletAmount = 1;
     [SerializeField] private CinemachineImpulseSource impulseSource;
-
+    private GameObject mainCam;
     [SerializeField]
     GameObject bulletPrefab;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,6 +21,7 @@ public class GunShoot : WeaponBase
         {
             Debug.LogWarning($"{gameObject.name} 找不到 weaponData，將以無乘數狀態運作。");
         }
+        impulseSource = GameObject.FindAnyObjectByType<CinemachineImpulseSource>();
     }
 
     protected override void PerformAttack()

@@ -67,7 +67,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9b2cbb77656f9e4429d8785b29968985, type: 2}
+  - {fileID: 2100000, guid: 64eee56c0ddab6e4dbebc337371e99d1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -122,7 +122,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5664191527658331397}
   m_Layer: 0
-  m_Name: floor
+  m_Name: TrapFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,7 +160,7 @@ GameObject:
   - component: {fileID: 1431955661915127341}
   m_Layer: 0
   m_Name: Cube_1
-  m_TagString: Untagged
+  m_TagString: Trap
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -256,7 +256,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.7159649, y: 1.1725103, z: 0.3575447}
+  m_Size: {x: 0.8, y: 1.1725103, z: 0.8}
   m_Center: {x: 0, y: 0.08625513, z: 0}
 --- !u!114 &1431955661915127341
 MonoBehaviour:
