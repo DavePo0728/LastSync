@@ -1,6 +1,6 @@
 public enum CellType
 {
-	Empty,
+	TrapFloor,
 	Void,
 	Floor,
 	Wall,

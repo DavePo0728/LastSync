@@ -97,7 +97,7 @@ public class CharacterStats : MonoBehaviour
 
     #region 戰鬥與傷害邏輯
 
-    public void TakeDamage(int rawDamage)
+    public void TakeDamage(float rawDamage)
     {
         int actualDamage = Mathf.RoundToInt(rawDamage * DamageTakenMultiplier);
 
@@ -172,6 +172,14 @@ public class CharacterStats : MonoBehaviour
     void CameraShake(float intensity)
     {
         impulseSource.GenerateImpulseWithForce(intensity);
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Trap"))
+        {
+            float damage = 1; 
+            TakeDamage(damage);
+        }
     }
 }
 

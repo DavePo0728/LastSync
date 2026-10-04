@@ -129,6 +129,7 @@ MonoBehaviour:
   weaponData: {fileID: 11400000, guid: 13b60f5798b7ba44fa15e2a5a194bcac, type: 2}
   fireForce: 500
   BaseBulletAmount: 1
+  impulseSource: {fileID: 0}
   bulletPrefab: {fileID: 1929556792762754241, guid: a9d4646f663195344a4c443523e0045d, type: 3}
 --- !u!1 &4051562898199169377
 GameObject:
@@ -250,6 +251,8 @@ MonoBehaviour:
   shieldRegenDelay: 3
   shieldRegenPerSecond: 5
   healthBar: {fileID: 3719428367291336611}
+  hitFlashImage: {fileID: 0}
+  impulseSource: {fileID: 0}
 --- !u!114 &-1337323973427132055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -492,7 +495,6 @@ GameObject:
   - component: {fileID: 8503095562498255269}
   - component: {fileID: 1848793740653562482}
   - component: {fileID: 6945230181445358117}
-  - component: {fileID: 2328301557602687759}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -573,27 +575,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2328301557602687759
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7445710286446556638}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8697244252546719497
 GameObject:
   m_ObjectHideFlags: 0

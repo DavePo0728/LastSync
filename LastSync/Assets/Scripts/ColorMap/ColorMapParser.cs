@@ -8,8 +8,9 @@ public class ColorMapParser : MonoBehaviour
 	private HashSet<Vector2Int> wallList = new();
 	private HashSet<Vector2Int> doorList = new();
 	private HashSet<Vector2Int> floorList = new();
+	private HashSet<Vector2Int> trapFloorList = new();
 
-	private HashSet<Structure> structures = new();
+    private HashSet<Structure> structures = new();
 
 	public StructureData Parse(Texture2D texture)
 	{
@@ -28,7 +29,8 @@ public class ColorMapParser : MonoBehaviour
 		LoadMap(texture);
 
 		FindFloors();
-		FindPillars();
+		FindTrapFloors();
+        FindPillars();
 		FindWalls();
 		FindDoors();
 
@@ -55,11 +57,12 @@ public class ColorMapParser : MonoBehaviour
 				switch (pixel.r, pixel.g, pixel.b)
 				{
 					case (255, 0, 0):
-						data.Cells[x, y] = CellType.Void;
-						break;
+						data.Cells[x, y] = CellType.TrapFloor;
+						trapFloorList.Add(pos);
+                        break;
 
 					case (0, 0, 0):
-						data.Cells[x, y] = CellType.Wall;
+						data.Cells[x, y] = CellType.Wall;	
 						wallList.Add(pos);
 						floorList.Add(pos);
 						break;
@@ -326,8 +329,8 @@ public class ColorMapParser : MonoBehaviour
 	{
 		List<Structure> floorSegments = new();
 
-		for (int y = 0; y < Maptexture.height; y++)
-		{
+		for (int y = 0; y < Maptexture.height; y++)     // Iterate through each row of the texture
+        {
 			int x = 0;
 
 			while (x < Maptexture.width)
@@ -362,8 +365,39 @@ public class ColorMapParser : MonoBehaviour
 		MergeFloorSegments(floorSegments);
 		structures.UnionWith(floorSegments);
 	}
-
-	private void MergeFloorSegments(List<Structure> floorSegments)
+	private void FindTrapFloors()
+    {
+        List<Structure> trapFloorSegments = new();
+        for (int y = 0; y < Maptexture.height; y++)     // Iterate through each row of the texture
+        {
+            int x = 0;
+            while (x < Maptexture.width)
+            {
+                Vector2Int start = new(x, y);
+                if (!trapFloorList.Contains(start))
+                {
+                    x++;
+                    continue;
+                }
+                Vector2Int end = start;
+                while (trapFloorList.Contains(end + Vector2Int.right))
+                {
+                    end += Vector2Int.right;
+                }
+                trapFloorSegments.Add(
+                    new Structure(start)
+                    {
+                        End = end,
+                        Type = CellType.TrapFloor,
+                        Orientation = Orientation.Horizontal
+                    });
+                x = end.x + 1;
+            }
+        }
+        MergeFloorSegments(trapFloorSegments);
+        structures.UnionWith(trapFloorSegments);
+    }
+    private void MergeFloorSegments(List<Structure> floorSegments)
 	{
 		for (int i = 0; i < floorSegments.Count; i++)
 		{

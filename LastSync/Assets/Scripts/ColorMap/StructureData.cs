@@ -4,7 +4,6 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "ColorMap/StructureData")]
 public class StructureData : ScriptableObject
 {
-	// ­ì¦³¸ê®Æ
 	public List<Structure> Structures = new();
 
 	public List<Structure> Doors = new();
@@ -13,40 +12,40 @@ public class StructureData : ScriptableObject
 
 	public Vector2Int Size;
 
-	// ©Ð¶¡¤ÀÃþ¡]Normal¡BBoss¡BBridge...¡^
+	// ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½]Normalï¿½BBossï¿½BBridge...ï¿½^
 	public RoomCategory Category;
 
-	// ©T©w¥Î³~¡]Boss©Ð¡BSpawn©Ð...¡^
+	// ï¿½Tï¿½wï¿½Î³~ï¿½]Bossï¿½Ð¡BSpawnï¿½ï¿½...ï¿½^
 	public RoomRole PresetRole = RoomRole.None;
 
-	// ©ÒÄÝÃö¥d
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½d
 	public StageType Stage;
 
-	// ³Q©â¤¤ªºÅv­«
+	// ï¿½Qï¿½â¤¤ï¿½ï¿½ï¿½vï¿½ï¿½
 	public int Weight = 1;
 
-	// ©Ð¶¡¯S©Ê
+	// ï¿½Ð¶ï¿½ï¿½Sï¿½ï¿½
 	public List<RoomTag> Tags = new();
 }
 public enum RoomTag
 {
 	None,
 
-	// ¦a§Î
-	DeadEnd,       // ¦º¸ô
-	Junction,      // §Ã¸ô
-	Corridor,      // ªø¨«¹D
+	// ï¿½aï¿½ï¿½
+	DeadEnd,       // ï¿½ï¿½ï¿½ï¿½
+	Junction,      // ï¿½Ã¸ï¿½
+	Corridor,      // ï¿½ï¿½ï¿½ï¿½ï¿½D
 
-	// ¤j¤p
+	// ï¿½jï¿½p
 	Small,
 	Medium,
 	Large,
 
-	// ¯S®í
+	// ï¿½Sï¿½ï¿½
 	Indoor,
 	Outdoor,
 
-	// «O¯d
+	// ï¿½Oï¿½d
 	Secret,
 	Puzzle
 }
