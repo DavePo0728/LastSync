@@ -7011,6 +7011,9 @@ MonoBehaviour:
   doorPrefab: {fileID: 151378528}
   floorPrefab: {fileID: 951486911}
   trapFloorPrefab: {fileID: 7972912687027734621, guid: 4940a6502c25b5542809eb69ea69fbba, type: 3}
+  floorMaterial: {fileID: 2100000, guid: feb5061d2f3a1f64cb807914ce33c886, type: 2}
+  floorInsideMaterial: {fileID: 2100000, guid: b7427f9b12ff21242bb0e96e40dde030, type: 2}
+  floorOuterSideMaterial: {fileID: 2100000, guid: a211094268104c64f84537daa775cffa, type: 2}
   mapRoot: {fileID: 1373079131}
   bRoot: {fileID: 1114276246}
 --- !u!4 &1806097616
