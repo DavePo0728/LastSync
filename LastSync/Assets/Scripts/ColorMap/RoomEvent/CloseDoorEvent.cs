@@ -6,7 +6,7 @@ public class CloseDoorEvent : RoomEvent
 	{
 		if (Manager == null || Manager.DoorsRoot == null)
 		{
-			Debug.LogWarning("CloseDoorEvent¡GDoorsRoot ¤£¦s¦b¡C");
+			Debug.LogWarning("CloseDoorEventï¿½GDoorsRoot ï¿½ï¿½ï¿½sï¿½bï¿½C");
 			Finish();
 			return;
 		}
