@@ -190,7 +190,7 @@ MonoBehaviour:
     rect:
       serializedVersion: 2
       x: 690
-      y: 710
+      y: 748
       width: 220
       height: 50
     title: Condition
@@ -199,7 +199,7 @@ MonoBehaviour:
     childGuids: []
     action:
       componentType: AISkill
-      methodName: IsSillRange
+      methodName: IsStillRange
       parameters:
       - parameterName: skill
         parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
@@ -259,8 +259,8 @@ MonoBehaviour:
     guid: aa39a9bf37074c40a14020463c450aeb
     rect:
       serializedVersion: 2
-      x: 430
-      y: 710
+      x: 419
+      y: 705
       width: 220
       height: 50
     title: Action
@@ -454,17 +454,17 @@ MonoBehaviour:
         rect:
           serializedVersion: 2
           x: 690
-          y: 710
+          y: 748
           width: 220
           height: 50
         title: Condition
         comment: 
-        isSelected: 0
+        isSelected: 1
         isExpanded: 0
         children: []
         condition:
           componentType: AISkill
-          methodName: IsSillRange
+          methodName: IsStillRange
           parameters:
           - parameterName: skill
             parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
@@ -520,8 +520,8 @@ MonoBehaviour:
         guid: aa39a9bf37074c40a14020463c450aeb
         rect:
           serializedVersion: 2
-          x: 430
-          y: 710
+          x: 419
+          y: 705
           width: 220
           height: 50
         title: Action

@@ -142,7 +142,7 @@ public class AISkill : MonoBehaviour
 		return runtime.Cooldown <= 0f;
 	}
 
-	public CondNode IsSillRange(SkillData skill)
+	public CondNode IsStillRange(SkillData skill)
 	{
 		if (skill == null)
 			return false;

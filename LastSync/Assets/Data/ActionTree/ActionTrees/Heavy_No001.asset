@@ -1,0 +1,429 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4fecb9b8e19242489e17434a38b9948, type: 3}
+  m_Name: Heavy_No001
+  m_EditorClassIdentifier: Assembly-CSharp::ActionTree.Data.ActionTreeAsset
+  Root:
+    rid: 8151062907073069196
+  Nodes:
+  - rid: 8151062907073069196
+  - rid: 8151062907073069197
+  - rid: 8151062907073069198
+  - rid: 8151062907073069199
+  - rid: 8151062907073069202
+  - rid: 8151062907073069204
+  - rid: 8151062907073069205
+  - rid: 8151062907073069211
+  stableFormatVersion: 1
+  stableRootGuid: 09aa5659d87343d584b98a609f41f8c1
+  stableNodes:
+  - typeId: root
+    guid: 09aa5659d87343d584b98a609f41f8c1
+    rect:
+      serializedVersion: 2
+      x: 300
+      y: 200
+      width: 220
+      height: 50
+    title: Root
+    comment: 
+    isExpanded: 0
+    childGuids:
+    - e6cd78f3498349e0a9c387f6309f65f8
+    action:
+      componentType: 
+      methodName: 
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: sequence
+    guid: d338bb2b65e045f3aa0e55f77060aefb
+    rect:
+      serializedVersion: 2
+      x: -90
+      y: 540
+      width: 220
+      height: 50
+    title: Sequence
+    comment: 
+    isExpanded: 0
+    childGuids:
+    - d433dfede02045db8de6e7b93125769c
+    - bdc2e27dab0d475b8a7d48b9f025d47a
+    action:
+      componentType: 
+      methodName: 
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: selector
+    guid: e6cd78f3498349e0a9c387f6309f65f8
+    rect:
+      serializedVersion: 2
+      x: 300
+      y: 370
+      width: 220
+      height: 50
+    title: Selector
+    comment: 
+    isExpanded: 0
+    childGuids:
+    - d338bb2b65e045f3aa0e55f77060aefb
+    - fd6eef79e39f4f2093a508723bc8abb3
+    action:
+      componentType: 
+      methodName: 
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: condition
+    guid: d433dfede02045db8de6e7b93125769c
+    rect:
+      serializedVersion: 2
+      x: -220
+      y: 710
+      width: 220
+      height: 50
+    title: Condition
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AIPerception
+      methodName: IsFacingTarget
+      parameters:
+      - parameterName: angleThreshold
+        parameterType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+        intValue: 0
+        floatValue: 0
+        boolValue: 0
+        stringValue: 
+        vector2Value: {x: 0, y: 0}
+        vector3Value: {x: 0, y: 0, z: 0}
+        vector4Value: {x: 0, y: 0, z: 0, w: 0}
+        colorValue: {r: 0, g: 0, b: 0, a: 0}
+        objectValue: {fileID: 0}
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: action
+    guid: bdc2e27dab0d475b8a7d48b9f025d47a
+    rect:
+      serializedVersion: 2
+      x: 40
+      y: 710
+      width: 220
+      height: 50
+    title: Action
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AIMovement
+      methodName: Action_FaceTarget
+      parameters:
+      - parameterName: perception
+        parameterType: AIPerception, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        intValue: 0
+        floatValue: 0
+        boolValue: 0
+        stringValue: 
+        vector2Value: {x: 0, y: 0}
+        vector3Value: {x: 0, y: 0, z: 0}
+        vector4Value: {x: 0, y: 0, z: 0, w: 0}
+        colorValue: {r: 0, g: 0, b: 0, a: 0}
+        objectValue: {fileID: 0}
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: sequence
+    guid: fd6eef79e39f4f2093a508723bc8abb3
+    rect:
+      serializedVersion: 2
+      x: 560
+      y: 540
+      width: 220
+      height: 50
+    title: Sequence
+    comment: 
+    isExpanded: 0
+    childGuids:
+    - c42489956d0745f996bc187ceb480fc4
+    - d3e5a4f285964b55ba18da1f37a8a79d
+    action:
+      componentType: 
+      methodName: 
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: condition
+    guid: c42489956d0745f996bc187ceb480fc4
+    rect:
+      serializedVersion: 2
+      x: 392
+      y: 718
+      width: 220
+      height: 50
+    title: Condition
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AISkill
+      methodName: CanUse
+      parameters:
+      - parameterName: skill
+        parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        intValue: 0
+        floatValue: 0
+        boolValue: 0
+        stringValue: 
+        vector2Value: {x: 0, y: 0}
+        vector3Value: {x: 0, y: 0, z: 0}
+        vector4Value: {x: 0, y: 0, z: 0, w: 0}
+        colorValue: {r: 0, g: 0, b: 0, a: 0}
+        objectValue: {fileID: 11400000, guid: ee0a68f20e3a6bc4db923cc021a6cdfd, type: 2}
+      skill: {fileID: 11400000, guid: ee0a68f20e3a6bc4db923cc021a6cdfd, type: 2}
+      enabled: 1
+  - typeId: action
+    guid: d3e5a4f285964b55ba18da1f37a8a79d
+    rect:
+      serializedVersion: 2
+      x: 777
+      y: 722
+      width: 220
+      height: 50
+    title: Action
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AISkill
+      methodName: Use
+      parameters:
+      - parameterName: skill
+        parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+        intValue: 0
+        floatValue: 0
+        boolValue: 0
+        stringValue: 
+        vector2Value: {x: 0, y: 0}
+        vector3Value: {x: 0, y: 0, z: 0}
+        vector4Value: {x: 0, y: 0, z: 0, w: 0}
+        colorValue: {r: 0, g: 0, b: 0, a: 0}
+        objectValue: {fileID: 11400000, guid: ee0a68f20e3a6bc4db923cc021a6cdfd, type: 2}
+      skill: {fileID: 11400000, guid: ee0a68f20e3a6bc4db923cc021a6cdfd, type: 2}
+      enabled: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 8151062907073069196
+      type: {class: RootNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: 09aa5659d87343d584b98a609f41f8c1
+        rect:
+          serializedVersion: 2
+          x: 300
+          y: 200
+          width: 220
+          height: 50
+        title: Root
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children:
+        - rid: 8151062907073069198
+    - rid: 8151062907073069197
+      type: {class: SequenceNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: d338bb2b65e045f3aa0e55f77060aefb
+        rect:
+          serializedVersion: 2
+          x: -90
+          y: 540
+          width: 220
+          height: 50
+        title: Sequence
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children:
+        - rid: 8151062907073069199
+        - rid: 8151062907073069202
+    - rid: 8151062907073069198
+      type: {class: SelectorNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: e6cd78f3498349e0a9c387f6309f65f8
+        rect:
+          serializedVersion: 2
+          x: 300
+          y: 370
+          width: 220
+          height: 50
+        title: Selector
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children:
+        - rid: 8151062907073069197
+        - rid: 8151062907073069204
+    - rid: 8151062907073069199
+      type: {class: ConditionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: d433dfede02045db8de6e7b93125769c
+        rect:
+          serializedVersion: 2
+          x: -220
+          y: 710
+          width: 220
+          height: 50
+        title: Condition
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children: []
+        condition:
+          componentType: AIPerception
+          methodName: IsFacingTarget
+          parameters:
+          - parameterName: angleThreshold
+            parameterType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
+              PublicKeyToken=b77a5c561934e089
+            intValue: 0
+            floatValue: 0
+            boolValue: 0
+            stringValue: 
+            vector2Value: {x: 0, y: 0}
+            vector3Value: {x: 0, y: 0, z: 0}
+            vector4Value: {x: 0, y: 0, z: 0, w: 0}
+            colorValue: {r: 0, g: 0, b: 0, a: 0}
+            objectValue: {fileID: 0}
+          skill: {fileID: 0}
+          enabled: 1
+    - rid: 8151062907073069202
+      type: {class: ActionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: bdc2e27dab0d475b8a7d48b9f025d47a
+        rect:
+          serializedVersion: 2
+          x: 40
+          y: 710
+          width: 220
+          height: 50
+        title: Action
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children: []
+        action:
+          componentType: AIMovement
+          methodName: Action_FaceTarget
+          parameters:
+          - parameterName: perception
+            parameterType: AIPerception, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+              PublicKeyToken=null
+            intValue: 0
+            floatValue: 0
+            boolValue: 0
+            stringValue: 
+            vector2Value: {x: 0, y: 0}
+            vector3Value: {x: 0, y: 0, z: 0}
+            vector4Value: {x: 0, y: 0, z: 0, w: 0}
+            colorValue: {r: 0, g: 0, b: 0, a: 0}
+            objectValue: {fileID: 0}
+          skill: {fileID: 0}
+          enabled: 1
+    - rid: 8151062907073069204
+      type: {class: SequenceNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: fd6eef79e39f4f2093a508723bc8abb3
+        rect:
+          serializedVersion: 2
+          x: 560
+          y: 540
+          width: 220
+          height: 50
+        title: Sequence
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children:
+        - rid: 8151062907073069205
+        - rid: 8151062907073069211
+    - rid: 8151062907073069205
+      type: {class: ConditionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: c42489956d0745f996bc187ceb480fc4
+        rect:
+          serializedVersion: 2
+          x: 392
+          y: 718
+          width: 220
+          height: 50
+        title: Condition
+        comment: 
+        isSelected: 1
+        isExpanded: 0
+        children: []
+        condition:
+          componentType: AISkill
+          methodName: CanUse
+          parameters:
+          - parameterName: skill
+            parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            intValue: 0
+            floatValue: 0
+            boolValue: 0
+            stringValue: 
+            vector2Value: {x: 0, y: 0}
+            vector3Value: {x: 0, y: 0, z: 0}
+            vector4Value: {x: 0, y: 0, z: 0, w: 0}
+            colorValue: {r: 0, g: 0, b: 0, a: 0}
+            objectValue: {fileID: 11400000, guid: ee0a68f20e3a6bc4db923cc021a6cdfd, type: 2}
+          skill: {fileID: 11400000, guid: ee0a68f20e3a6bc4db923cc021a6cdfd, type: 2}
+          enabled: 1
+    - rid: 8151062907073069211
+      type: {class: ActionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: d3e5a4f285964b55ba18da1f37a8a79d
+        rect:
+          serializedVersion: 2
+          x: 777
+          y: 722
+          width: 220
+          height: 50
+        title: Action
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children: []
+        action:
+          componentType: AISkill
+          methodName: Use
+          parameters:
+          - parameterName: skill
+            parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            intValue: 0
+            floatValue: 0
+            boolValue: 0
+            stringValue: 
+            vector2Value: {x: 0, y: 0}
+            vector3Value: {x: 0, y: 0, z: 0}
+            vector4Value: {x: 0, y: 0, z: 0, w: 0}
+            colorValue: {r: 0, g: 0, b: 0, a: 0}
+            objectValue: {fileID: 11400000, guid: ee0a68f20e3a6bc4db923cc021a6cdfd, type: 2}
+          skill: {fileID: 11400000, guid: ee0a68f20e3a6bc4db923cc021a6cdfd, type: 2}
+          enabled: 1

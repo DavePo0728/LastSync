@@ -3,6 +3,7 @@ using ActionTree.Data;
 using ActionTree.Runtime;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 [DisallowMultipleComponent]
 [RequireComponent(typeof(NavMeshAgent))]
@@ -27,12 +28,12 @@ public class AIMovement : MonoBehaviour
 	private bool facingTarget;
 	private bool defaultUpdateRotation = true;
 	private Coroutine dashCoroutine;
+	private Coroutine heavyDashCoroutine;
+    #endregion
 
-	#endregion
+    #region Unity
 
-	#region Unity
-
-	private void Awake()
+    private void Awake()
 	{
 		if (agent == null)
 			agent = GetComponent<NavMeshAgent>();
@@ -185,13 +186,14 @@ public class AIMovement : MonoBehaviour
 		return rotationLocked || controlLocked;
 	}
 
-	public bool LockControl()
+	public IEnumerator Stun(float duration)
 	{
 		movementLocked = true;
 		rotationLocked = true;
 		controlLocked = true;
 		StopFaceTarget();
 		StopDash();
+		StopHeavyDash();
 		Stop();
 
 		if (agent.enabled)
@@ -199,11 +201,28 @@ public class AIMovement : MonoBehaviour
 			agent.updateRotation = false;
 			agent.speed = 0f;
 		}
-
-		return true;
+		yield return new WaitForSeconds(duration);
+		yield return true;
 	}
+    public bool LockControl(float duration)
+    {
+        movementLocked = true;
+        rotationLocked = true;
+        controlLocked = true;
+        StopFaceTarget();
+        StopDash();
+        StopHeavyDash();
+        Stop();
 
-	public bool DashForward(float distance, float duration)
+        if (agent.enabled)
+        {
+            agent.updateRotation = false;
+            agent.speed = 0f;
+        }
+		return true;
+    }
+
+    public bool DashForward(float distance, float duration)
 	{
 		if (!agent.enabled || !EnsureAgentOnNavMesh() || controlLocked)
 			return false;
@@ -215,7 +234,7 @@ public class AIMovement : MonoBehaviour
 		return true;
 	}
 
-	private System.Collections.IEnumerator DashRoutine(float distance, float duration)
+	private IEnumerator DashRoutine(float distance, float duration)
 	{
 		Vector3 direction = transform.forward;
 		direction.y = 0f;
@@ -247,8 +266,49 @@ public class AIMovement : MonoBehaviour
 
 		dashCoroutine = null;
 	}
+    public bool HeavyDashForward(AIStatus status, float distance, float duration, float stunDuration)
+    {
+        if (!agent.enabled || !EnsureAgentOnNavMesh() || controlLocked)
+            return false;
 
-	private void StopDash()
+        if (heavyDashCoroutine != null)
+            StopHeavyDash();
+
+        heavyDashCoroutine = StartCoroutine(HeavyDashRoutine(status,distance, duration,stunDuration));
+        return true;
+    }
+    private IEnumerator HeavyDashRoutine(AIStatus status, float distance, float duration,float stunDuration)
+    {
+        Vector3 direction = transform.forward;
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude < 0.0001f)
+            direction = Vector3.forward;
+
+        direction.Normalize();
+
+        float elapsed = 0f;
+        float speed = distance / duration;
+
+        while (elapsed < duration && !controlLocked)
+        {
+            float delta = Mathf.Min(Time.deltaTime, duration - elapsed);
+            agent.Move(direction * speed * delta);
+            elapsed += delta;
+			if((status.TryGetComponent(out AIPerception perception)))
+			{
+				if (perception.IsTouchingWall())
+				{
+					StartCoroutine(Stun(stunDuration));
+                    yield break;
+                }
+            }
+            yield return null;
+        }
+
+        heavyDashCoroutine = null;
+    }
+    private void StopDash()
 	{
 		if (dashCoroutine == null)
 			return;
@@ -256,8 +316,16 @@ public class AIMovement : MonoBehaviour
 		StopCoroutine(dashCoroutine);
 		dashCoroutine = null;
 	}
+    private void StopHeavyDash()
+    {
+        if (heavyDashCoroutine == null)
+            return;
 
-	public bool HasPath()
+        StopCoroutine(heavyDashCoroutine);
+        heavyDashCoroutine = null;
+    }
+
+    public bool HasPath()
 	{
 		return agent.enabled &&
 			   agent.isOnNavMesh &&

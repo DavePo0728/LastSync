@@ -27,6 +27,7 @@ public class PlayerMove : MonoBehaviour
             moveSpeed = characterStat.MoveSpeed;
         }
         rb = GetComponent<Rigidbody>();
+        playerCollider = GetComponent<Collider>();
     }
 
     // Update is called once per frame
