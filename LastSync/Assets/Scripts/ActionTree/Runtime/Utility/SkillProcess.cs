@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public static class SkillProcess
 {
@@ -23,7 +24,7 @@ public static class SkillProcess
 	}
 
 	[SkillAction("啟動旋轉限制")]
-	public static void LockRotation(AIStatus status)
+    public static void LockRotation(AIStatus status)
 	{
 		if (status == null)
 			return;
@@ -62,7 +63,7 @@ public static class SkillProcess
 			return;
 
 		if (status.TryGetComponent(out AIMovement movement))
-			movement.LockControl();
+			movement.LockControl(time);
 	}
 
 	[SkillAction("位移")]
@@ -80,10 +81,15 @@ public static class SkillProcess
 	{
 		Move(status, distance, duration);
 	}
-
-	[SkillAction("AttackRange")]
-	public static void AttackRange(AIStatus status)
-	{
+	[SkillAction("DashAttack")]
+	public static void DashAttack(AIStatus status, float distance, float duration, float stunDuration)
+    {
+        if (status.TryGetComponent(out AIMovement movement))
+            movement.HeavyDashForward(status, distance, duration,stunDuration);
+    }
+    [SkillAction("AttackRange")]
+	public static void AttackRange(AIStatus status)  // 顯示攻擊範圍
+    {
 		if (status == null)
 			return;
 
@@ -133,8 +139,8 @@ public static class SkillProcess
 		perception.DamageTargetIfInRange(range, finalDamage);
 	}
 
-	private static float GetPrepareDuration(AISkill skill)
-	{
+	private static float GetPrepareDuration(AISkill skill) // 取得技能準備時間	
+    {
 		float duration = skill.CurrentSkill.Data.CastTime;
 
 		foreach (SkillActionData action in skill.CurrentSkill.Data.AttackActions)

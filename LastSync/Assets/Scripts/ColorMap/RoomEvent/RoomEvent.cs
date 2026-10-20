@@ -12,12 +12,12 @@ public abstract class RoomEvent : MonoBehaviour
 		Manager = GetComponent<RoomEventManager>();
 	}
 	/// <summary>
-	/// °õ¦æ¨Æ¥ó
+	/// ï¿½ï¿½ï¿½ï¿½Æ¥ï¿½
 	/// </summary>
 	public abstract void Execute();
 
 	/// <summary>
-	/// ©I¥s¤U¤@­Ó¨Æ¥ó
+	/// ï¿½Iï¿½sï¿½Uï¿½@ï¿½Ó¨Æ¥ï¿½
 	/// </summary>
 	protected void Finish()
 	{

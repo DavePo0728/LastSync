@@ -244,6 +244,8 @@ public sealed class SkillExecutor
 
 		if (action.MethodName == nameof(SkillProcess.Dash))
 			return TryFindFloat(action, "duration", out waitTime);
+		if (action.MethodName == nameof(SkillProcess.DashAttack))
+            return TryFindFloat(action, "duration", out waitTime);
 
 		return false;
 	}

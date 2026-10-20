@@ -391,8 +391,8 @@ public class StructureSpawner : MonoBehaviour
 			return;
 		}
 
-		float width = maxX - minX - 1;
-		float height = maxY - minY - 1;
+		float width = maxX - minX - 3.5f;
+		float height = maxY - minY - 3.5f;
 
 		if (width <= 0f || height <= 0f)
 		{
