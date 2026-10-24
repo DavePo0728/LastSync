@@ -63,7 +63,7 @@ public static class SkillProcess
 			return;
 
 		if (status.TryGetComponent(out AIMovement movement))
-			movement.LockControl(time);
+			movement.LockControl();
 	}
 
 	[SkillAction("位移")]

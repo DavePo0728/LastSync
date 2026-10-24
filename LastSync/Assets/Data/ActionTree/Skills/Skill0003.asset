@@ -87,7 +87,6 @@ MonoBehaviour:
       vector4Value: {x: 0, y: 0, z: 0, w: 0}
       colorValue: {r: 0, g: 0, b: 0, a: 0}
       objectValue: {fileID: 0}
-  afterActions:
   - methodName: Damage
     parameters:
     - parameterName: damage
@@ -101,6 +100,7 @@ MonoBehaviour:
       vector4Value: {x: 0, y: 0, z: 0, w: 0}
       colorValue: {r: 0, g: 0, b: 0, a: 0}
       objectValue: {fileID: 0}
+  afterActions:
   - methodName: Recover
     parameters:
     - parameterName: time
