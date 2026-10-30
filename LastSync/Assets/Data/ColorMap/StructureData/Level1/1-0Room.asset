@@ -132,22 +132,19 @@ MonoBehaviour:
   StructureID: 1-0Room
   Size: {x: 15, y: 15}
   Category: 0
-  PresetRole: 0
+  PresetRole: 2
   Stage: 0
   Weight: 1
   Tags: 
-  HasPlayerSpawnPoint: 0
-  PlayerSpawnPoint: {x: 0, y: 0}
+  HasPlayerSpawnPoint: 1
+  PlayerSpawnPoint: {x: 2, y: 7}
   SpawnPoint:
-  - Position: {x: 1, y: 0, z: 1}
-    Prefab: {fileID: 2876786609080843502, guid: 35ccf8573179d4e4d8f114e8b7c7b552, type: 3}
-    WaveIndex: 0
-  - Position: {x: 10, y: 0, z: 10}
-    Prefab: {fileID: 2876786609080843502, guid: 35ccf8573179d4e4d8f114e8b7c7b552, type: 3}
-    WaveIndex: 0
-  - Position: {x: 10, y: 0, z: 10}
-    Prefab: {fileID: 4113434695948964413, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+  - Position: {x: 0, y: 0, z: 0}
+    Prefab: {fileID: 2876786609080843502, guid: ae3bb3796146aa5498220976eb761e81, type: 3}
     WaveIndex: 1
-  - Position: {x: 10, y: 0, z: 10}
+  - Position: {x: 0, y: 0, z: 0}
+    Prefab: {fileID: 2876786609080843502, guid: 35ccf8573179d4e4d8f114e8b7c7b552, type: 3}
+    WaveIndex: 1
+  - Position: {x: 0, y: 0, z: 0}
     Prefab: {fileID: 4113434695948964413, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
     WaveIndex: 2

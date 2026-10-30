@@ -15,11 +15,11 @@ MonoBehaviour:
   RoomNodes:
   - Data: {fileID: 11400000, guid: a4819845b41a64f43bdb30b48c3eb995, type: 2}
     Position: {x: 0, y: 0}
-  - Data: {fileID: 11400000, guid: 63f9d8a131049bb459d9ad3503eed1a4, type: 2}
+  - Data: {fileID: 11400000, guid: 123d3e26a283b98489ffc2983e950c42, type: 2}
     Position: {x: 21, y: 0}
-  - Data: {fileID: 11400000, guid: 329bace39b5b8b3498d6ca799dd82de3, type: 2}
+  - Data: {fileID: 11400000, guid: b464a0859d770374f966015798582302, type: 2}
     Position: {x: 42, y: 0}
-  - Data: {fileID: 11400000, guid: 2feca97d2fa5a944898c847229400c83, type: 2}
+  - Data: {fileID: 11400000, guid: fb1df5214f482bb4b896f745072f04af, type: 2}
     Position: {x: 63, y: 0}
   BridgeNodes:
   - Data: {fileID: 11400000, guid: 20fa77c5bab2c8d4fb3b426dcc5317d3, type: 2}
@@ -31,29 +31,4 @@ MonoBehaviour:
   - Data: {fileID: 11400000, guid: 20fa77c5bab2c8d4fb3b426dcc5317d3, type: 2}
     Position: {x: 52.5, y: 0}
     Direction: 1
-  PrefabNodes:
-  - Prefab: {fileID: 2294409165993419058, guid: a33b494c9cc78004eabe910f9430bdc9, type: 3}
-    UsePrefabTransform: 1
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0}
-    Scale: {x: 0, y: 0, z: 0}
-  - Prefab: {fileID: 1562482772587745106, guid: 2ebe3d696483c7046bdb7aeb268d1b40, type: 3}
-    UsePrefabTransform: 1
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0}
-    Scale: {x: 0, y: 0, z: 0}
-  - Prefab: {fileID: 7972912687027734621, guid: 4940a6502c25b5542809eb69ea69fbba, type: 3}
-    UsePrefabTransform: 1
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0}
-    Scale: {x: 0, y: 0, z: 0}
-  - Prefab: {fileID: 7972912687027734621, guid: 438f3a87c3bbd5d4a8946f0ee24c744c, type: 3}
-    UsePrefabTransform: 1
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0}
-    Scale: {x: 0, y: 0, z: 0}
-  - Prefab: {fileID: 5291948687368282118, guid: fe1690d899ce2f74dacf82a2490a597a, type: 3}
-    UsePrefabTransform: 1
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0}
-    Scale: {x: 0, y: 0, z: 0}
+  PrefabNodes: []
