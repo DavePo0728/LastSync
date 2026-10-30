@@ -14,6 +14,7 @@ public class GunShoot : WeaponBase
     private GameObject mainCam;
     [SerializeField]
     GameObject bulletPrefab;
+    private PlayerAnimationController playerAnimationController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -22,12 +23,14 @@ public class GunShoot : WeaponBase
             Debug.LogWarning($"{gameObject.name} 找不到 weaponData，將以無乘數狀態運作。");
         }
         impulseSource = GameObject.FindAnyObjectByType<CinemachineImpulseSource>();
+        playerAnimationController = GetComponentInParent<PlayerAnimationController>();
     }
 
     protected override void PerformAttack()
     {
         if (bulletPrefab == null) return;
         int BulletAmount = BaseBulletAmount + ChipSystem.chipSystemInstance.BonusBulletCount;
+        playerAnimationController?.PlayShootAnimation();
         CameraShake(0.1f);
         for (int i = 0; i < BulletAmount; i++)
         {

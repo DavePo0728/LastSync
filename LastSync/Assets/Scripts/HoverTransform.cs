@@ -3,26 +3,25 @@ using UnityEngine.InputSystem;
 
 public class HoverTransform : MonoBehaviour
 {
-    Camera mainCam;
-    Vector3 mousePosition,mouseToWorldPosition;
-    Ray mouseRay;
+	[SerializeField] private float aimHeight = 0f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        mainCam = Camera.main;
-        
-        Debug.DrawRay(mouseRay.origin, mouseRay.direction, Color.red);
-    }
+	private Camera mainCam;
+	private Plane aimPlane;
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        mousePosition = Mouse.current.position.ReadValue();
-        mouseRay = mainCam.ScreenPointToRay(mousePosition);
-        if (Physics.Raycast(mouseRay, out RaycastHit hitInfo))
-        {
-            transform.position = hitInfo.point;
-        }
-    }
+	private void Start()
+	{
+		mainCam = Camera.main;
+		aimPlane = new Plane(Vector3.up, new Vector3(0f, aimHeight, 0f));
+	}
+
+	private void Update()
+	{
+		Ray mouseRay = mainCam.ScreenPointToRay(
+			Mouse.current.position.ReadValue());
+
+		if (aimPlane.Raycast(mouseRay, out float distance))
+		{
+			transform.position = mouseRay.GetPoint(distance);
+		}
+	}
 }
