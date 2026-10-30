@@ -37,18 +37,26 @@ public class StructureSpawner : MonoBehaviour
 		RoomInstance room,
 		bool spawnDoor = true)
 	{
+		Transform parent = spawnDoor ? mapRoot : bRoot;
+
+		return Spawn(
+			room,
+			parent,
+			spawnDoor,
+			null);
+	}
+
+	public GameObject Spawn(
+		RoomInstance room,
+		Transform parent,
+		bool spawnDoor,
+		ICollection<Mesh> generatedMeshes = null)
+	{
 
 		GameObject roomRoot =
 			new GameObject(room.Data.StructureID);
 
-		if (spawnDoor)
-		{
-			roomRoot.transform.SetParent(mapRoot, false);
-		}
-		else
-		{
-			roomRoot.transform.SetParent(bRoot, false);
-		}
+		roomRoot.transform.SetParent(parent, false);
 		Transform doorRoot = new GameObject("Doors").transform;
 		doorRoot.SetParent(roomRoot.transform, false);
 
@@ -79,7 +87,8 @@ public class StructureSpawner : MonoBehaviour
 		SpawnFloorMesh(
 			room,
 			floorRoot,
-			pivot);
+			pivot,
+			generatedMeshes);
 
 		foreach (Structure structure in room.Data.Structures)
 		{
@@ -264,7 +273,8 @@ public class StructureSpawner : MonoBehaviour
 	private void SpawnFloorMesh(
 		RoomInstance room,
 		Transform parent,
-		Vector3 pivot)
+		Vector3 pivot,
+		ICollection<Mesh> generatedMeshes)
 	{
 		List<Vector3> vertices = new();
 		List<int> triangles = new();
@@ -294,6 +304,8 @@ public class StructureSpawner : MonoBehaviour
 		{
 			name = $"{room.Data.StructureID}_FloorMesh"
 		};
+
+		generatedMeshes?.Add(mesh);
 
 		mesh.SetVertices(vertices);
 		mesh.SetTriangles(triangles, 0);
@@ -337,7 +349,8 @@ public class StructureSpawner : MonoBehaviour
 				: resolvedFloorMaterial,
 			floorInsideMaterial != null
 				? floorInsideMaterial
-				: resolvedFloorMaterial);
+				: resolvedFloorMaterial,
+			generatedMeshes);
 	}
 
 	private bool[,] BuildFloorCellMap(StructureData data)
@@ -452,7 +465,8 @@ public class StructureSpawner : MonoBehaviour
 		Vector3 pivot,
 		bool[,] floorCells,
 		Material outerSideMaterial,
-		Material insideMaterial)
+		Material insideMaterial,
+		ICollection<Mesh> generatedMeshes)
 	{
 		List<Vector3> outerVertices = new();
 		List<int> outerTriangles = new();
@@ -539,7 +553,8 @@ public class StructureSpawner : MonoBehaviour
 			outerSideMaterial,
 			outerVertices,
 			outerTriangles,
-			outerUvs);
+			outerUvs,
+			generatedMeshes);
 
 		CreateFloorSideObject(
 			"FloorHoleSide",
@@ -548,7 +563,8 @@ public class StructureSpawner : MonoBehaviour
 			insideMaterial,
 			holeVertices,
 			holeTriangles,
-			holeUvs);
+			holeUvs,
+			generatedMeshes);
 	}
 
 	private void AddFloorBoundary(
@@ -679,7 +695,8 @@ public class StructureSpawner : MonoBehaviour
 		Material material,
 		List<Vector3> vertices,
 		List<int> triangles,
-		List<Vector2> uvs)
+		List<Vector2> uvs,
+		ICollection<Mesh> generatedMeshes)
 	{
 		if (vertices.Count == 0)
 		{
@@ -690,6 +707,8 @@ public class StructureSpawner : MonoBehaviour
 		{
 			name = meshName
 		};
+
+		generatedMeshes?.Add(mesh);
 
 		mesh.SetVertices(vertices);
 		mesh.SetTriangles(triangles, 0);

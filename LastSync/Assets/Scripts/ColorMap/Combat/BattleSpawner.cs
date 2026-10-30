@@ -36,6 +36,42 @@ public class BattleSpawner : MonoBehaviour
 		}
 	}
 
+	public void SpawnAtPoints(IReadOnlyList<SpawnPointData> spawnPoints)
+	{
+		aliveEnemies.RemoveAll(enemy => enemy == null);
+
+		if (spawnPoints == null)
+		{
+			Debug.LogWarning(
+				"BattleSpawner.SpawnAtPoints received a null SpawnPoint list. " +
+				"No random enemies will be used.");
+			return;
+		}
+
+		for (int i = 0; i < spawnPoints.Count; i++)
+		{
+			SpawnPointData spawnPoint = spawnPoints[i];
+			int sourceIndex = GetSourceIndex(spawnPoint, i);
+
+			if (spawnPoint == null ||
+				spawnPoint.Prefab == null ||
+				spawnPoint.WaveIndex < 1 ||
+				!IsFinite(spawnPoint.Position))
+			{
+				Debug.LogWarning(
+					$"BattleSpawner.SpawnAtPoints skipped invalid SpawnPoint [{sourceIndex}].",
+					this);
+				continue;
+			}
+
+			SpawnEnemyAtPoint(
+				spawnPoint.Prefab,
+				spawnPoint.Position,
+				sourceIndex,
+				spawnPoint.WaveIndex);
+		}
+	}
+
 	public void SpawnEnemy(GameObject prefab)
 	{
 		if (prefab == null)
@@ -65,26 +101,34 @@ public class BattleSpawner : MonoBehaviour
 			room.Transform.position +
 			new Vector3(x, 0, z);
 
-		if (NavMesh.SamplePosition(
-			position,
-			out NavMeshHit hit,
-			2f,
-			NavMesh.AllAreas))
-		{
-			position = hit.position;
-		}
-		else
-		{
-			Debug.LogWarning("BattleSpawner.SpawnEnemy failed: no nearby NavMesh position.");
-			return;
-		}
-
-		GameObject enemy = Instantiate(
+		TrySpawnEnemyAtWorldPosition(
 			prefab,
 			position,
-			Quaternion.identity);
+			"BattleSpawner.SpawnEnemy");
+	}
 
-		aliveEnemies.Add(enemy);
+	public void ClearSpawnedEnemies()
+	{
+		foreach (GameObject enemy in aliveEnemies)
+		{
+			if (enemy == null)
+			{
+				continue;
+			}
+
+			enemy.SetActive(false);
+
+			if (Application.isPlaying)
+			{
+				Destroy(enemy);
+			}
+			else
+			{
+				DestroyImmediate(enemy);
+			}
+		}
+
+		aliveEnemies.Clear();
 	}
 
 	public int AliveEnemyCount
@@ -94,5 +138,92 @@ public class BattleSpawner : MonoBehaviour
 			aliveEnemies.RemoveAll(enemy => enemy == null);
 			return aliveEnemies.Count;
 		}
+	}
+
+	private void SpawnEnemyAtPoint(
+		GameObject prefab,
+		Vector3 localPosition,
+		int spawnPointIndex,
+		int waveIndex)
+	{
+		if (manager == null ||
+			manager.Room == null ||
+			manager.Room.Transform == null)
+		{
+			Debug.LogWarning(
+				$"BattleSpawner.SpawnAtPoints skipped SpawnPoint [{spawnPointIndex}] " +
+				$"in wave {waveIndex}: room data is not ready.",
+				this);
+			return;
+		}
+
+		Vector3 worldPosition =
+			manager.Room.Transform.TransformPoint(localPosition);
+
+		TrySpawnEnemyAtWorldPosition(
+			prefab,
+			worldPosition,
+			$"BattleSpawner.SpawnAtPoints SpawnPoint [{spawnPointIndex}] " +
+			$"in wave {waveIndex}");
+	}
+
+	private int GetSourceIndex(
+		SpawnPointData spawnPoint,
+		int fallbackIndex)
+	{
+		if (spawnPoint == null ||
+			manager?.Room?.Data?.SpawnPoint == null)
+		{
+			return fallbackIndex;
+		}
+
+		int sourceIndex = manager.Room.Data.SpawnPoint.IndexOf(spawnPoint);
+		return sourceIndex >= 0 ? sourceIndex : fallbackIndex;
+	}
+
+	private bool TrySpawnEnemyAtWorldPosition(
+		GameObject prefab,
+		Vector3 requestedPosition,
+		string operation)
+	{
+		if (!NavMesh.SamplePosition(
+				requestedPosition,
+				out NavMeshHit hit,
+				2f,
+				NavMesh.AllAreas))
+		{
+			Debug.LogWarning(
+				$"{operation} failed: no nearby NavMesh position.",
+				this);
+			return false;
+		}
+
+		GameObject enemy = Instantiate(
+			prefab,
+			hit.position,
+			Quaternion.identity);
+
+		if (enemy == null)
+		{
+			Debug.LogWarning(
+				$"{operation} failed: the enemy could not be instantiated.",
+				this);
+			return false;
+		}
+
+		aliveEnemies.Add(enemy);
+		return true;
+	}
+
+	private static bool IsFinite(Vector3 value)
+	{
+		return IsFinite(value.x) &&
+			IsFinite(value.y) &&
+			IsFinite(value.z);
+	}
+
+	private static bool IsFinite(float value)
+	{
+		return !float.IsNaN(value) && !float.IsInfinity(value);
 	}
 }

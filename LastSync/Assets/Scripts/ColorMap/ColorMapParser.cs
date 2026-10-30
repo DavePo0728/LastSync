@@ -9,6 +9,9 @@ public class ColorMapParser : MonoBehaviour
 	private HashSet<Vector2Int> doorList = new();
 	private HashSet<Vector2Int> floorList = new();
 	private HashSet<Vector2Int> trapFloorList = new();
+	private Vector2Int playerSpawnPoint;
+	private bool hasPlayerSpawnPoint = false;
+    private List<Vector2Int> enemySpawnPointList = new();
 
     private HashSet<Structure> structures = new();
 
@@ -24,8 +27,13 @@ public class ColorMapParser : MonoBehaviour
 		doorList.Clear();
 		floorList.Clear();
 		structures.Clear();
+		trapFloorList.Clear();
+		enemySpawnPointList.Clear();
+        hasPlayerSpawnPoint = false;
+		playerSpawnPoint = default;
 
-		Maptexture = texture;
+
+        Maptexture = texture;
 		LoadMap(texture);
 
 		FindFloors();
@@ -72,8 +80,20 @@ public class ColorMapParser : MonoBehaviour
 						doorList.Add(pos);
 						floorList.Add(pos);
 						break;
+					case (0, 255, 0):
+                        data.Cells[x, y] = CellType.PlayerSpawnPoint;
+                        playerSpawnPoint = pos;
+                        Debug.Log($"Player Spawn Point:{playerSpawnPoint}");
 
-					default:
+                        hasPlayerSpawnPoint = true;
+                        floorList.Add(pos);
+                        break;
+					case (255, 255, 0):
+                        data.Cells[x, y] = CellType.EnemySpawnPoint;
+                        enemySpawnPointList.Add(pos);
+                        floorList.Add(pos);
+                        break;
+                    default:
 						data.Cells[x, y] = CellType.Floor;
 						floorList.Add(pos);
 						break;
@@ -100,6 +120,8 @@ public class ColorMapParser : MonoBehaviour
 
 		data.StructureID = Maptexture.name;
 		data.Size = new Vector2Int(Maptexture.width, Maptexture.height);
+		data.PlayerSpawnPoint = playerSpawnPoint;
+        data.HasPlayerSpawnPoint = hasPlayerSpawnPoint;
 
 		return data;
 	}

@@ -6,4 +6,6 @@ public enum CellType
 	Wall,
 	Door,
 	Pillar,
+    PlayerSpawnPoint,
+    EnemySpawnPoint
 }

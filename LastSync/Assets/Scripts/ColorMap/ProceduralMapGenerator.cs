@@ -1031,7 +1031,7 @@ public class ProceduralMapGenerator : MonoBehaviour
 		}
 
 		Vector3 spawnPosition =
-			GetPlayerSpawnPosition(spawnRoom);
+			PlayerSpawnPositionUtility.GetSpawnPosition(spawnRoom);
 
 		GameObject player = Instantiate(
 			playerPrefab,
@@ -1042,46 +1042,6 @@ public class ProceduralMapGenerator : MonoBehaviour
 		{
 			camera.Follow = player.transform;
 		}
-	}
-
-	private Vector3 GetPlayerSpawnPosition(RoomInstance room)
-	{
-		Structure floorStructure = room.Data.Structures
-			.Where(structure => structure.Type == CellType.Floor)
-			.OrderByDescending(GetStructureArea)
-			.FirstOrDefault();
-
-		if (floorStructure == null)
-		{
-			return room.Transform.position;
-		}
-
-		Vector2 floorCenter =
-			(floorStructure.Position + floorStructure.End) * 0.5f;
-
-		Vector2 localPosition =
-			floorCenter - GetStructureCenter(room.Data);
-
-		return room.Transform.TransformPoint(
-			new Vector3(
-				localPosition.x,
-				0,
-				localPosition.y));
-	}
-
-	private float GetStructureArea(Structure structure)
-	{
-		float width =
-			Mathf.Abs(
-				structure.End.x -
-				structure.Position.x) + 1;
-
-		float height =
-			Mathf.Abs(
-				structure.End.y -
-				structure.Position.y) + 1;
-
-		return width * height;
 	}
 
 	private bool CanGenerateMap()

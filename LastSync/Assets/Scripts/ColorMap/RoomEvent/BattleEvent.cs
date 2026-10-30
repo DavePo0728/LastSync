@@ -1,13 +1,23 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BattleEvent : RoomEvent
 {
+	private enum SpawnMode
+	{
+		Unconfigured,
+		BattleConfig,
+		SpawnPoints
+	}
+
 	[SerializeField]
 	private BattleConfig battleConfig;
 
+	private List<SpawnPointData> spawnPoints;
 	private BattleSpawner battleSpawner;
 	private bool isRunning;
+	private SpawnMode spawnMode;
 
 	protected override void Awake()
 	{
@@ -18,6 +28,17 @@ public class BattleEvent : RoomEvent
 	public void SetBattleConfig(BattleConfig config)
 	{
 		battleConfig = config;
+		spawnPoints = null;
+		spawnMode = SpawnMode.BattleConfig;
+	}
+
+	public void SetSpawnPoints(IReadOnlyList<SpawnPointData> points)
+	{
+		battleConfig = null;
+		spawnPoints = points == null
+			? new List<SpawnPointData>()
+			: new List<SpawnPointData>(points);
+		spawnMode = SpawnMode.SpawnPoints;
 	}
 
 	public override void Execute()
@@ -34,18 +55,33 @@ public class BattleEvent : RoomEvent
 			return;
 		}
 
-		if (battleConfig == null)
+		switch (spawnMode)
 		{
-			Debug.LogWarning("BattleEvent failed: BattleConfig is missing.");
-			Finish();
-			return;
+			case SpawnMode.BattleConfig:
+				if (battleConfig == null)
+				{
+					Debug.LogWarning("BattleEvent failed: BattleConfig is missing.");
+					Finish();
+					return;
+				}
+
+				battleSpawner.Spawn(battleConfig.Enemies);
+				break;
+
+			case SpawnMode.SpawnPoints:
+				battleSpawner.SpawnAtPoints(spawnPoints);
+				break;
+
+			default:
+				Debug.LogWarning("BattleEvent failed: no spawn mode was configured.");
+				Finish();
+				return;
 		}
 
 		isRunning = true;
-		battleSpawner.Spawn(battleConfig.Enemies);
-
 		StartCoroutine(CheckBattleRoutine());
 	}
+
 	private IEnumerator CheckBattleRoutine()
 	{
 		while (battleSpawner.AliveEnemyCount > 0)
@@ -55,5 +91,11 @@ public class BattleEvent : RoomEvent
 
 		isRunning = false;
 		Finish();
+	}
+
+	private void OnDisable()
+	{
+		StopAllCoroutines();
+		isRunning = false;
 	}
 }

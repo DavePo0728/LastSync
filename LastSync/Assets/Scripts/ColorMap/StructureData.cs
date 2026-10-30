@@ -12,40 +12,35 @@ public class StructureData : ScriptableObject
 
 	public Vector2Int Size;
 
-	// �ж������]Normal�BBoss�BBridge...�^
 	public RoomCategory Category;
 
-	// �T�w�γ~�]Boss�СBSpawn��...�^
 	public RoomRole PresetRole = RoomRole.None;
 
-	// �������d
 	public StageType Stage;
 
-	// �Q�⤤���v��
 	public int Weight = 1;
 
-	// �ж��S��
 	public List<RoomTag> Tags = new();
+	[HideInInspector]
+	public bool HasPlayerSpawnPoint;
+    public Vector2Int PlayerSpawnPoint;
+	public List<SpawnPointData> SpawnPoint = new();
 }
 public enum RoomTag
 {
 	None,
 
-	// �a��
-	DeadEnd,       // ����
-	Junction,      // �ø�
-	Corridor,      // �����D
+	DeadEnd,
+	Junction,
+	Corridor,
 
-	// �j�p
 	Small,
 	Medium,
 	Large,
 
-	// �S��
 	Indoor,
 	Outdoor,
 
-	// �O�d
 	Secret,
 	Puzzle
 }

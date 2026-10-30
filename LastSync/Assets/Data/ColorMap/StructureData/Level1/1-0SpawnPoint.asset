@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09cf9340e89b5414aa87bffe4706eaef, type: 3}
-  m_Name: 1-1SpawnPoint
+  m_Name: 1-0SpawnPoint
   m_EditorClassIdentifier: Assembly-CSharp::StructureData
   Structures:
   - Position: {x: 0, y: 0}
@@ -84,10 +84,13 @@ MonoBehaviour:
     Type: 4
     Direction: 1
     Orientation: 1
-  StructureID: 1-1SpawnPoint
+  StructureID: 1-0SpawnPoint
   Size: {x: 15, y: 15}
-  Category: 2
-  PresetRole: 0
+  Category: 0
+  PresetRole: 1
   Stage: 0
   Weight: 1
   Tags: 
+  HasPlayerSpawnPoint: 1
+  PlayerSpawnPoint: {x: 2, y: 7}
+  SpawnPoint: []

@@ -136,3 +136,18 @@ MonoBehaviour:
   Stage: 0
   Weight: 1
   Tags: 
+  HasPlayerSpawnPoint: 0
+  PlayerSpawnPoint: {x: 0, y: 0}
+  SpawnPoint:
+  - Position: {x: 1, y: 0, z: 1}
+    Prefab: {fileID: 2876786609080843502, guid: 35ccf8573179d4e4d8f114e8b7c7b552, type: 3}
+    WaveIndex: 0
+  - Position: {x: 10, y: 0, z: 10}
+    Prefab: {fileID: 2876786609080843502, guid: 35ccf8573179d4e4d8f114e8b7c7b552, type: 3}
+    WaveIndex: 0
+  - Position: {x: 10, y: 0, z: 10}
+    Prefab: {fileID: 4113434695948964413, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+    WaveIndex: 1
+  - Position: {x: 10, y: 0, z: 10}
+    Prefab: {fileID: 4113434695948964413, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+    WaveIndex: 2

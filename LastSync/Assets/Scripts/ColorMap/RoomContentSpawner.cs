@@ -30,6 +30,7 @@ public class RoomContentSpawner : MonoBehaviour
 			}
 
 			manager.Initialize(room);
+			BindRoomTriggers(room, manager);
 
 			switch (room.AssignedRole)
 			{
@@ -40,9 +41,21 @@ public class RoomContentSpawner : MonoBehaviour
 				case RoomRole.Combat:
 					EnsureBattleSpawner(room);
 					BuildRoomNavMesh(room);
-					EventFactory.CreateBattleChain(
-						manager,
-						defaultBattleConfig);
+
+					if (room.Data.SpawnPoint == null ||
+						room.Data.SpawnPoint.Count == 0)
+					{
+						EventFactory.CreateBattleChain(
+							manager,
+							defaultBattleConfig);
+					}
+					else
+					{
+						EventFactory.CreateFixedBattleChain(
+							manager,
+							room.Data.SpawnPoint);
+					}
+
 					break;
 
 				case RoomRole.Elite:
@@ -53,10 +66,35 @@ public class RoomContentSpawner : MonoBehaviour
 					EventFactory.CreateExitChain(manager);
 					break;
 
+				case RoomRole.Event:
+					if (room.Data.SpawnPoint != null &&
+						room.Data.SpawnPoint.Count > 0)
+					{
+						Debug.LogWarning(
+							$"Event room '{room.Transform.name}' contains SpawnPoint data. " +
+							"The enemy configuration is ignored.",
+							room.Transform);
+					}
+
+					break;
+
 				case RoomRole.Boss:
 					EnsureBattleSpawner(room);
 					break;
 			}
+		}
+	}
+
+	private void BindRoomTriggers(
+		RoomInstance room,
+		RoomEventManager manager)
+	{
+		RoomFloorTrigger[] triggers =
+			room.Transform.GetComponentsInChildren<RoomFloorTrigger>(true);
+
+		foreach (RoomFloorTrigger trigger in triggers)
+		{
+			trigger.roomEventManager = manager;
 		}
 	}
 

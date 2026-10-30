@@ -36,8 +36,11 @@ public class StructureDataCreator
 
 		asset.Structures.AddRange(data.Structures);
 		asset.Doors.AddRange(data.Doors);
+		asset.PlayerSpawnPoint = data.PlayerSpawnPoint;
+		asset.SpawnPoint.AddRange(data.SpawnPoint);
+		asset.HasPlayerSpawnPoint = data.HasPlayerSpawnPoint;
 
-		string path =
+        string path =
 			AssetDatabase.GenerateUniqueAssetPath(
 				"Assets/Data/ColorMap/StructureData/" +
 				texture.name +
