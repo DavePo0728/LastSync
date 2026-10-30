@@ -26,10 +26,15 @@ public class PlayerAim : MonoBehaviour
 		{
 			Quaternion targetRotation = Quaternion.LookRotation(direction);
 
-			aimPivot.rotation = Quaternion.Slerp(
+			Quaternion smoothedRotation = Quaternion.Slerp(
 				aimPivot.rotation,
 				targetRotation,
 				rotationSpeed * Time.deltaTime);
+
+			float roundedY = Mathf.Round(
+				smoothedRotation.eulerAngles.y * 1000f) / 1000f;
+
+			aimPivot.rotation = Quaternion.Euler(0f, roundedY, 0f);
 		}
 	}
 }

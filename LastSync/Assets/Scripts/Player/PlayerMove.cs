@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 public class PlayerMove : MonoBehaviour
 {
     Vector2 moveInput;
-    Vector3 moveDirection;
     [SerializeField]
     CharacterStats characterStat;
     Rigidbody rb;
@@ -36,7 +35,7 @@ public class PlayerMove : MonoBehaviour
         if (isDashing)
             return; // 衝刺期間，暫時不讓一般移動覆蓋衝刺速度
 
-        Vector3 direction = Vector3.ClampMagnitude(moveDirection, 1f);
+        Vector3 direction = GetCameraRelativeDirection();
 
         rb.linearVelocity = new Vector3(
             direction.x * moveSpeed,
@@ -47,8 +46,6 @@ public class PlayerMove : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-        moveDirection = new Vector3(moveInput.x, 0, moveInput.y);
-        //Debug.Log("Move Input: " + moveDirection);
     }
     public void OnDash(InputAction.CallbackContext context)
     {
@@ -91,7 +88,7 @@ public class PlayerMove : MonoBehaviour
     private void Dash()
     {
         isDashing = true;
-        rb.AddForce(moveDirection.normalized * 20f, ForceMode.Impulse);
+        rb.AddForce(GetCameraRelativeDirection() * 20f, ForceMode.Impulse);
         playerCollider.enabled = false; // Disable collider to avoid collisions during dash
         Invoke("ResetIsDashing", dashDuration);
         Debug.Log("Dash performed");
@@ -109,5 +106,25 @@ public class PlayerMove : MonoBehaviour
             dashTimer -= Time.deltaTime;
             yield return null;
         }
+    }
+
+    private Vector3 GetCameraRelativeDirection()
+    {
+        if (Camera.main == null)
+            return Vector3.zero;
+
+        Transform cameraTransform = Camera.main.transform;
+
+        Vector3 cameraForward = cameraTransform.forward;
+        cameraForward.y = 0f;
+        cameraForward.Normalize();
+
+        Vector3 cameraRight = cameraTransform.right;
+        cameraRight.y = 0f;
+        cameraRight.Normalize();
+
+        return Vector3.ClampMagnitude(
+            cameraRight * moveInput.x + cameraForward * moveInput.y,
+            1f);
     }
 }

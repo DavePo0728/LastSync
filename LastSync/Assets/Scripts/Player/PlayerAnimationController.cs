@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -6,11 +7,17 @@ using UnityEngine;
 public class PlayerAnimationController : MonoBehaviour
 {
     [SerializeField] private Animator characterAnimator;
-    [SerializeField, Range(0f, 1f)] private float dampingTime = 0.1f;
+    [SerializeField] private string shootLayerName = "Shoot";
+    [SerializeField] private string shootStateName = "Shoot.BAKED_walkG";
+    [SerializeField] private float shootDuration = 2.5f;
+    [SerializeField] private float shootFadeInDuration = 0.1f;
+    [SerializeField] private float shootFadeOutDuration = 0.2f;
 
     private Rigidbody playerRigidbody;
     private CharacterStats characterStats;
     private int speedParameterHash;
+    private int shootLayerIndex = -1;
+    private Coroutine shootCoroutine;
 
     private void Awake()
     {
@@ -21,6 +28,12 @@ public class PlayerAnimationController : MonoBehaviour
             characterAnimator = GetComponentInChildren<Animator>();
 
         speedParameterHash = Animator.StringToHash("Speed");
+        shootLayerIndex = characterAnimator != null
+            ? characterAnimator.GetLayerIndex(shootLayerName)
+            : -1;
+
+        if (shootLayerIndex >= 0)
+            characterAnimator.SetLayerWeight(shootLayerIndex, 0f);
     }
 
     private void Update()
@@ -35,10 +48,57 @@ public class PlayerAnimationController : MonoBehaviour
             ? Mathf.Clamp01(horizontalVelocity.magnitude / characterStats.MoveSpeed)
             : 0f;
 
-        characterAnimator.SetFloat(
-            speedParameterHash,
-            normalizedSpeed,
-            dampingTime,
-            Time.deltaTime);
+        normalizedSpeed = Mathf.Round(normalizedSpeed * 1000f) / 1000f;
+
+        characterAnimator.SetFloat(speedParameterHash, normalizedSpeed);
+    }
+
+    public void PlayShootAnimation()
+    {
+        if (characterAnimator == null || shootLayerIndex < 0)
+            return;
+
+        if (shootCoroutine != null)
+            StopCoroutine(shootCoroutine);
+
+        characterAnimator.Play(shootStateName, shootLayerIndex, 0f);
+        shootCoroutine = StartCoroutine(PlayShootLayer());
+    }
+
+    private IEnumerator PlayShootLayer()
+    {
+        yield return FadeShootLayer(1f, shootFadeInDuration);
+
+        float holdDuration = Mathf.Max(
+            0f,
+            shootDuration - shootFadeInDuration - shootFadeOutDuration);
+
+        yield return new WaitForSeconds(holdDuration);
+        yield return FadeShootLayer(0f, shootFadeOutDuration);
+        shootCoroutine = null;
+    }
+
+    private IEnumerator FadeShootLayer(float targetWeight, float duration)
+    {
+        float startWeight = characterAnimator.GetLayerWeight(shootLayerIndex);
+
+        if (duration <= 0f)
+        {
+            characterAnimator.SetLayerWeight(shootLayerIndex, targetWeight);
+            yield break;
+        }
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float progress = Mathf.Clamp01(elapsed / duration);
+            characterAnimator.SetLayerWeight(
+                shootLayerIndex,
+                Mathf.Lerp(startWeight, targetWeight, progress));
+            yield return null;
+        }
+
+        characterAnimator.SetLayerWeight(shootLayerIndex, targetWeight);
     }
 }
