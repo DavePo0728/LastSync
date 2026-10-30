@@ -2,18 +2,34 @@ using UnityEngine;
 
 public class PlayerAim : MonoBehaviour
 {
-    [SerializeField]
-    Transform aimTarget;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        aimTarget = GameObject.Find("HoverObject").transform;
-    }
+	[SerializeField] private Transform aimTarget;
+	[SerializeField] private float rotationSpeed = 12f;
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        transform.LookAt(aimTarget);
-        transform.localRotation = Quaternion.Euler(0, transform.localRotation.eulerAngles.y, 0);
-    }
+	void Start()
+	{
+		aimTarget = GameObject.Find("HoverObject").transform;
+	}
+
+	void Update()
+	{
+		Transform aimPivot = transform.parent;
+
+		// 讓物件看向這個被「壓平」的點
+		Vector3 flatTarget = new Vector3(
+			aimTarget.position.x,
+			aimPivot.position.y,
+			aimTarget.position.z);
+
+		Vector3 direction = flatTarget - aimPivot.position;
+
+		if (direction.sqrMagnitude > 0.001f)
+		{
+			Quaternion targetRotation = Quaternion.LookRotation(direction);
+
+			aimPivot.rotation = Quaternion.Slerp(
+				aimPivot.rotation,
+				targetRotation,
+				rotationSpeed * Time.deltaTime);
+		}
+	}
 }
