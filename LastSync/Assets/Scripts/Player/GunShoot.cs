@@ -14,6 +14,7 @@ public class GunShoot : WeaponBase
     private GameObject mainCam;
     [SerializeField]
     GameObject bulletPrefab;
+    [SerializeField] private GameObject muzzleFlash;
     private PlayerAnimationController playerAnimationController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,14 +33,15 @@ public class GunShoot : WeaponBase
         int BulletAmount = BaseBulletAmount + ChipSystem.chipSystemInstance.BonusBulletCount;
         playerAnimationController?.PlayShootAnimation();
         CameraShake(0.1f);
+        if (BulletAmount > 0 && muzzleFlash != null)
+        {
+            Destroy(Instantiate(muzzleFlash, transform.position, transform.rotation), 5f);
+        }
         for (int i = 0; i < BulletAmount; i++)
         {
             float half = baseFireAccuracy+ChipSystem.chipSystemInstance.BonusAccuracyOffset * 0.5f;
             float yaw = Random.Range(-half, half);
-            float pitch = Random.Range(-half, half);
-
-            // 把偏航與俯仰疊加到火點的朝向上
-            Quaternion randomRot = transform.rotation * Quaternion.Euler(pitch, yaw, 0);
+            Quaternion randomRot = Quaternion.AngleAxis(yaw, Vector3.up) * transform.rotation;
             GameObject bullet = Instantiate(bulletPrefab, transform.position, randomRot);
 
             // 傳遞最終傷害給子彈
