@@ -102,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 3829365749389459751}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.048, y: -0.468, z: 0.695}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0.622}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -130,7 +130,8 @@ MonoBehaviour:
   fireForce: 500
   BaseBulletAmount: 1
   impulseSource: {fileID: 0}
-  bulletPrefab: {fileID: 1929556792762754241, guid: a9d4646f663195344a4c443523e0045d, type: 3}
+  bulletPrefab: {fileID: 192486925155096180, guid: 926aedd4338fa554880f4e441780da15, type: 3}
+  muzzleFlash: {fileID: 1192211784737388, guid: 67796d7fb6bc3f4449f96e492958f20d, type: 3}
 --- !u!1 &4051562898199169377
 GameObject:
   m_ObjectHideFlags: 0

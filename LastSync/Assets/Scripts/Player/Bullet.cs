@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField] private GameObject hitEffect;
+    private bool hasHit;
     int damage;
     Vector3 startPosition;
     float maxRangeSqr;
@@ -28,20 +30,30 @@ public class Bullet : MonoBehaviour
     }
     public void OnTriggerEnter(Collider other)
     {
+        if (hasHit) return;
         if (other.CompareTag("Enemy"))
         {
             if (other.TryGetComponent(out AIStatus aiStatus))
             {
+                Impact();
                 aiStatus.TakeDamage(damage);
-                HandleMaxRangeReached();
                 Debug.Log($"Bullet hit {other.name} and dealt {damage} damage.");
                 return;
             }
         }
         if(other.CompareTag("Wall"))
         {
-            HandleMaxRangeReached();
+            Impact();
             //Debug.Log($"Bullet hit a wall: {other.name}.");
         }
+    }
+    private void Impact()
+    {
+        hasHit = true;
+        if (hitEffect != null)
+        {
+            Destroy(Instantiate(hitEffect, transform.position, Quaternion.LookRotation(-transform.forward)), 5f);
+        }
+        Destroy(gameObject);
     }
 }
