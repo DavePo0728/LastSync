@@ -62,6 +62,12 @@ public class ColorMapParser : MonoBehaviour
 				Vector2Int pos = new(x, y);
 				Color32 pixel = texture.GetPixel(x, y);
 
+				if (pixel.a == 0)
+				{
+					data.Cells[x, y] = CellType.Void;
+					continue;
+				}
+
 				switch (pixel.r, pixel.g, pixel.b)
 				{
 					case (255, 0, 0):
@@ -88,14 +94,17 @@ public class ColorMapParser : MonoBehaviour
                         hasPlayerSpawnPoint = true;
                         floorList.Add(pos);
                         break;
-					case (255, 255, 0):
-                        data.Cells[x, y] = CellType.EnemySpawnPoint;
-                        enemySpawnPointList.Add(pos);
+					//case (255, 255, 0):
+     //                   data.Cells[x, y] = CellType.EnemySpawnPoint;
+     //                   enemySpawnPointList.Add(pos);
+     //                   floorList.Add(pos);
+     //                   break;
+					case (255, 255, 255):
+                        data.Cells[x, y] = CellType.Floor;
                         floorList.Add(pos);
-                        break;
+						break;
                     default:
-						data.Cells[x, y] = CellType.Floor;
-						floorList.Add(pos);
+						data.Cells[x, y] = CellType.Void;
 						break;
 				}
 			}

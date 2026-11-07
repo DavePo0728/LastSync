@@ -17,8 +17,6 @@ public abstract class EnemyStats : MonoBehaviour
     [SerializeField] protected int shieldGrowth;
     [SerializeField] protected int attackGrowth;
     [Header("掉落系統")]
-    [SerializeField] protected List<GameObject> possibleChipDrops; // 可掉落的晶片列表
-    [SerializeField][Range(0f, 1f)] protected float itemDropChance = 1f; // 30% 掉落率
     [SerializeField] protected int baseExperience;
     [SerializeField] protected int expGrowth;
 
@@ -104,24 +102,6 @@ public abstract class EnemyStats : MonoBehaviour
         // 1. 計算並發送經驗值
         int expToDrop = baseExperience + (CurrentLevel - 1) * expGrowth;
         Debug.Log($"{gameObject.name} 死亡，掉落 {expToDrop} 點經驗值。");
-        // TODO: 呼叫玩家的 AddExperience(expToDrop) 方法
-        if (possibleChipDrops != null && possibleChipDrops.Count > 0 && Random.value <= itemDropChance)
-        {
-            // 在 0 到 陣列長度 之間隨機抽取一個索引
-            int randomIndex = Random.Range(0, possibleChipDrops.Count);
-            GameObject chipToDrop = possibleChipDrops[randomIndex];
-
-            // 生成掉落物
-            Vector3 dropPosition = transform.position;
-            Instantiate(chipToDrop, dropPosition, Quaternion.identity);
-            Debug.Log($"{gameObject.name} 掉落了 {chipToDrop.name}。");
-        }
-        // 2. 機率掉落道具
-        //if (itemDropPrefab != null && Random.value <= itemDropChance)
-        //{
-        //    Instantiate(itemDropPrefab, transform.position, Quaternion.identity);
-        //}
-
         Destroy(gameObject);
     }
     protected abstract void Attack();

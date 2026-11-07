@@ -141,31 +141,45 @@ public class BattleSpawner : MonoBehaviour
 	}
 
 	private void SpawnEnemyAtPoint(
-		GameObject prefab,
-		Vector3 localPosition,
-		int spawnPointIndex,
-		int waveIndex)
-	{
-		if (manager == null ||
-			manager.Room == null ||
-			manager.Room.Transform == null)
-		{
-			Debug.LogWarning(
-				$"BattleSpawner.SpawnAtPoints skipped SpawnPoint [{spawnPointIndex}] " +
-				$"in wave {waveIndex}: room data is not ready.",
-				this);
-			return;
-		}
+         GameObject prefab,
+    Vector3 mapPosition,
+    int spawnPointIndex,
+    int waveIndex)
+    {
+        if (manager == null ||
+            manager.Room == null ||
+            manager.Room.Data == null ||
+            manager.Room.Transform == null)
+        {
+            Debug.LogWarning(
+                $"BattleSpawner.SpawnAtPoints skipped SpawnPoint [{spawnPointIndex}] " +
+                $"in wave {waveIndex}: room data is not ready.",
+                this);
+            return;
+        }
 
-		Vector3 worldPosition =
-			manager.Room.Transform.TransformPoint(localPosition);
+        Vector2 structureCenter = new Vector2(
+            manager.Room.Data.Size.x - 1,
+            manager.Room.Data.Size.y - 1) * 0.5f;
 
-		TrySpawnEnemyAtWorldPosition(
-			prefab,
-			worldPosition,
-			$"BattleSpawner.SpawnAtPoints SpawnPoint [{spawnPointIndex}] " +
-			$"in wave {waveIndex}");
-	}
+        Vector2 localMapPosition =
+            new Vector2(mapPosition.x, mapPosition.y) -
+            structureCenter;
+
+        Vector3 localPosition = new Vector3(
+            localMapPosition.x,
+            0f,
+            localMapPosition.y);
+
+        Vector3 worldPosition =
+            manager.Room.Transform.TransformPoint(localPosition);
+
+        TrySpawnEnemyAtWorldPosition(
+            prefab,
+            worldPosition,
+            $"BattleSpawner.SpawnAtPoints SpawnPoint [{spawnPointIndex}] " +
+            $"in wave {waveIndex}");
+    }
 
 	private int GetSourceIndex(
 		SpawnPointData spawnPoint,

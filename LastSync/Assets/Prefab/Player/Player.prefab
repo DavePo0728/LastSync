@@ -102,7 +102,7 @@ Transform:
   m_GameObject: {fileID: 3829365749389459751}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.622}
+  m_LocalPosition: {x: -0.048, y: -0.468, z: 0.695}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -320,7 +320,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimationController
   characterAnimator: {fileID: 7162698485826545294}
-  dampingTime: 0.1
+  shootLayerName: Shoot
+  shootStateName: Shoot.BAKED_walkG
+  shootDuration: 2.5
+  shootFadeInDuration: 0.1
+  shootFadeOutDuration: 0.2
 --- !u!1 &4090348814248972041
 GameObject:
   m_ObjectHideFlags: 0

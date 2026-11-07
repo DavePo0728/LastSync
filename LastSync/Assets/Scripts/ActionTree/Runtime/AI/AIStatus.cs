@@ -29,8 +29,6 @@ public class AIStatus : MonoBehaviour
 	[SerializeField]
 	private float deathDestroyDelay = 1.5f;
 	[SerializeField]
-	private List<GameObject> chipDropPrefab;
-	[SerializeField]
 	private Image healthBar;
 	[SerializeField]
 	private HPUIScreenPosReference healthUIReference;
@@ -99,13 +97,8 @@ public class AIStatus : MonoBehaviour
     public void Die()
 	{
 		Died?.Invoke();
-		if (chipDropPrefab != null && chipDropPrefab.Count > 0)
-		{
-			int randomIndex = UnityEngine.Random.Range(0, chipDropPrefab.Count);
-			Instantiate(chipDropPrefab[randomIndex], transform.position, transform.rotation);
-			healthUIReference.DeadDestroyUI();
-        }
-		Destroy(gameObject, deathDestroyDelay);
+        healthUIReference.DeadDestroyUI();
+        Destroy(gameObject, deathDestroyDelay);
 	}
 
 	public void SetAttack(float value)

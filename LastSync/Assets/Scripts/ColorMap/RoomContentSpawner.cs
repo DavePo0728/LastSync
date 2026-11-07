@@ -6,6 +6,8 @@ public class RoomContentSpawner : MonoBehaviour
 {
 	[SerializeField]
 	private BattleConfig defaultBattleConfig;
+	[SerializeField]
+	private GameObject chipRewardPrefab;
 
 	public void Spawn(Floor floor)
 	{
@@ -47,13 +49,15 @@ public class RoomContentSpawner : MonoBehaviour
 					{
 						EventFactory.CreateBattleChain(
 							manager,
-							defaultBattleConfig);
+							defaultBattleConfig,
+							chipRewardPrefab);
 					}
 					else
 					{
 						EventFactory.CreateFixedBattleChain(
 							manager,
-							room.Data.SpawnPoint);
+							room.Data.SpawnPoint,
+							chipRewardPrefab);
 					}
 
 					break;

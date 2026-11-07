@@ -5,7 +5,8 @@ public static class EventFactory
 {
 	public static void CreateBattleChain(
 	  RoomEventManager manager,
-	  BattleConfig battleConfig)
+	  BattleConfig battleConfig,
+	  GameObject chipRewardPrefab)
 	{
 		CloseDoorEvent closeDoor =
 			manager.gameObject.AddComponent<CloseDoorEvent>();
@@ -22,8 +23,10 @@ public static class EventFactory
 		OpenDoorEvent openDoor =
 			manager.gameObject.AddComponent<OpenDoorEvent>();
 
-		SpawnChestEvent spawnChest =
-			manager.gameObject.AddComponent<SpawnChestEvent>();
+		SpawnChipsRewardEvent spawnChipsReward =
+			manager.gameObject.AddComponent<SpawnChipsRewardEvent>();
+
+		spawnChipsReward.SetChipPrefab(chipRewardPrefab);
 
 		// 三波目前都使用同一份 BattleConfig
 		battle1.SetBattleConfig(battleConfig);
@@ -35,14 +38,15 @@ public static class EventFactory
 		battle1.Next = battle2;
 		battle2.Next = battle3;
 		battle3.Next = openDoor;
-		openDoor.Next = spawnChest;
+		openDoor.Next = spawnChipsReward;
 
 		manager.AddEvent(EventTrigger.EnterRoom, closeDoor);
 	}
 
 	public static void CreateFixedBattleChain(
 		RoomEventManager manager,
-		IReadOnlyList<SpawnPointData> spawnPoints)
+		IReadOnlyList<SpawnPointData> spawnPoints,
+		GameObject chipRewardPrefab)
 	{
 		if (manager == null)
 		{
@@ -55,8 +59,10 @@ public static class EventFactory
 			manager.gameObject.AddComponent<CloseDoorEvent>();
 		OpenDoorEvent openDoor =
 			manager.gameObject.AddComponent<OpenDoorEvent>();
-		SpawnChestEvent spawnChest =
-			manager.gameObject.AddComponent<SpawnChestEvent>();
+		SpawnChipsRewardEvent spawnChipsReward =
+			manager.gameObject.AddComponent<SpawnChipsRewardEvent>();
+
+		spawnChipsReward.SetChipPrefab(chipRewardPrefab);
 
 		SortedDictionary<int, List<SpawnPointData>> waves = new();
 		string roomName = GetRoomName(manager);
@@ -104,7 +110,7 @@ public static class EventFactory
 		}
 
 		current.Next = openDoor;
-		openDoor.Next = spawnChest;
+		openDoor.Next = spawnChipsReward;
 
 		manager.AddEvent(EventTrigger.EnterRoom, closeDoor);
 	}
