@@ -199,8 +199,8 @@ MonoBehaviour:
     guid: d3e5a4f285964b55ba18da1f37a8a79d
     rect:
       serializedVersion: 2
-      x: 777
-      y: 722
+      x: 710
+      y: 724
       width: 220
       height: 50
     title: Action
@@ -373,7 +373,7 @@ MonoBehaviour:
           height: 50
         title: Condition
         comment: 
-        isSelected: 1
+        isSelected: 0
         isExpanded: 0
         children: []
         condition:
@@ -400,13 +400,13 @@ MonoBehaviour:
         guid: d3e5a4f285964b55ba18da1f37a8a79d
         rect:
           serializedVersion: 2
-          x: 777
-          y: 722
+          x: 710
+          y: 724
           width: 220
           height: 50
         title: Action
         comment: 
-        isSelected: 0
+        isSelected: 1
         isExpanded: 0
         children: []
         action:

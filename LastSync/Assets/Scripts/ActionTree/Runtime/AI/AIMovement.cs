@@ -204,7 +204,7 @@ public class AIMovement : MonoBehaviour
 		yield return new WaitForSeconds(duration);
 		yield return true;
 	}
-    public bool LockControl(float duration)
+    public bool LockControl()
     {
         movementLocked = true;
         rotationLocked = true;
