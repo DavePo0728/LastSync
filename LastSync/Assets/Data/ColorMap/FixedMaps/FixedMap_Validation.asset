@@ -36,4 +36,9 @@ MonoBehaviour:
   - Data: {fileID: 11400000, guid: 20fa77c5bab2c8d4fb3b426dcc5317d3, type: 2}
     Position: {x: 73.5, y: 0}
     Direction: 1
-  PrefabNodes: []
+  PrefabNodes:
+  - Prefab: {fileID: 0}
+    UsePrefabTransform: 0
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 0, y: 0, z: 0}
