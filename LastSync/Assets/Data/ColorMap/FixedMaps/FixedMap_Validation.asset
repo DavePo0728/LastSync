@@ -37,8 +37,23 @@ MonoBehaviour:
     Position: {x: 73.5, y: 0}
     Direction: 1
   PrefabNodes:
-  - Prefab: {fileID: 0}
-    UsePrefabTransform: 0
-    Position: {x: 0, y: 0, z: 0}
+  - Prefab: {fileID: 5270390693981411858, guid: 911cb6193cd50884ebeeb007882bcfa1, type: 3}
+    UsePrefabTransform: 1
+    Position: {x: 2.46, y: 1.22, z: 2.55}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 0, y: 0, z: 0}
+  - Prefab: {fileID: 4187509240891406802, guid: 6f408ac2182949248bc44c3b207a9eb6, type: 3}
+    UsePrefabTransform: 1
+    Position: {x: 2.46, y: 1.22, z: 2.55}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 0, y: 0, z: 0}
+  - Prefab: {fileID: 6586996295924942790, guid: cce22b31a7373f74884ef30c5959cf36, type: 3}
+    UsePrefabTransform: 1
+    Position: {x: 2.46, y: 1.22, z: 2.55}
+    Rotation: {x: 0, y: 0, z: 0}
+    Scale: {x: 0, y: 0, z: 0}
+  - Prefab: {fileID: 4544823937892852546, guid: 4fe923067dbdf7a4685c6ae5130ac855, type: 3}
+    UsePrefabTransform: 1
+    Position: {x: 2.46, y: 1.22, z: 2.55}
     Rotation: {x: 0, y: 0, z: 0}
     Scale: {x: 0, y: 0, z: 0}
