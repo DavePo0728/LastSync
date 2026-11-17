@@ -5,12 +5,14 @@ namespace ActionTree.Editor
 {
 	public class GridLayer : BaseLayer
 	{
-		private const float MinorGrid = 20f;
+		public const float MinorGrid = 20f;
 		private const int MajorEvery = 5;
+		private readonly Vector2 gridOrigin;
 
-		public GridLayer(GraphViewport viewport)
+		public GridLayer(GraphViewport viewport, Vector2 gridOrigin = default)
 			: base(viewport)
 		{
+			this.gridOrigin = gridOrigin;
 			generateVisualContent += OnGenerateVisualContent;
 		}
 
@@ -23,8 +25,8 @@ namespace ActionTree.Editor
 			Vector2 worldMin = Viewport.ScreenToWorld(Vector2.zero);
 			Vector2 worldMax = Viewport.ScreenToWorld(new Vector2(rect.width, rect.height));
 
-			float firstX = Mathf.Floor(worldMin.x / MinorGrid) * MinorGrid;
-			float firstY = Mathf.Floor(worldMin.y / MinorGrid) * MinorGrid;
+			float firstX = Mathf.Floor((worldMin.x - gridOrigin.x) / MinorGrid) * MinorGrid + gridOrigin.x;
+			float firstY = Mathf.Floor((worldMin.y - gridOrigin.y) / MinorGrid) * MinorGrid + gridOrigin.y;
 
 			//==========================
 			// Vertical
@@ -34,7 +36,7 @@ namespace ActionTree.Editor
 			{
 				float screenX = Viewport.WorldToScreen(new Vector2(worldX, 0)).x;
 
-				int index = Mathf.RoundToInt(worldX / MinorGrid);
+				int index = Mathf.RoundToInt((worldX - gridOrigin.x) / MinorGrid);
 
 				bool major = index % MajorEvery == 0;
 
@@ -58,7 +60,7 @@ namespace ActionTree.Editor
 			{
 				float screenY = Viewport.WorldToScreen(new Vector2(0, worldY)).y;
 
-				int index = Mathf.RoundToInt(worldY / MinorGrid);
+				int index = Mathf.RoundToInt((worldY - gridOrigin.y) / MinorGrid);
 
 				bool major = index % MajorEvery == 0;
 
