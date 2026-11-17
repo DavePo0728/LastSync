@@ -404,11 +404,29 @@ public class AIMovement : MonoBehaviour
 		return false;
 	}
 
-	#endregion
+    #endregion
 
-	#region Action Node
+    #region Action Node
 
-	public ActNode MoveToTarget(AIPerception perception)
+    public ActNode MoveUntilTargetVisible()
+    {
+        if (!TryGetComponent(out AIPerception perception) ||
+            !perception.HasTarget())
+        {
+            Stop();
+            return false;
+        }
+
+        if (!perception.CheckWallBetweenTarget())
+        {
+            Stop();
+            return false;
+        }
+
+        MoveTo(perception.TargetPosition());
+        return true;
+    }
+    public ActNode MoveToTarget(AIPerception perception)
 	{
 		if (perception == null || !perception.HasTarget())
 			return false;

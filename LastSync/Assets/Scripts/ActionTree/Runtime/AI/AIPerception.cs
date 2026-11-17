@@ -257,14 +257,33 @@ public class AIPerception : MonoBehaviour	// This class is responsible for detec
     {
         if (!EnsureTarget())
             return false;
-        Vector3 direction = DirectionToTarget();
-        float distance = DistanceToTarget();
-        if (Physics.Raycast(transform.position, direction, out RaycastHit hit, distance))
+
+        Vector3 origin = bodyCollider != null
+            ? bodyCollider.bounds.center
+            : transform.position + Vector3.up;
+
+        Vector3 targetPosition = target.position + Vector3.up;
+
+        Vector3 offset = targetPosition - origin;
+        float distance = offset.magnitude;
+
+        if (distance <= 0.001f)
+            return false;
+
+        Vector3 direction = offset / distance;
+
+        if (!Physics.Raycast(
+            origin,
+            direction,
+            out RaycastHit hit,
+            distance,
+            Physics.AllLayers,
+            QueryTriggerInteraction.Ignore))
         {
-            if (hit.transform.CompareTag("Wall"))
-                return true; // There is a wall between the AI and the target
+            return false;
         }
-        return false; // No wall between the AI and the target
+
+        return hit.collider.CompareTag("Wall");
     }
     public CondNode IsFacingTarget(float angleThreshold = 10f) // Check if the AI is facing the target within a certain angle threshold
     {

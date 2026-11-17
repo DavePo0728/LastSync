@@ -27,10 +27,10 @@ public class HPUIScreenPosReference : MonoBehaviour
     }
     public GameObject GetHpUIGameObjectChild()
     {
-        if(hpUIGameObject == null)
+        if (hpUIGameObject == null)
             return null;
 
-            return hpUIGameObject.transform.Find("HpUIBar").gameObject;
+        return hpUIGameObject.transform.Find("HpUIBar").gameObject;
     }
     public void DeadDestroyUI()
     {

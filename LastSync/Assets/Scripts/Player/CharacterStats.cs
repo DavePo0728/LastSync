@@ -20,6 +20,7 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private Image healthBar;
     [SerializeField] private Image hitFlashImage;
     [SerializeField] private CinemachineImpulseSource impulseSource;
+    GameObject GameOverUI;
 
     // 當前狀態數值
     public int CurrentHealth { get; private set; }
@@ -60,6 +61,8 @@ public class CharacterStats : MonoBehaviour
         hitFlashImage = GameObject.Find("HitFlashImage")?.GetComponent<Image>();
         hitFlashImageInitalize();
         impulseSource = GetComponent<CinemachineImpulseSource>();
+        GameOverUI = GameObject.Find("GameOverPanel");
+        GameOverUI.SetActive(false);
     }
     private void Update()
     {
@@ -161,6 +164,8 @@ public class CharacterStats : MonoBehaviour
     }
     private void HandleDeath()
     {
+        GameOverUI.SetActive(true);
+        Time.timeScale = 0f; // 暫停遊戲
         Debug.Log($"{gameObject.name} 判定死亡。");
     }
 

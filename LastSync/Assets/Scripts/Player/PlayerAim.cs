@@ -5,16 +5,18 @@ public class PlayerAim : MonoBehaviour
 	[SerializeField] private Transform aimTarget;
 	[SerializeField] private float rotationSpeed = 12f;
 
-	void Start()
+	Transform aimPivot;
+
+
+    void Start()
 	{
 		aimTarget = GameObject.Find("HoverObject").transform;
 	}
 
 	void Update()
 	{
-		Transform aimPivot = transform.parent;
+		aimPivot = transform.parent;
 
-		// 讓物件看向這個被「壓平」的點
 		Vector3 flatTarget = new Vector3(
 			aimTarget.position.x,
 			aimPivot.position.y,
