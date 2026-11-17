@@ -20,7 +20,7 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private int shieldRegenPerSecond = 5;
 
     [Header("UI Elements")]
-    [SerializeField] private Image healthBar;
+    [SerializeField] private Slider healthBar;
     [SerializeField] private Image hitFlashImage;
     [SerializeField] private CinemachineImpulseSource impulseSource;
     GameObject GameOverUI;
@@ -78,10 +78,10 @@ public class CharacterStats : MonoBehaviour
     {
         if (healthBar != null)
         {
-            healthBar.fillAmount = (float)CurrentHealth / CurrentMaxHealth;
+            healthBar.value = (float)CurrentHealth / CurrentMaxHealth;
         }
         else {
-            healthBar = GameObject.Find("HpUI")?.GetComponent<Image>();
+            healthBar = GameObject.Find("HpUI")?.GetComponent<Slider>();
         }
     }
 
@@ -213,9 +213,10 @@ public class CharacterStats : MonoBehaviour
             TakeTrapDamage(damage);
         }
     }
-    public void SetHealthBar(Image bar)
+    public void SetHealthBar(Slider bar)
     {
         healthBar = bar;
+        UpdateUI();
     }
 }
 

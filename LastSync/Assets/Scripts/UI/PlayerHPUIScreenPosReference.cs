@@ -18,7 +18,7 @@ public class PlayerHPUIScreenPosReference : MonoBehaviour
         posReferenceObject = gameObject.transform.Find("HpUiPosReference").gameObject;
         playerUIContainer = GameObject.Find("PlayerUIContainer");
         hpUIGameObject = Instantiate(hpUiPrefab, posReferenceObject.transform.position, Quaternion.identity, playerUIContainer.transform);
-        characterStats.SetHealthBar(hpUIGameObject.transform.Find("HpUIBar").GetComponent<Image>());
+        characterStats.SetHealthBar(hpUIGameObject.GetComponent<Slider>());
     }
 
     // Update is called once per frame
