@@ -63,6 +63,7 @@ public class CharacterStats : MonoBehaviour
         impulseSource = GetComponent<CinemachineImpulseSource>();
         GameOverUI = GameObject.Find("GameOverPanel");
         GameOverUI.SetActive(false);
+        
     }
     private void Update()
     {
@@ -73,6 +74,9 @@ public class CharacterStats : MonoBehaviour
         if (healthBar != null)
         {
             healthBar.fillAmount = (float)CurrentHealth / CurrentMaxHealth;
+        }
+        else {
+            healthBar = GameObject.Find("HpUI")?.GetComponent<Image>();
         }
     }
 
@@ -185,6 +189,10 @@ public class CharacterStats : MonoBehaviour
             float damage = 1; 
             TakeDamage(damage);
         }
+    }
+    public void SetHealthBar(Image bar)
+    {
+        healthBar = bar;
     }
 }
 

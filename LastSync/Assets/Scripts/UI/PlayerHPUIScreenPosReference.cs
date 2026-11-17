@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHPUIScreenPosReference : MonoBehaviour
 {
@@ -9,13 +10,15 @@ public class PlayerHPUIScreenPosReference : MonoBehaviour
     [SerializeField]
     GameObject playerUIContainer;
     GameObject hpUIGameObject;
-    public GameObject _hpUIGameObject => hpUIGameObject;
+    CharacterStats characterStats;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        characterStats = GetComponent<CharacterStats>();
         posReferenceObject = gameObject.transform.Find("HpUiPosReference").gameObject;
         playerUIContainer = GameObject.Find("PlayerUIContainer");
         hpUIGameObject = Instantiate(hpUiPrefab, posReferenceObject.transform.position, Quaternion.identity, playerUIContainer.transform);
+        characterStats.SetHealthBar(hpUIGameObject.transform.Find("HpUIBar").GetComponent<Image>());
     }
 
     // Update is called once per frame
