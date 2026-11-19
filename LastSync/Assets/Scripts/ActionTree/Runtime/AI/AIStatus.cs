@@ -29,7 +29,7 @@ public class AIStatus : MonoBehaviour
 	[SerializeField]
 	private float deathDestroyDelay = 1.5f;
 	[SerializeField]
-	private Image healthBar;
+	private Slider healthBar;
 	[SerializeField]
 	private HPUIScreenPosReference healthUIReference;
     public float MaxHealth => maxHealth;
@@ -52,7 +52,9 @@ public class AIStatus : MonoBehaviour
 	}
     private void Start()
     {
-        healthBar = healthUIReference.GetHpUIGameObjectChild()?.GetComponent<Image>();
+        if (healthUIReference == null)
+            healthUIReference = GetComponent<HPUIScreenPosReference>();
+        UpdateUI();
     }
     #endregion
 
@@ -61,16 +63,21 @@ public class AIStatus : MonoBehaviour
     public void SetHealth(float value)
 	{
 		currentHealth = Mathf.Clamp(value, 0f, maxHealth);
+		UpdateUI();
 	}
 
 	public void Heal(float value)
 	{
 		currentHealth = Mathf.Min(currentHealth + value, maxHealth);
+		UpdateUI();
 	}
 
 	public void TakeDamage(float damage)
 	{
-		float finalDamage = Mathf.Max(1f, damage - defense);
+		if (alreadyDead)
+			return;
+
+        float finalDamage = Mathf.Max(1f, damage - defense);
 
 		currentHealth -= finalDamage;
 		UpdateUI();
@@ -78,26 +85,35 @@ public class AIStatus : MonoBehaviour
 		
 		if (currentHealth <= 0f&& !alreadyDead)
 		{
-			currentHealth = 0f;
-			alreadyDead = true;
 			Die();
 		}
 	}
+    public void SetHealthBar(Slider bar)
+    {
+        healthBar = bar;
+        UpdateUI();
+    }
+
     public virtual void UpdateUI()
     {
-		if (healthBar == null&&!alreadyDead)
-			healthBar = healthUIReference.GetHpUIGameObjectChild()?.GetComponent<Image>();
+		if (healthBar == null && !alreadyDead && healthUIReference != null)
+			healthBar = healthUIReference.GetHealthBar();
 
         if (healthBar != null)
         {
-            healthBar.fillAmount = (float)CurrentHealth / maxHealth;
+            healthBar.normalizedValue = maxHealth > 0f ? Mathf.Clamp01(CurrentHealth / maxHealth) : 0f;
 		}
     }
 
     public void Die()
 	{
-		Died?.Invoke();
-        healthUIReference.DeadDestroyUI();
+		if (alreadyDead)
+			return;
+        alreadyDead = true;
+        currentHealth = 0f;
+        Died?.Invoke();
+        if (healthUIReference != null)
+            healthUIReference.DeadDestroyUI();
         Destroy(gameObject, deathDestroyDelay);
 	}
 

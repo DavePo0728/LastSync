@@ -21,14 +21,14 @@ public class CharacterChipStatusUI : MonoBehaviour
     [SerializeField] private TMP_Text MovementText;
     [SerializeField] private TMP_Text DashCoolDownText;
     private GameObject player;
-    private void Awake()
-    {
+    private bool refreshPending;
+    private string lastReferenceError;
 
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void LateUpdate()
     {
-        TryResolveReferences();
+        // Player spawning can run after ChipSystem.Start or this panel's OnEnable.
+        if (refreshPending)
+            UpdateAllUIText();
     }
     private void OnEnable()
     {
@@ -37,8 +37,11 @@ public class CharacterChipStatusUI : MonoBehaviour
     }
     public void UpdateAllUIText()
     {
+        refreshPending = true;
         if (!TryResolveReferences())
             return;
+        refreshPending = false;
+        lastReferenceError = null;
 
         if (hPText != null)
         {
@@ -98,6 +101,11 @@ public class CharacterChipStatusUI : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player");
 
+            // No player yet is a normal state during map initialization.
+            // Keep the refresh pending; OnEnable also retries for hidden panels.
+            if (player == null)
+                return false;
+
             if (player != null)
             {
                 if (characterStats == null)
@@ -110,28 +118,31 @@ public class CharacterChipStatusUI : MonoBehaviour
 
         if (characterStats == null)
         {
-            Debug.LogError(
-                "CharacterChipStatusUI 找不到 Player 的 CharacterStats。",
-                this);
+            ReportReferenceError("CharacterChipStatusUI 找不到 Player 的 CharacterStats。");
             return false;
         }
 
         if (weaponStatus == null)
         {
-            Debug.LogError(
-                "CharacterChipStatusUI 找不到 Player 子物件的 GunShoot。",
-                this);
+            ReportReferenceError("CharacterChipStatusUI 找不到 Player 子物件的 GunShoot。");
             return false;
         }
 
         if (chipSystem == null)
         {
-            Debug.LogError(
-                "CharacterChipStatusUI 找不到 ChipSystem。",
-                this);
+            ReportReferenceError("CharacterChipStatusUI 找不到 ChipSystem。");
             return false;
         }
 
         return true;
+    }
+
+    private void ReportReferenceError(string message)
+    {
+        if (lastReferenceError == message)
+            return;
+
+        lastReferenceError = message;
+        Debug.LogError(message, this);
     }
 }

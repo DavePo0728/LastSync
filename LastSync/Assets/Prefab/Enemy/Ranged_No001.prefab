@@ -628,6 +628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AIMovement
   agent: {fileID: 6486649219318527530}
   status: {fileID: 4848039188285296563}
+  defaultTurnSpeed: 120
 --- !u!114 &7062006617994299670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -643,6 +644,8 @@ MonoBehaviour:
   detectInterval: 30
   minAttackRange: 6
   maxAttackRange: 9
+  bodyCollider: {fileID: 0}
+  wallContactPadding: 0.05
 --- !u!114 &4848039188285296563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -661,14 +664,6 @@ MonoBehaviour:
   defense: 0
   moveSpeed: 3.5
   deathDestroyDelay: 1.5
-  chipDropPrefab:
-  - {fileID: 6368525146602664671, guid: 018b644b8243cc3469bfdbcfb65f57de, type: 3}
-  - {fileID: 7710120336678995396, guid: fcd335fc679cb514fb20897ddea25dc6, type: 3}
-  - {fileID: 2617208276530529000, guid: ad0018c442a76c64b86df79cc63b6abf, type: 3}
-  - {fileID: 4527003203287871138, guid: 3b53b28c710ddd048b875f2b76435232, type: 3}
-  - {fileID: 948533176829348781, guid: 204495dd007538d4dbcfee04f9bdc0e4, type: 3}
-  - {fileID: 6030141879567278254, guid: a4997884a047992409c3307fff2cd1c5, type: 3}
-  - {fileID: 812718902639939524, guid: c56b1d1be08612d46adc4c27627bee65, type: 3}
   healthBar: {fileID: 0}
   healthUIReference: {fileID: 2250701093186457971}
 --- !u!114 &4777983772145431819
@@ -710,7 +705,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b92f8de739bd49b59414398c31ff9e66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WeaponEmitter
-  projectilePrefab: {fileID: 6828954901971497525, guid: ce1189941c8ac394787f1193444b4a51, type: 3}
+  projectilePrefab: {fileID: 4277534805780299766, guid: bd4f6ae297abea64d88a8e2f68b5def2, type: 3}
   muzzle: {fileID: 0}
   burstCount: 3
   burstInterval: 0.12
