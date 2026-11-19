@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HPUIScreenPosReference : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class HPUIScreenPosReference : MonoBehaviour
         posReferenceObject = gameObject.transform.Find("HpUiPosReference").gameObject;
         enemyUIContainer = GameObject.Find("EnemyUIContainer");
         hpUIGameObject = Instantiate(hpUiPrefab, posReferenceObject.transform.position, Quaternion.identity, enemyUIContainer.transform);
+        // Bind after creation so component Start order cannot leave the bar stale.
+        GetComponent<AIStatus>()?.SetHealthBar(GetHealthBar());
     }
 
     // Update is called once per frame
@@ -30,10 +33,19 @@ public class HPUIScreenPosReference : MonoBehaviour
         if (hpUIGameObject == null)
             return null;
 
-        return hpUIGameObject.transform.Find("HpUIBar").gameObject;
+        return GetHealthBar()?.fillRect?.gameObject;
+    }
+    public Slider GetHealthBar()
+    {
+        return hpUIGameObject != null ? hpUIGameObject.GetComponent<Slider>() : null;
+    }
+    private void OnDestroy()
+    {
+        DeadDestroyUI();
     }
     public void DeadDestroyUI()
     {
         Destroy(hpUIGameObject);
+        hpUIGameObject = null;
     }
 }

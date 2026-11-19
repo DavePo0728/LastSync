@@ -33,10 +33,15 @@ public class PlayerHPUIScreenPosReference : MonoBehaviour
         if (hpUIGameObject == null)
             return null;
 
-        return hpUIGameObject.transform.Find("HpUIBar").gameObject;
+        return hpUIGameObject.GetComponent<Slider>()?.fillRect?.gameObject;
+    }
+    private void OnDestroy()
+    {
+        DeadDestroyUI();
     }
     public void DeadDestroyUI()
     {
         Destroy(hpUIGameObject);
+        hpUIGameObject = null;
     }
 }
