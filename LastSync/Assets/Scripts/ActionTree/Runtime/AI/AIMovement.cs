@@ -19,8 +19,9 @@ public class AIMovement : MonoBehaviour
 
 	[SerializeField]
 	private AIStatus status;
-
-	public NavMeshAgent Agent => agent;
+    [SerializeField]
+    private float defaultTurnSpeed = 120f;
+    public NavMeshAgent Agent => agent;
 
 	private bool movementLocked;
 	private bool rotationLocked;
@@ -29,6 +30,8 @@ public class AIMovement : MonoBehaviour
 	private bool defaultUpdateRotation = true;
 	private Coroutine dashCoroutine;
 	private Coroutine heavyDashCoroutine;
+	private bool heavyDashRunning;
+	public bool IsHeavyDashRunning => heavyDashRunning;
     #endregion
 
     #region Unity
@@ -47,6 +50,10 @@ public class AIMovement : MonoBehaviour
 
 	private void Update()
 	{
+		if(status.IsDead())
+        {
+            return;
+        }
 		float targetSpeed = IsMoveLocked() ? 0f : status.MoveSpeed;
 
 		if (agent.speed != targetSpeed)
@@ -55,12 +62,19 @@ public class AIMovement : MonoBehaviour
 		if (!IsRotationLocked() && facingTarget && TryGetComponent(out AIPerception perception))
 			LookAtTarget(perception);
 	}
+    private void OnEnable()
+    {
+		status.Died += ControlLock;
+    }
+	private void OnDisable()
+	{
+        status.Died -= ControlLock;
+    }
+    #endregion
 
-	#endregion
+        #region Method
 
-	#region Method
-
-	public void MoveTo(Vector3 position)
+    public void MoveTo(Vector3 position)
 	{
 		if (!agent.enabled || IsMoveLocked())
 			return;
@@ -83,8 +97,11 @@ public class AIMovement : MonoBehaviour
 		agent.isStopped = true;
 		agent.ResetPath();
 	}
-
 	public void LookAtTarget(AIPerception perception)
+    {
+        LookAtTarget(perception, defaultTurnSpeed);
+    }
+    public void LookAtTarget(AIPerception perception,float turnSpeed)
 	{
 		if (IsRotationLocked() || perception == null || !perception.HasTarget())
 			return;
@@ -94,16 +111,25 @@ public class AIMovement : MonoBehaviour
 
 		if (direction.sqrMagnitude < 0.0001f)
 			return;
+ Quaternion targetRotation =
+        Quaternion.LookRotation(direction);
 
-		transform.rotation = Quaternion.LookRotation(direction);
+    float speed = turnSpeed > 0f
+        ? turnSpeed
+        : defaultTurnSpeed;
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, speed * Time.deltaTime);
 	}
-
-	public bool FaceTarget(AIPerception perception)
+    public bool FaceTarget(AIPerception perception)
+    {
+        return FaceTarget(perception, defaultTurnSpeed);
+    }
+    public bool FaceTarget(AIPerception perception, float turnSpeed)
 	{
 		if (IsRotationLocked() || perception == null || !perception.HasTarget())
 			return false;
 
-		LookAtTarget(perception);
+		LookAtTarget(perception, turnSpeed);
 		return true;
 	}
 
@@ -141,7 +167,10 @@ public class AIMovement : MonoBehaviour
 
 	public bool UnlockMove()
 	{
-		movementLocked = false;
+		if(status.IsDead())
+			return false;
+
+        movementLocked = false;
 		rotationLocked = false;
 		controlLocked = false;
 		StopFaceTarget();
@@ -188,30 +217,33 @@ public class AIMovement : MonoBehaviour
 
 	public IEnumerator Stun(float duration)
 	{
-		movementLocked = true;
-		rotationLocked = true;
-		controlLocked = true;
-		StopFaceTarget();
-		StopDash();
-		StopHeavyDash();
-		Stop();
+        EnterControlLock(true);
 
-		if (agent.enabled)
-		{
-			agent.updateRotation = false;
-			agent.speed = 0f;
-		}
-		yield return new WaitForSeconds(duration);
-		yield return true;
-	}
+        if (duration > 0f)
+            yield return new WaitForSeconds(duration);
+    }
     public bool LockControl()
+    {
+        EnterControlLock(true);
+        return true;
+    }
+	private void ControlLock()
+    {
+        EnterControlLock(true);
+    }
+    private void EnterControlLock(
+    bool stopHeavyDash)
     {
         movementLocked = true;
         rotationLocked = true;
         controlLocked = true;
+
         StopFaceTarget();
         StopDash();
-        StopHeavyDash();
+
+        if (stopHeavyDash)
+            StopHeavyDash();
+
         Stop();
 
         if (agent.enabled)
@@ -219,9 +251,7 @@ public class AIMovement : MonoBehaviour
             agent.updateRotation = false;
             agent.speed = 0f;
         }
-		return true;
     }
-
     public bool DashForward(float distance, float duration)
 	{
 		if (!agent.enabled || !EnsureAgentOnNavMesh() || controlLocked)
@@ -266,19 +296,20 @@ public class AIMovement : MonoBehaviour
 
 		dashCoroutine = null;
 	}
-    public bool HeavyDashForward(AIStatus status, float distance, float duration, float stunDuration)
+    public bool HeavyDashForward(float distance, float duration, float stunDuration,float damage)
     {
-        if (!agent.enabled || !EnsureAgentOnNavMesh() || controlLocked)
+        if (!agent.enabled || !EnsureAgentOnNavMesh() || controlLocked||status.IsDead())
             return false;
 
         if (heavyDashCoroutine != null)
             StopHeavyDash();
 
-        heavyDashCoroutine = StartCoroutine(HeavyDashRoutine(status,distance, duration,stunDuration));
+        heavyDashCoroutine = StartCoroutine(HeavyDashRoutine(distance, duration,stunDuration,damage));
         return true;
     }
-    private IEnumerator HeavyDashRoutine(AIStatus status, float distance, float duration,float stunDuration)
+    private IEnumerator HeavyDashRoutine(float distance, float duration,float stunDuration,float damage)
     {
+        heavyDashRunning = true;
         Vector3 direction = transform.forward;
         direction.y = 0f;
 
@@ -287,27 +318,93 @@ public class AIMovement : MonoBehaviour
 
         direction.Normalize();
 
-        float elapsed = 0f;
-        float speed = distance / duration;
-
-        while (elapsed < duration && !controlLocked)
+        if (!TryGetComponent(out AIPerception perception))
         {
-            float delta = Mathf.Min(Time.deltaTime, duration - elapsed);
-            agent.Move(direction * speed * delta);
-            elapsed += delta;
-			if((status.TryGetComponent(out AIPerception perception)))
-			{
-				if (perception.IsTouchingWall())
-				{
-					StartCoroutine(Stun(stunDuration));
-                    yield break;
-                }
-            }
-            yield return null;
+            heavyDashRunning = false;
+            heavyDashCoroutine = null;
+            yield break;
         }
 
+        if (duration <= 0f)
+        {
+            MoveHeavyDashStep(
+                perception,
+                direction,
+                distance,
+                damage);
+        }
+        else
+        {
+            float elapsed = 0f;
+            float speed = distance / duration;
+
+            while (elapsed < duration && !controlLocked)
+            {
+                float delta = Mathf.Min(
+                    Time.deltaTime,
+                    duration - elapsed);
+
+                float stepDistance = speed * delta;
+
+                bool collided = MoveHeavyDashStep(
+                    perception,
+                    direction,
+                    stepDistance,
+                    damage);
+
+                elapsed += delta;
+
+                if (collided)
+                    break;
+
+                yield return null;
+            }
+        }
+
+        // 無論是撞到玩家、撞牆，或跑完整段距離，
+        // 都進入技能設定的攻擊後硬直。
+        EnterControlLock(false);
+
+        if (stunDuration > 0f)
+            yield return new WaitForSeconds(stunDuration);
+
+        UnlockMove();
+
+        heavyDashRunning = false;
         heavyDashCoroutine = null;
     }
+	private bool MoveHeavyDashStep(
+	AIPerception perception,
+	Vector3 direction,
+	float requestedDistance,
+	float damage)
+	{
+		if (requestedDistance <= 0f)
+			return false;
+
+		Vector3 displacement =
+			direction * requestedDistance;
+
+		BodyContactType contactType =
+			perception.SweepBody(
+				displacement,
+				out float allowedDistance,
+				out CharacterStats hitPlayer);
+
+		if (allowedDistance > 0f)
+		{
+			agent.Move(
+				direction * allowedDistance);
+		}
+
+		if (contactType == BodyContactType.Player &&
+			hitPlayer != null)
+		{
+			hitPlayer.TakeDamage(damage);
+		}
+
+		return contactType != BodyContactType.None;
+	}
     private void StopDash()
 	{
 		if (dashCoroutine == null)
@@ -318,11 +415,11 @@ public class AIMovement : MonoBehaviour
 	}
     private void StopHeavyDash()
     {
-        if (heavyDashCoroutine == null)
-            return;
+        if (heavyDashCoroutine != null)
+            StopCoroutine(heavyDashCoroutine);
 
-        StopCoroutine(heavyDashCoroutine);
         heavyDashCoroutine = null;
+        heavyDashRunning = false;
     }
 
     public bool HasPath()
@@ -551,9 +648,9 @@ public class AIMovement : MonoBehaviour
 		return UnlockRotation();
 	}
 
-	public ActNode Action_FaceTarget(AIPerception perception)
+	public ActNode Action_FaceTarget(AIPerception perception, float turnSpeed)
 	{
-		return FaceTarget(perception);
+		return FaceTarget(perception, turnSpeed);
 	}
 
 	public ActNode Action_DashForward(float distance, float duration)

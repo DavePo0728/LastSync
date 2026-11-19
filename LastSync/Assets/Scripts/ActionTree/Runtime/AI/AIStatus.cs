@@ -70,7 +70,10 @@ public class AIStatus : MonoBehaviour
 
 	public void TakeDamage(float damage)
 	{
-		float finalDamage = Mathf.Max(1f, damage - defense);
+		if (alreadyDead)
+			return;
+
+        float finalDamage = Mathf.Max(1f, damage - defense);
 
 		currentHealth -= finalDamage;
 		UpdateUI();
@@ -78,8 +81,6 @@ public class AIStatus : MonoBehaviour
 		
 		if (currentHealth <= 0f&& !alreadyDead)
 		{
-			currentHealth = 0f;
-			alreadyDead = true;
 			Die();
 		}
 	}
@@ -96,7 +97,11 @@ public class AIStatus : MonoBehaviour
 
     public void Die()
 	{
-		Died?.Invoke();
+		if (alreadyDead)
+			return;
+        alreadyDead = true;
+        currentHealth = 0f;
+        Died?.Invoke();
         healthUIReference.DeadDestroyUI();
         Destroy(gameObject, deathDestroyDelay);
 	}

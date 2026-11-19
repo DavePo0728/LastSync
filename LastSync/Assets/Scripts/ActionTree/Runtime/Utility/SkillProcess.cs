@@ -84,8 +84,27 @@ public static class SkillProcess
 	[SkillAction("DashAttack")]
 	public static void DashAttack(AIStatus status, float distance, float duration, float stunDuration)
     {
-        if (status.TryGetComponent(out AIMovement movement))
-            movement.HeavyDashForward(status, distance, duration,stunDuration);
+        if (status == null)
+            return;
+		if(status.IsDead())
+			return;
+
+        if (!status.TryGetComponent(out AIMovement movement))
+            return;
+
+        float damage = 0f;
+
+        if (status.TryGetComponent(out AISkill skill) &&
+            skill.CurrentSkill != null)
+        {
+            damage = skill.CurrentSkill.Data.Damage;
+        }
+
+        movement.HeavyDashForward(
+            distance,
+            duration,
+            stunDuration,
+            damage);
     }
     [SkillAction("AttackRange")]
 	public static void AttackRange(AIStatus status)  // 顯示攻擊範圍
@@ -109,8 +128,10 @@ public static class SkillProcess
 	{
 		if (status == null)
 			return;
+		if(status.IsDead())
+            return;
 
-		WeaponEmitter emitter = status.GetComponentInChildren<WeaponEmitter>(true);
+        WeaponEmitter emitter = status.GetComponentInChildren<WeaponEmitter>(true);
 
 		if (emitter != null)
 			emitter.Fire();
@@ -121,6 +142,8 @@ public static class SkillProcess
 	{
 		if (status == null)
 			return;
+		if(status.IsDead())
+            return;
 
 		if (!status.TryGetComponent(out AIPerception perception))
 			return;

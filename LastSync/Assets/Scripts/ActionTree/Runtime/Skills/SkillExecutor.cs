@@ -17,7 +17,19 @@ public sealed class SkillExecutor
 		if (runtime == null)
 			return NodeState.Failure;
 
-		if (runtime.WaitTimer > 0f)
+        if (runtime.WaitForHeavyDash)
+        {
+            if (owner != null &&
+                owner.TryGetComponent(out AIMovement movement) &&
+                movement.IsHeavyDashRunning)
+            {
+                return NodeState.Running;
+            }
+
+            runtime.WaitForHeavyDash = false;
+        }
+
+        if (runtime.WaitTimer > 0f)
 		{
 			runtime.WaitTimer -= Time.deltaTime;
 			return NodeState.Running;
@@ -144,7 +156,19 @@ public sealed class SkillExecutor
 
 		InvokeAction(runtime, owner, action);
 
-		if (TryGetActionWaitTime(action, out float waitTime) && waitTime > 0f)
+        if (action.MethodName ==
+    nameof(SkillProcess.DashAttack))
+        {
+            runtime.WaitForHeavyDash =
+                owner != null &&
+                owner.TryGetComponent(out AIMovement movement) &&
+                movement.IsHeavyDashRunning;
+
+            return runtime.ActionIndex >= actions.Count &&
+                   !runtime.WaitForHeavyDash;
+        }
+
+        if (TryGetActionWaitTime(action, out float waitTime) && waitTime > 0f)
 			runtime.WaitTimer = waitTime;
 
 		return runtime.ActionIndex >= actions.Count && runtime.WaitTimer <= 0f;
@@ -244,8 +268,6 @@ public sealed class SkillExecutor
 
 		if (action.MethodName == nameof(SkillProcess.Dash))
 			return TryFindFloat(action, "duration", out waitTime);
-		if (action.MethodName == nameof(SkillProcess.DashAttack))
-            return TryFindFloat(action, "duration", out waitTime);
 
 		return false;
 	}

@@ -13,12 +13,13 @@ public sealed class SkillRuntime
 	public SkillState State { get; set; }
 
 	public bool Interrupted { get; set; }
+    public bool WaitForHeavyDash { get; set; }
 
-	#endregion
+    #endregion
 
-	#region Timer
+    #region Timer
 
-	public float Timer { get; set; }
+    public float Timer { get; set; }
 
 	public float Cooldown { get; set; }
 
@@ -45,7 +46,8 @@ public sealed class SkillRuntime
 		WaitTimer = 0f;
 		PreparedAttackActionCount = 0;
 		Interrupted = false;
-	}
+        WaitForHeavyDash = false;
+    }
 
 	public void Finish()
 	{
@@ -54,7 +56,8 @@ public sealed class SkillRuntime
 		ActionIndex = 0;
 		WaitTimer = 0f;
 		PreparedAttackActionCount = 0;
-		Cooldown = Data.Cooldown;
+        WaitForHeavyDash = false;
+        Cooldown = Data.Cooldown;
 	}
 
 	public void Interrupt()
@@ -65,7 +68,8 @@ public sealed class SkillRuntime
 		ActionIndex = 0;
 		WaitTimer = 0f;
 		PreparedAttackActionCount = 0;
-	}
+        WaitForHeavyDash = false;
+    }
 
 	public void Reset()
 	{
@@ -75,12 +79,14 @@ public sealed class SkillRuntime
 		WaitTimer = 0f;
 		PreparedAttackActionCount = 0;
 		Interrupted = false;
-	}
+        WaitForHeavyDash = false;
+    }
 
 	public void BeginPhase(SkillState state)
 	{
 		State = state;
 		ActionIndex = 0;
 		WaitTimer = 0f;
-	}
+        WaitForHeavyDash = false;
+    }
 }

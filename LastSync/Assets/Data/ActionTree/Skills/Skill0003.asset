@@ -16,7 +16,7 @@ MonoBehaviour:
   icon: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   damage: 30
   range: 15
-  cooldown: 1
+  cooldown: 2
   castTime: 1.5
   priority: 0
   beforeActions: []
@@ -87,33 +87,7 @@ MonoBehaviour:
       vector4Value: {x: 0, y: 0, z: 0, w: 0}
       colorValue: {r: 0, g: 0, b: 0, a: 0}
       objectValue: {fileID: 0}
-  - methodName: Damage
-    parameters:
-    - parameterName: damage
-      parameterType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-      intValue: 0
-      floatValue: 30
-      boolValue: 0
-      stringValue: 
-      vector2Value: {x: 0, y: 0}
-      vector3Value: {x: 0, y: 0, z: 0}
-      vector4Value: {x: 0, y: 0, z: 0, w: 0}
-      colorValue: {r: 0, g: 0, b: 0, a: 0}
-      objectValue: {fileID: 0}
   afterActions:
-  - methodName: Recover
-    parameters:
-    - parameterName: time
-      parameterType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-      intValue: 0
-      floatValue: 1
-      boolValue: 0
-      stringValue: 
-      vector2Value: {x: 0, y: 0}
-      vector3Value: {x: 0, y: 0, z: 0}
-      vector4Value: {x: 0, y: 0, z: 0, w: 0}
-      colorValue: {r: 0, g: 0, b: 0, a: 0}
-      objectValue: {fileID: 0}
   - methodName: UnlockMove
     parameters: []
   - methodName: UnlockRotation

@@ -5,9 +5,9 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class AIPerception : MonoBehaviour	// This class is responsible for detecting the player and managing the AI's perception of its surroundings
 {
-	#region Parameter
+    #region Parameter
 
-	[Header("Update")]
+    [Header("Update")]
 	[SerializeField]
 	private int detectInterval = 30;
 
@@ -36,6 +36,7 @@ public class AIPerception : MonoBehaviour	// This class is responsible for detec
     private float wallContactPadding = 0.05f;
 
     private readonly Collider[] wallContactResults = new Collider[16];
+    private readonly RaycastHit[] bodyCastResults = new RaycastHit[16];
 
     #endregion
 
@@ -63,11 +64,10 @@ public class AIPerception : MonoBehaviour	// This class is responsible for detec
 
 #endif
 
-	#endregion
+    #endregion
 
-	#region Method
-
-	private void UpdatePerception()     // Update the perception of the AI to detect the player
+    #region Method
+    private void UpdatePerception()     // Update the perception of the AI to detect the player
     {
 		if (player == null)
 		{
@@ -224,9 +224,7 @@ public class AIPerception : MonoBehaviour	// This class is responsible for detec
 	}
     public CondNode IsTouchingWall() // Check if the AI has hit a wall while moving towards the target
     {
-        if (bodyCollider == null)
-            bodyCollider = GetComponent<CapsuleCollider>();
-        if (bodyCollider == null || !bodyCollider.enabled)
+        if (!EnsureBodyCollider())
             return false;
 
         GetWorldCapsule(
@@ -285,13 +283,31 @@ public class AIPerception : MonoBehaviour	// This class is responsible for detec
 
         return hit.collider.CompareTag("Wall");
     }
-    public CondNode IsFacingTarget(float angleThreshold = 10f) // Check if the AI is facing the target within a certain angle threshold
+    public CondNode IsFacingTarget(
+        float angleThreshold = 10f)
     {
         if (!EnsureTarget())
             return false;
-        Vector3 directionToTarget = DirectionToTarget();
-        float angle = Vector3.Angle(transform.forward, directionToTarget);
-        return angle <= angleThreshold;
+
+        return AngleToTarget() <=
+               Mathf.Max(0f, angleThreshold);
+    }
+    public CondNode NeedsToFaceTarget(
+    float angleThreshold = 5f)
+    {
+        if (!EnsureTarget())
+            return false;
+
+        // 技能已經開始後，由 SkillProcess.FaceTarget／AIMovement.Update
+        // 負責持續追蹤，避免 ActionTree 再額外轉一次造成雙倍轉速。
+        if (TryGetComponent(out AISkill skill) &&
+            skill.CurrentSkill != null)
+        {
+            return false;
+        }
+
+        return AngleToTarget() >
+               Mathf.Max(0f, angleThreshold);
     }
     #endregion
     private static void GetWorldCapsule(
@@ -355,4 +371,191 @@ public class AIPerception : MonoBehaviour	// This class is responsible for detec
         pointA = center + offset;
         pointB = center - offset;
     }
+    private float AngleToTarget()
+    {
+        if (!EnsureTarget())
+            return 180f;
+
+        Vector3 direction =
+            target.position - transform.position;
+
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude < 0.0001f)
+            return 0f;
+
+        return Vector3.Angle(
+            transform.forward,
+            direction.normalized);
+    }
+    private bool EnsureBodyCollider()
+    {
+        if (bodyCollider == null)
+            bodyCollider = GetComponent<CapsuleCollider>();
+
+        return bodyCollider != null &&
+               bodyCollider.enabled;
+    }
+    public BodyContactType SweepBody(
+    Vector3 displacement,
+    out float allowedDistance,
+    out CharacterStats hitPlayer)
+    {
+        allowedDistance = displacement.magnitude;
+        hitPlayer = null;
+
+        if (!EnsureBodyCollider())
+            return BodyContactType.None;
+
+        GetWorldCapsule(
+            bodyCollider,
+            out Vector3 pointA,
+            out Vector3 pointB,
+            out float radius);
+
+        BodyContactType overlapType =
+            FindCurrentBodyContact(
+                pointA,
+                pointB,
+                radius,
+                out hitPlayer);
+
+        if (overlapType != BodyContactType.None)
+        {
+            allowedDistance = 0f;
+            return overlapType;
+        }
+
+        if (allowedDistance <= 0.0001f)
+            return BodyContactType.None;
+
+        Vector3 direction =
+            displacement / allowedDistance;
+
+        int hitCount = Physics.CapsuleCastNonAlloc(
+            pointA,
+            pointB,
+            radius,
+            direction,
+            bodyCastResults,
+            allowedDistance,
+            Physics.AllLayers,
+            QueryTriggerInteraction.Ignore);
+
+        BodyContactType closestType =
+            BodyContactType.None;
+
+        CharacterStats closestPlayer = null;
+        float closestDistance =
+            float.PositiveInfinity;
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            RaycastHit hit = bodyCastResults[i];
+
+            BodyContactType contactType =
+                ClassifyBodyContact(
+                    hit.collider,
+                    out CharacterStats candidatePlayer);
+
+            if (contactType == BodyContactType.None)
+                continue;
+
+            bool closer =
+                hit.distance < closestDistance - 0.0001f;
+
+            bool wallWinsTie =
+                Mathf.Abs(hit.distance - closestDistance) <= 0.0001f &&
+                contactType == BodyContactType.Wall &&
+                closestType != BodyContactType.Wall;
+
+            if (!closer && !wallWinsTie)
+                continue;
+
+            closestDistance = hit.distance;
+            closestType = contactType;
+            closestPlayer = candidatePlayer;
+        }
+
+        if (closestType == BodyContactType.None)
+            return BodyContactType.None;
+
+        allowedDistance = Mathf.Clamp(
+            closestDistance - wallContactPadding,
+            0f,
+            allowedDistance);
+
+        hitPlayer = closestPlayer;
+        return closestType;
+    }
+    private BodyContactType FindCurrentBodyContact(
+    Vector3 pointA,
+    Vector3 pointB,
+    float radius,
+    out CharacterStats hitPlayer)
+    {
+        hitPlayer = null;
+
+        int hitCount = Physics.OverlapCapsuleNonAlloc(
+            pointA,
+            pointB,
+            radius,
+            wallContactResults,
+            Physics.AllLayers,
+            QueryTriggerInteraction.Ignore);
+
+        CharacterStats overlappingPlayer = null;
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            BodyContactType contactType =
+                ClassifyBodyContact(
+                    wallContactResults[i],
+                    out CharacterStats candidatePlayer);
+
+            if (contactType == BodyContactType.Wall)
+                return BodyContactType.Wall;
+
+            if (contactType == BodyContactType.Player)
+                overlappingPlayer = candidatePlayer;
+        }
+
+        if (overlappingPlayer != null)
+        {
+            hitPlayer = overlappingPlayer;
+            return BodyContactType.Player;
+        }
+
+        return BodyContactType.None;
+    }
+
+    private BodyContactType ClassifyBodyContact(
+    Collider hit,
+    out CharacterStats hitPlayer)
+    {
+        hitPlayer = null;
+
+        if (hit == null)
+            return BodyContactType.None;
+
+        if (hit.transform.IsChildOf(transform))
+            return BodyContactType.None;
+
+        if (hit.CompareTag("Wall"))
+            return BodyContactType.Wall;
+
+        hitPlayer =
+            hit.GetComponentInParent<CharacterStats>();
+
+        if (hitPlayer != null)
+            return BodyContactType.Player;
+
+        return BodyContactType.None;
+    }
+}
+public enum BodyContactType
+{
+    None,
+    Wall,
+    Player
 }

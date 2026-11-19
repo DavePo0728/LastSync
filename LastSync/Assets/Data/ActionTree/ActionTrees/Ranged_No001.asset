@@ -30,6 +30,9 @@ MonoBehaviour:
   - rid: 8151062907073069322
   - rid: 8151062907073069323
   - rid: 8151062907073069324
+  - rid: 30420584206696521
+  - rid: 30420584206696522
+  - rid: 30420584206696523
   stableFormatVersion: 1
   stableRootGuid: ranged-root-0001
   stableNodes:
@@ -56,7 +59,7 @@ MonoBehaviour:
     guid: ranged-attack-sequence
     rect:
       serializedVersion: 2
-      x: 1080
+      x: 1340
       y: 540
       width: 220
       height: 50
@@ -77,7 +80,7 @@ MonoBehaviour:
     guid: ranged-is-skill-range
     rect:
       serializedVersion: 2
-      x: 820
+      x: 1080
       y: 710
       width: 220
       height: 50
@@ -107,7 +110,7 @@ MonoBehaviour:
     guid: ranged-can-use
     rect:
       serializedVersion: 2
-      x: 1080
+      x: 1340
       y: 710
       width: 220
       height: 50
@@ -137,7 +140,7 @@ MonoBehaviour:
     guid: ranged-use-skill
     rect:
       serializedVersion: 2
-      x: 1340
+      x: 1600
       y: 710
       width: 220
       height: 50
@@ -167,7 +170,7 @@ MonoBehaviour:
     guid: ranged-cooldown-sequence
     rect:
       serializedVersion: 2
-      x: 430
+      x: 690
       y: 540
       width: 220
       height: 50
@@ -187,7 +190,7 @@ MonoBehaviour:
     guid: ranged-is-cooldown
     rect:
       serializedVersion: 2
-      x: 300
+      x: 560
       y: 710
       width: 220
       height: 50
@@ -217,7 +220,7 @@ MonoBehaviour:
     guid: ranged-move-away
     rect:
       serializedVersion: 2
-      x: 560
+      x: 820
       y: 710
       width: 220
       height: 50
@@ -247,7 +250,7 @@ MonoBehaviour:
     guid: ranged-approach-sequence
     rect:
       serializedVersion: 2
-      x: -90
+      x: -348.8889
       y: 540
       width: 220
       height: 50
@@ -267,7 +270,7 @@ MonoBehaviour:
     guid: ranged-is-target-detected
     rect:
       serializedVersion: 2
-      x: -220
+      x: -480
       y: 710
       width: 220
       height: 50
@@ -277,7 +280,7 @@ MonoBehaviour:
     childGuids: []
     action:
       componentType: AIPerception
-      methodName: IsTargetDetected
+      methodName: IsTargetTooFar
       parameters: []
       skill: {fileID: 0}
       enabled: 1
@@ -285,7 +288,7 @@ MonoBehaviour:
     guid: ranged-move-to-range
     rect:
       serializedVersion: 2
-      x: 40
+      x: -220
       y: 710
       width: 220
       height: 50
@@ -295,21 +298,9 @@ MonoBehaviour:
     childGuids: []
     action:
       componentType: AIMovement
-      methodName: MoveToSkillRange
-      parameters:
-      - parameterName: skill
-        parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
-          Culture=neutral, PublicKeyToken=null
-        intValue: 0
-        floatValue: 0
-        boolValue: 0
-        stringValue: 
-        vector2Value: {x: 0, y: 0}
-        vector3Value: {x: 0, y: 0, z: 0}
-        vector4Value: {x: 0, y: 0, z: 0, w: 0}
-        colorValue: {r: 0, g: 0, b: 0, a: 0}
-        objectValue: {fileID: 11400000, guid: 37bc7630df474fe397961c516fc86e4c, type: 2}
-      skill: {fileID: 11400000, guid: 37bc7630df474fe397961c516fc86e4c, type: 2}
+      methodName: ChaseTarget
+      parameters: []
+      skill: {fileID: 0}
       enabled: 1
   - typeId: selector
     guid: 1d0f096062d0480b83643a988ed77f4a
@@ -325,6 +316,7 @@ MonoBehaviour:
     childGuids:
     - 96d4939f6fb84c8d9504d04542348ad0
     - ranged-approach-sequence
+    - f260b817d5294aa2abc63853e0cfeaaa
     - ranged-cooldown-sequence
     - ranged-attack-sequence
     action:
@@ -337,7 +329,7 @@ MonoBehaviour:
     guid: 96d4939f6fb84c8d9504d04542348ad0
     rect:
       serializedVersion: 2
-      x: -610
+      x: -870
       y: 540
       width: 220
       height: 50
@@ -357,7 +349,7 @@ MonoBehaviour:
     guid: 68295ba134ff48ccb1bb35c6843c3951
     rect:
       serializedVersion: 2
-      x: -740
+      x: -1000
       y: 710
       width: 220
       height: 50
@@ -375,7 +367,7 @@ MonoBehaviour:
     guid: 726865b1fca94570a96be1b8ba3cb0ce
     rect:
       serializedVersion: 2
-      x: -480
+      x: -740
       y: 710
       width: 220
       height: 50
@@ -389,9 +381,148 @@ MonoBehaviour:
       parameters: []
       skill: {fileID: 0}
       enabled: 1
+  - typeId: sequence
+    guid: f260b817d5294aa2abc63853e0cfeaaa
+    rect:
+      serializedVersion: 2
+      x: 168.88892
+      y: 542.2222
+      width: 220
+      height: 50
+    title: Sequence
+    comment: 
+    isExpanded: 0
+    childGuids:
+    - fccb572d7b5e4fdcb87b29ee7da8d996
+    - 1f9f33d378d94ea0a577f757a9b9e5fd
+    action:
+      componentType: 
+      methodName: 
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: condition
+    guid: fccb572d7b5e4fdcb87b29ee7da8d996
+    rect:
+      serializedVersion: 2
+      x: 42.222214
+      y: 708.8889
+      width: 220
+      height: 50
+    title: Condition
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AIPerception
+      methodName: IsTargetTooClose
+      parameters: []
+      skill: {fileID: 0}
+      enabled: 1
+  - typeId: action
+    guid: 1f9f33d378d94ea0a577f757a9b9e5fd
+    rect:
+      serializedVersion: 2
+      x: 300
+      y: 710
+      width: 220
+      height: 50
+    title: Action
+    comment: 
+    isExpanded: 0
+    childGuids: []
+    action:
+      componentType: AIMovement
+      methodName: MoveAwayFromTarget
+      parameters:
+      - parameterName: perception
+        parameterType: AIPerception, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+          PublicKeyToken=null
+        intValue: 0
+        floatValue: 0
+        boolValue: 0
+        stringValue: 
+        vector2Value: {x: 0, y: 0}
+        vector3Value: {x: 0, y: 0, z: 0}
+        vector4Value: {x: 0, y: 0, z: 0, w: 0}
+        colorValue: {r: 0, g: 0, b: 0, a: 0}
+        objectValue: {fileID: 0}
+      skill: {fileID: 0}
+      enabled: 1
   references:
     version: 2
     RefIds:
+    - rid: 30420584206696521
+      type: {class: SequenceNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: f260b817d5294aa2abc63853e0cfeaaa
+        rect:
+          serializedVersion: 2
+          x: 168.88892
+          y: 542.2222
+          width: 220
+          height: 50
+        title: Sequence
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children:
+        - rid: 30420584206696522
+        - rid: 30420584206696523
+    - rid: 30420584206696522
+      type: {class: ConditionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: fccb572d7b5e4fdcb87b29ee7da8d996
+        rect:
+          serializedVersion: 2
+          x: 42.222214
+          y: 708.8889
+          width: 220
+          height: 50
+        title: Condition
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children: []
+        condition:
+          componentType: AIPerception
+          methodName: IsTargetTooClose
+          parameters: []
+          skill: {fileID: 0}
+          enabled: 1
+    - rid: 30420584206696523
+      type: {class: ActionNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
+      data:
+        guid: 1f9f33d378d94ea0a577f757a9b9e5fd
+        rect:
+          serializedVersion: 2
+          x: 300
+          y: 710
+          width: 220
+          height: 50
+        title: Action
+        comment: 
+        isSelected: 0
+        isExpanded: 0
+        children: []
+        action:
+          componentType: AIMovement
+          methodName: MoveAwayFromTarget
+          parameters:
+          - parameterName: perception
+            parameterType: AIPerception, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+              PublicKeyToken=null
+            intValue: 0
+            floatValue: 0
+            boolValue: 0
+            stringValue: 
+            vector2Value: {x: 0, y: 0}
+            vector3Value: {x: 0, y: 0, z: 0}
+            vector4Value: {x: 0, y: 0, z: 0, w: 0}
+            colorValue: {r: 0, g: 0, b: 0, a: 0}
+            objectValue: {fileID: 0}
+          skill: {fileID: 0}
+          enabled: 1
     - rid: 2272020000000000001
       type: {class: RootNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
       data:
@@ -414,13 +545,13 @@ MonoBehaviour:
         guid: ranged-attack-sequence
         rect:
           serializedVersion: 2
-          x: 1080
+          x: 1340
           y: 540
           width: 220
           height: 50
         title: Attack
         comment: 
-        isSelected: 1
+        isSelected: 0
         isExpanded: 0
         children:
         - rid: 2272020000000000004
@@ -432,7 +563,7 @@ MonoBehaviour:
         guid: ranged-is-skill-range
         rect:
           serializedVersion: 2
-          x: 820
+          x: 1080
           y: 710
           width: 220
           height: 50
@@ -465,7 +596,7 @@ MonoBehaviour:
         guid: ranged-can-use
         rect:
           serializedVersion: 2
-          x: 1080
+          x: 1340
           y: 710
           width: 220
           height: 50
@@ -498,7 +629,7 @@ MonoBehaviour:
         guid: ranged-use-skill
         rect:
           serializedVersion: 2
-          x: 1340
+          x: 1600
           y: 710
           width: 220
           height: 50
@@ -531,7 +662,7 @@ MonoBehaviour:
         guid: ranged-cooldown-sequence
         rect:
           serializedVersion: 2
-          x: 430
+          x: 690
           y: 540
           width: 220
           height: 50
@@ -548,7 +679,7 @@ MonoBehaviour:
         guid: ranged-is-cooldown
         rect:
           serializedVersion: 2
-          x: 300
+          x: 560
           y: 710
           width: 220
           height: 50
@@ -581,7 +712,7 @@ MonoBehaviour:
         guid: ranged-move-away
         rect:
           serializedVersion: 2
-          x: 560
+          x: 820
           y: 710
           width: 220
           height: 50
@@ -614,13 +745,13 @@ MonoBehaviour:
         guid: ranged-approach-sequence
         rect:
           serializedVersion: 2
-          x: -90
+          x: -348.8889
           y: 540
           width: 220
           height: 50
         title: Approach Range
         comment: 
-        isSelected: 0
+        isSelected: 1
         isExpanded: 0
         children:
         - rid: 2272020000000000011
@@ -631,7 +762,7 @@ MonoBehaviour:
         guid: ranged-is-target-detected
         rect:
           serializedVersion: 2
-          x: -220
+          x: -480
           y: 710
           width: 220
           height: 50
@@ -642,7 +773,7 @@ MonoBehaviour:
         children: []
         condition:
           componentType: AIPerception
-          methodName: IsTargetDetected
+          methodName: IsTargetTooFar
           parameters: []
           skill: {fileID: 0}
           enabled: 1
@@ -652,7 +783,7 @@ MonoBehaviour:
         guid: ranged-move-to-range
         rect:
           serializedVersion: 2
-          x: 40
+          x: -220
           y: 710
           width: 220
           height: 50
@@ -663,21 +794,9 @@ MonoBehaviour:
         children: []
         action:
           componentType: AIMovement
-          methodName: MoveToSkillRange
-          parameters:
-          - parameterName: skill
-            parameterType: ActionTree.Data.SkillData, Assembly-CSharp, Version=0.0.0.0,
-              Culture=neutral, PublicKeyToken=null
-            intValue: 0
-            floatValue: 0
-            boolValue: 0
-            stringValue: 
-            vector2Value: {x: 0, y: 0}
-            vector3Value: {x: 0, y: 0, z: 0}
-            vector4Value: {x: 0, y: 0, z: 0, w: 0}
-            colorValue: {r: 0, g: 0, b: 0, a: 0}
-            objectValue: {fileID: 11400000, guid: 37bc7630df474fe397961c516fc86e4c, type: 2}
-          skill: {fileID: 11400000, guid: 37bc7630df474fe397961c516fc86e4c, type: 2}
+          methodName: ChaseTarget
+          parameters: []
+          skill: {fileID: 0}
           enabled: 1
     - rid: 8151062907073069321
       type: {class: SelectorNodeData, ns: ActionTree.Data, asm: Assembly-CSharp}
@@ -696,6 +815,7 @@ MonoBehaviour:
         children:
         - rid: 8151062907073069322
         - rid: 2272020000000000010
+        - rid: 30420584206696521
         - rid: 2272020000000000007
         - rid: 2272020000000000003
     - rid: 8151062907073069322
@@ -704,7 +824,7 @@ MonoBehaviour:
         guid: 96d4939f6fb84c8d9504d04542348ad0
         rect:
           serializedVersion: 2
-          x: -610
+          x: -870
           y: 540
           width: 220
           height: 50
@@ -721,7 +841,7 @@ MonoBehaviour:
         guid: 68295ba134ff48ccb1bb35c6843c3951
         rect:
           serializedVersion: 2
-          x: -740
+          x: -1000
           y: 710
           width: 220
           height: 50
@@ -742,7 +862,7 @@ MonoBehaviour:
         guid: 726865b1fca94570a96be1b8ba3cb0ce
         rect:
           serializedVersion: 2
-          x: -480
+          x: -740
           y: 710
           width: 220
           height: 50

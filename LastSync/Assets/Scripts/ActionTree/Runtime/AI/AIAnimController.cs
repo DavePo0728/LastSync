@@ -65,22 +65,30 @@ public class AIAnimController : MonoBehaviour
 
 	private void Update()
 	{
-		UpdateMoveParameters();
+        if (status.IsDead())
+            return;
+        UpdateMoveParameters();
 	}
 
 	public void PlayAttackA()
 	{
-		SetTrigger(AttackA);
+        if (status.IsDead())
+            return;
+        SetTrigger(AttackA);
 	}
 
 	public void PlayAttackB()
 	{
-		SetTrigger(AttackB);
+        if (status.IsDead())
+            return;
+        SetTrigger(AttackB);
 	}
 
 	public void PlayTakeDamage()
 	{
-		SetTrigger(TakeDamage);
+        if (status.IsDead())
+            return;
+        SetTrigger(TakeDamage);
 	}
 
 	public void PlayDie()
@@ -112,8 +120,12 @@ public class AIAnimController : MonoBehaviour
 	{
 		if (animator == null || agent == null)
 			return;
-
-		Vector3 velocity = agent.velocity;
+        if (status.IsDead())
+		{
+            ClearMoveParameters();
+            return;
+        }
+        Vector3 velocity = agent.velocity;
 		velocity.y = 0f;
 
 		if (velocity.sqrMagnitude <= moveThreshold * moveThreshold)
@@ -147,6 +159,8 @@ public class AIAnimController : MonoBehaviour
 
 	private void OnSkillAttackStarted(SkillData data, int index)
 	{
+		if(status.IsDead())
+            return;
 		if (index == 1)
 			PlayAttackB();
 		else
@@ -161,11 +175,14 @@ public class AIAnimController : MonoBehaviour
 	private void OnDied()
 	{
 		PlayDie();
-	}
+		animator.ResetTrigger(AttackA);
+		animator.ResetTrigger(AttackB);
+		animator.ResetTrigger(TakeDamage);
+    }
 
 	private void SetBool(string parameter, bool value)
 	{
-		if (!HasParameter(parameter, AnimatorControllerParameterType.Bool))
+        if (!HasParameter(parameter, AnimatorControllerParameterType.Bool))
 			return;
 
 		animator.SetBool(parameter, value);
@@ -173,7 +190,7 @@ public class AIAnimController : MonoBehaviour
 
 	private void SetTrigger(string parameter)
 	{
-		if (!HasParameter(parameter, AnimatorControllerParameterType.Trigger))
+        if (!HasParameter(parameter, AnimatorControllerParameterType.Trigger))
 			return;
 
 		animator.SetTrigger(parameter);
@@ -181,7 +198,7 @@ public class AIAnimController : MonoBehaviour
 
 	private bool HasParameter(string parameter, AnimatorControllerParameterType type)
 	{
-		if (animator == null)
+        if (animator == null)
 			return false;
 
 		int hash = Animator.StringToHash(parameter);

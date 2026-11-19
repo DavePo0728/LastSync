@@ -13,12 +13,28 @@ public class BehaviorTreeRunner : MonoBehaviour
 	private BehaviorTree behaviorTree;
 	private AIContext context;
 
-	private void Awake()
+	private AIStatus status;
+	bool isDead = false;
+    private void Awake()
 	{
 		RebuildTree();
-	}
-
-	private void OnValidate()
+        status = GetComponent<AIStatus>();
+    }
+	void OnEnable()
+    {
+        if (status != null)
+        {
+            status.Died += StopTree;
+        }
+    }
+	void OnDisable()
+    {
+        if (status != null)
+        {
+			status.Died -= StopTree;
+        }
+    }
+    private void OnValidate()
 	{
 		if (Application.isPlaying)
 			RebuildTree();
@@ -39,9 +55,15 @@ public class BehaviorTreeRunner : MonoBehaviour
 
 	private void Update()
 	{
-		if (behaviorTree == null)
+		if (behaviorTree == null|| isDead||status == null ||status.IsDead())
 			return;
 
 		behaviorTree.Tick(context);
 	}
+	private void StopTree()
+	{
+
+        isDead = true;
+		behaviorTree?.Reset();
+    }
 }

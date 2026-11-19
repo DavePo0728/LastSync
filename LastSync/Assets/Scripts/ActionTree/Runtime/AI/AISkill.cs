@@ -4,11 +4,13 @@ using ActionTree;
 using ActionTree.Data;
 using ActionTree.Runtime;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 [DisallowMultipleComponent]
 public class AISkill : MonoBehaviour
 {
-	[SerializeField]
+	private AIStatus status;
+    [SerializeField]
 	private List<SkillData> skills = new();
 
 	private readonly Dictionary<SkillData, SkillRuntime> runtimes = new();
@@ -28,8 +30,8 @@ public class AISkill : MonoBehaviour
 	private void Awake()
 	{
 		runtimes.Clear();
-
-		foreach (SkillData skill in skills)
+		status = GetComponent<AIStatus>();
+        foreach (SkillData skill in skills)
 		{
 			if (skill == null)
 				continue;
@@ -48,7 +50,7 @@ public class AISkill : MonoBehaviour
 			runtime.Cooldown = Mathf.Max(0f, runtime.Cooldown - Time.deltaTime);
 		}
 
-		if (currentSkill != null)
+		if (currentSkill != null&&!status.IsDead())
 			Execute();
 	}
 
@@ -56,6 +58,12 @@ public class AISkill : MonoBehaviour
 	{
 		if (currentSkill == null)
 			return NodeState.Failure;
+		if(status.IsDead())
+        {
+            currentSkill.Interrupt();
+            currentSkill = null;
+            return NodeState.Failure;
+        }
 
 		SkillState previousState = currentSkill.State;
 		NodeState state = executor.Run(currentSkill, gameObject);
@@ -126,10 +134,25 @@ public class AISkill : MonoBehaviour
 		runtimes.Clear();
 		currentSkill = null;
 	}
+    private void OnEnable()
+    {
+        if (status != null)
+        {
+            status.Died += DeadInterrupted;
+        }
 
-	#region Skill
+    }
+	private void OnDisable()
+    {
+        if (status != null)
+        {
+            status.Died -= DeadInterrupted;
+        }
+    }
 
-	public CondNode CanUse(SkillData skill)
+    #region Skill
+
+    public CondNode CanUse(SkillData skill)
 	{
 		SkillRuntime runtime = GetRuntime(skill);
 
@@ -138,8 +161,10 @@ public class AISkill : MonoBehaviour
 
 		if (currentSkill != null)
 			return false;
+		if(status.IsDead())
+            return false;
 
-		return runtime.Cooldown <= 0f;
+        return runtime.Cooldown <= 0f;
 	}
 
 	public CondNode IsStillRange(SkillData skill)
@@ -156,6 +181,8 @@ public class AISkill : MonoBehaviour
 	public ActNode Use(SkillData skill)
 	{
 		if (!CanUse(skill))
+			return false;
+		if(status.IsDead())
 			return false;
 
 		currentSkill = GetRuntime(skill);
@@ -203,6 +230,18 @@ public class AISkill : MonoBehaviour
 
 		return true;
 	}
+	public void DeadInterrupted()
+    {
+        if (currentSkill == null)
+            return;
 
-	#endregion
+        Debug.Log($"Cancel Skill : {currentSkill.Data.SkillName}");
+        currentSkill.Interrupt();
+        currentSkill = null;
+
+        if (TryGetComponent(out AIMovement movement))
+            movement.StopFaceTarget();
+    }
+
+    #endregion
 }
