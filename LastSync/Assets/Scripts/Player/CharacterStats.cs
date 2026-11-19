@@ -5,6 +5,9 @@ using Unity.Cinemachine;
 
 public class CharacterStats : MonoBehaviour
 {
+    private const float EnemyDamageInvulnerabilityDuration = 0.25f;
+    private const float TrapDamageInvulnerabilityDuration = 1.0f;
+
     [Header("Base stats")]
     [SerializeField] private int baseMaxHealth = 100;
     [SerializeField] private int baseDefence = 50;
@@ -17,7 +20,7 @@ public class CharacterStats : MonoBehaviour
     [SerializeField] private int shieldRegenPerSecond = 5;
 
     [Header("UI Elements")]
-    [SerializeField] private Image healthBar;
+    [SerializeField] private Slider healthBar;
     [SerializeField] private Image hitFlashImage;
     [SerializeField] private CinemachineImpulseSource impulseSource;
     GameObject GameOverUI;
@@ -36,6 +39,8 @@ public class CharacterStats : MonoBehaviour
     // 內部計時與運算變數
     private float lastDamageTime;
     private float shieldRegenAccumulator = 0f;
+    private float enemyDamageInvulnerableUntil;
+    private float trapDamageInvulnerableUntil;
 
     #region 動態屬性計算
 
@@ -73,10 +78,10 @@ public class CharacterStats : MonoBehaviour
     {
         if (healthBar != null)
         {
-            healthBar.fillAmount = (float)CurrentHealth / CurrentMaxHealth;
+            healthBar.value = (float)CurrentHealth / CurrentMaxHealth;
         }
         else {
-            healthBar = GameObject.Find("HpUI")?.GetComponent<Image>();
+            healthBar = GameObject.Find("HpUI")?.GetComponent<Slider>();
         }
     }
 
@@ -105,6 +110,24 @@ public class CharacterStats : MonoBehaviour
     #region 戰鬥與傷害邏輯
 
     public void TakeDamage(float rawDamage)
+    {
+        if (Time.time < enemyDamageInvulnerableUntil)
+            return;
+
+        ApplyDamage(rawDamage);
+        enemyDamageInvulnerableUntil = Time.time + EnemyDamageInvulnerabilityDuration;
+    }
+
+    public void TakeTrapDamage(float rawDamage)
+    {
+        if (Time.time < trapDamageInvulnerableUntil)
+            return;
+
+        ApplyDamage(rawDamage);
+        trapDamageInvulnerableUntil = Time.time + TrapDamageInvulnerabilityDuration;
+    }
+
+    private void ApplyDamage(float rawDamage)
     {
         int actualDamage = Mathf.RoundToInt(rawDamage * DamageTakenMultiplier);
 
@@ -186,13 +209,14 @@ public class CharacterStats : MonoBehaviour
     {
         if (other.CompareTag("Trap"))
         {
-            float damage = 1; 
-            TakeDamage(damage);
+            float damage = CurrentMaxHealth * 0.1f;
+            TakeTrapDamage(damage);
         }
     }
-    public void SetHealthBar(Image bar)
+    public void SetHealthBar(Slider bar)
     {
         healthBar = bar;
+        UpdateUI();
     }
 }
 
