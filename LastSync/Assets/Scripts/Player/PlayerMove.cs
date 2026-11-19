@@ -11,6 +11,8 @@ public class PlayerMove : MonoBehaviour
     Rigidbody rb;
     Collider playerCollider;
     float moveSpeed;
+    [SerializeField]
+    float DashForce = 20f; // Force applied during dash
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     float dashCooldown = 2f; // Dash cooldown in seconds
     float dashTimer = 0f; // Timer for dash cooldown
@@ -88,7 +90,7 @@ public class PlayerMove : MonoBehaviour
     private void Dash()
     {
         isDashing = true;
-        rb.AddForce(GetCameraRelativeDirection() * 20f, ForceMode.Impulse);
+        rb.AddForce(GetCameraRelativeDirection() * DashForce, ForceMode.Impulse);
         playerCollider.enabled = false; // Disable collider to avoid collisions during dash
         Invoke("ResetIsDashing", dashDuration);
         Debug.Log("Dash performed");

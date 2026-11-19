@@ -159,6 +159,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   characterStat: {fileID: 0}
+  DashForce: 30
 --- !u!114 &3181292852475310367
 MonoBehaviour:
   m_ObjectHideFlags: 0
