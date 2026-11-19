@@ -3,6 +3,13 @@ using System.Collections;
 
 public static class SkillProcess
 {
+	[SkillAction("轉向速度倍率（僅 Attack）")]
+	public static void SetAttackTurnSpeedMultiplier(AIStatus status, float multiplier = 1f)
+	{
+		if (status != null && status.TryGetComponent(out AISkill skill))
+			skill.CurrentSkill?.SetAttackTurnSpeedMultiplier(multiplier);
+	}
+
 	[SkillAction("啟動移動限制")]
 	public static void LockMove(AIStatus status)
 	{

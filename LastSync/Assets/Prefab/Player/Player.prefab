@@ -52,6 +52,11 @@ MonoBehaviour:
   criticalChance: 0
   weaponData: {fileID: 11400000, guid: 13b60f5798b7ba44fa15e2a5a194bcac, type: 2}
   fireForce: 500
+  shotAudio:
+    clip: {fileID: 8300000, guid: 0910b552636052c42a5d5fb6d168dc27, type: 3}
+    volume: 0.7
+    minDistance: 5
+    maxDistance: 40
   BaseBulletAmount: 1
   impulseSource: {fileID: 0}
   bulletPrefab: {fileID: 192486925155096180, guid: 926aedd4338fa554880f4e441780da15, type: 3}

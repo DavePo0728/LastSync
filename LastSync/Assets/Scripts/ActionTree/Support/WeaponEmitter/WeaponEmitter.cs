@@ -24,6 +24,9 @@ public class WeaponEmitter : MonoBehaviour
 
 	private Coroutine fireRoutine;
 
+	[Header("發射音效")]
+	[SerializeField] private WeaponShotAudio shotAudio = new WeaponShotAudio();
+
 	public bool IsFiring => fireRoutine != null;
 
 	private Transform Muzzle => muzzle != null ? muzzle : transform;
@@ -66,6 +69,8 @@ public class WeaponEmitter : MonoBehaviour
 		GameObject projectile = projectilePrefab != null
 			? Instantiate(projectilePrefab, firePoint.position, firePoint.rotation)
 			: CreateFallbackProjectile(firePoint);
+
+		shotAudio.Play(firePoint);
 
 		if (projectile.TryGetComponent(out Rigidbody body))
 		{

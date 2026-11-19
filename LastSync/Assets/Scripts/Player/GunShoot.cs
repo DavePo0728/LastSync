@@ -15,6 +15,8 @@ public class GunShoot : WeaponBase
     [SerializeField]
     GameObject bulletPrefab;
     [SerializeField] private GameObject muzzleFlash;
+    [Header("發射音效")]
+    [SerializeField] private WeaponShotAudio shotAudio = new WeaponShotAudio();
     private PlayerAnimationController playerAnimationController;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,6 +33,8 @@ public class GunShoot : WeaponBase
     {
         if (bulletPrefab == null) return;
         int BulletAmount = BaseBulletAmount + ChipSystem.chipSystemInstance.BonusBulletCount;
+        if (BulletAmount <= 0) return;
+        shotAudio.Play(transform);
         playerAnimationController?.PlayShootAnimation();
         CameraShake(0.1f);
         if (BulletAmount > 0 && muzzleFlash != null)

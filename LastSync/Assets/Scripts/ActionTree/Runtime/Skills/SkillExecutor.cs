@@ -65,7 +65,16 @@ public sealed class SkillExecutor
 
 			case SkillState.Attack:
 				if (runtime.ActionIndex == 0 && runtime.PreparedAttackActionCount > 0)
+				{
+					// Preparation skips modifiers; apply them only when Attack begins.
+					for (int i = 0; i < runtime.PreparedAttackActionCount; i++)
+					{
+						SkillActionData preparedAction = runtime.Data.AttackActions[i];
+						if (IsTurnSpeedModifier(preparedAction))
+							InvokeAction(runtime, owner, preparedAction);
+					}
 					runtime.ActionIndex = runtime.PreparedAttackActionCount;
+				}
 
 				if (!RunPhase(runtime, owner, runtime.Data.AttackActions))
 					return NodeState.Running;
@@ -116,6 +125,13 @@ public sealed class SkillExecutor
 
 		foreach (SkillActionData action in runtime.Data.AttackActions)
 		{
+			// A speed setting must not prevent FaceTarget/LockMove preparation.
+			if (IsTurnSpeedModifier(action))
+			{
+				runtime.PreparedAttackActionCount++;
+				continue;
+			}
+
 			if (!IsCastingPrepareAction(action))
 				break;
 
@@ -127,6 +143,12 @@ public sealed class SkillExecutor
 		}
 
 		return waitTime;
+	}
+
+	private static bool IsTurnSpeedModifier(SkillActionData action)
+	{
+		return action != null &&
+			action.MethodName == nameof(SkillProcess.SetAttackTurnSpeedMultiplier);
 	}
 
 	private static bool IsCastingPrepareAction(SkillActionData action)
@@ -144,6 +166,15 @@ public sealed class SkillExecutor
 	{
 		if (actions == null || actions.Count == 0)
 			return true;
+
+		// Modifiers take effect without consuming an action frame or wait time.
+		while (runtime.ActionIndex < actions.Count &&
+			IsTurnSpeedModifier(actions[runtime.ActionIndex]))
+		{
+			SkillActionData modifier = actions[runtime.ActionIndex++];
+			if (runtime.State == SkillState.Attack)
+				InvokeAction(runtime, owner, modifier);
+		}
 
 		if (runtime.ActionIndex >= actions.Count)
 			return true;

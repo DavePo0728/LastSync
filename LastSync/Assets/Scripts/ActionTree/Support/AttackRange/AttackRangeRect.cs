@@ -55,6 +55,21 @@ public class AttackRangeRect : MonoBehaviour
 			hitArea.SetActive(false);
 	}
 
+	// Use the same local footprint as the telegraph. Height is ignored because
+	// this is a ground-area attack; the target position is projected onto it.
+	public bool ContainsWorldPoint(Vector3 worldPoint, float range)
+	{
+		Vector3 localPoint = transform.InverseTransformPoint(worldPoint);
+		Vector3 size = GetAreaSize(range);
+		return Mathf.Abs(localPoint.x) <= size.x * 0.5f &&
+			localPoint.z >= 0f && localPoint.z <= size.z;
+	}
+
+	private Vector3 GetAreaSize(float length)
+	{
+		return new Vector3(Mathf.Max(0.001f, width), 0.02f, Mathf.Max(0.001f, length));
+	}
+
 	private IEnumerator PlayRoutine()
 	{
 		EnsureAreaObjects();
@@ -116,8 +131,8 @@ public class AttackRangeRect : MonoBehaviour
 		if (area == null)
 			return;
 
-		float safeLength = Mathf.Max(0.001f, length);
-		area.transform.localPosition = new Vector3(0f, yOffset, safeLength * 0.5f);
-		area.transform.localScale = new Vector3(width, 0.02f, safeLength);
+		Vector3 size = GetAreaSize(length);
+		area.transform.localPosition = new Vector3(0f, yOffset, size.z * 0.5f);
+		area.transform.localScale = size;
 	}
 }

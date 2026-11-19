@@ -23,6 +23,10 @@ public class AISkill : MonoBehaviour
 
 	public SkillRuntime CurrentSkill => currentSkill;
 
+	public float AttackTurnSpeedMultiplier =>
+		isActiveAndEnabled && status != null && !status.IsDead() && currentSkill != null
+			? currentSkill.AttackTurnSpeedMultiplier : 1f;
+
 	public int Count => skills.Count;
 
 	public event Action<SkillData, int> SkillAttackStarted;
