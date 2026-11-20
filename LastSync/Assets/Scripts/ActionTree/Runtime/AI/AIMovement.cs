@@ -118,6 +118,9 @@ public class AIMovement : MonoBehaviour
         ? turnSpeed
         : defaultTurnSpeed;
 
+        if (TryGetComponent(out AISkill skill))
+            speed *= skill.AttackTurnSpeedMultiplier;
+
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, speed * Time.deltaTime);
 	}
     public bool FaceTarget(AIPerception perception)

@@ -136,7 +136,14 @@ public class AIPerception : MonoBehaviour	// This class is responsible for detec
 
 	public bool DamageTargetIfInRange(float range, float damage)
 	{
-		if (!IsTargetInRange(range))
+		if (!EnsureTarget())
+			return false;
+
+		AttackRangeRect attackArea = GetComponentInChildren<AttackRangeRect>(true);
+		bool inDamageArea = attackArea != null
+			? attackArea.ContainsWorldPoint(target.position, range)
+			: IsTargetInRange(range);
+		if (!inDamageArea)
 			return false;
 
 		if (target.TryGetComponent(out CharacterStats characterStats))

@@ -51,6 +51,11 @@ MonoBehaviour:
   burstInterval: 0.12
   projectileSpeed: 12
   projectileLifeTime: 3
+  shotAudio:
+    clip: {fileID: 8300000, guid: 4310474905e266640852f43bd609a1a4, type: 3}
+    volume: 0.7
+    minDistance: 5
+    maxDistance: 40
 --- !u!1 &100003
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,6 +13,19 @@ public sealed class SkillRuntime
 	public SkillState State { get; set; }
 
 	public bool Interrupted { get; set; }
+
+	private float attackTurnSpeedMultiplier = 1f;
+	public float AttackTurnSpeedMultiplier =>
+		State == SkillState.Attack && !Interrupted ? attackTurnSpeedMultiplier : 1f;
+
+	public void SetAttackTurnSpeedMultiplier(float multiplier)
+	{
+		if (State != SkillState.Attack || Interrupted ||
+			float.IsNaN(multiplier) || float.IsInfinity(multiplier))
+			return;
+
+		attackTurnSpeedMultiplier = UnityEngine.Mathf.Max(0f, multiplier);
+	}
     public bool WaitForHeavyDash { get; set; }
 
     #endregion
@@ -40,6 +53,7 @@ public sealed class SkillRuntime
 
 	public void Begin()
 	{
+		attackTurnSpeedMultiplier = 1f;
 		State = SkillState.Before;
 		Timer = 0f;
 		ActionIndex = 0;
@@ -51,6 +65,7 @@ public sealed class SkillRuntime
 
 	public void Finish()
 	{
+		attackTurnSpeedMultiplier = 1f;
 		State = SkillState.Finished;
 		Timer = 0f;
 		ActionIndex = 0;
@@ -62,6 +77,7 @@ public sealed class SkillRuntime
 
 	public void Interrupt()
 	{
+		attackTurnSpeedMultiplier = 1f;
 		Interrupted = true;
 		State = SkillState.Finished;
 		Timer = 0f;
@@ -73,6 +89,7 @@ public sealed class SkillRuntime
 
 	public void Reset()
 	{
+		attackTurnSpeedMultiplier = 1f;
 		State = SkillState.Idle;
 		Timer = 0f;
 		ActionIndex = 0;
@@ -84,6 +101,7 @@ public sealed class SkillRuntime
 
 	public void BeginPhase(SkillState state)
 	{
+		attackTurnSpeedMultiplier = 1f;
 		State = state;
 		ActionIndex = 0;
 		WaitTimer = 0f;

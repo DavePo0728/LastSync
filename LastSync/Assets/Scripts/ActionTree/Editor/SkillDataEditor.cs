@@ -166,6 +166,10 @@ public class SkillDataEditor : Editor
 			{
 				MethodInfo method = selector.GetMethod(i);
 
+				if (method.Name == nameof(SkillProcess.SetAttackTurnSpeedMultiplier) &&
+					propertyName != "attackActions")
+					continue;
+
 				SkillActionAttribute attribute =
 					method.GetCustomAttribute<SkillActionAttribute>();
 
@@ -202,6 +206,9 @@ public class SkillDataEditor : Editor
 					if (listData != null)
 					{
 						listData[index].RebuildParameters(method);
+
+						if (method.Name == nameof(SkillProcess.SetAttackTurnSpeedMultiplier))
+							listData[index].Parameters[0].floatValue = 1f;
 
 						EditorUtility.SetDirty(skillData);
 					}
