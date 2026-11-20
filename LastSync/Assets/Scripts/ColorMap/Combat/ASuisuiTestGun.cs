@@ -47,6 +47,7 @@ public class AsuisuiTestGun : MonoBehaviour
 
 		GameObject bullet = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		bullet.tag = "PlayerBullet";
+		bullet.layer = LayerMask.NameToLayer("Bullet");
 		bullet.transform.position = transform.position + transform.forward;
 		bullet.transform.rotation = transform.rotation;
 		bullet.transform.localScale = Vector3.one * 0.2f;

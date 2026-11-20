@@ -9,7 +9,11 @@ public class PlayerMove : MonoBehaviour
     [SerializeField]
     CharacterStats characterStat;
     Rigidbody rb;
-    Collider playerCollider;
+    Collider[] playerColliders;
+    LayerMask[] originalExcludeLayers;
+    int[] originalOverridePriorities;
+    CollisionDetectionMode originalCollisionDetection;
+    int dashIgnoreLayers;
     float moveSpeed;
     [SerializeField]
     float DashForce = 20f; // Force applied during dash
@@ -20,6 +24,7 @@ public class PlayerMove : MonoBehaviour
     float dashDuration = 0.1f; // Duration of the dash in seconds
 
     bool isDashing = false; // Flag to check if the player is currently dashing
+    public bool IsDashing => isDashing;
     void Start()
     {
         characterStat = GetComponent<CharacterStats>();
@@ -28,7 +33,12 @@ public class PlayerMove : MonoBehaviour
             moveSpeed = characterStat.MoveSpeed;
         }
         rb = GetComponent<Rigidbody>();
-        playerCollider = GetComponent<Collider>();
+        // Include child colliders belonging to this body, but not separate rigidbodies.
+        playerColliders = Array.FindAll(GetComponentsInChildren<Collider>(true),
+            collider => collider.attachedRigidbody == rb);
+        originalExcludeLayers = new LayerMask[playerColliders.Length];
+        originalOverridePriorities = new int[playerColliders.Length];
+        dashIgnoreLayers = LayerMask.GetMask("Enemy", "Bullet", "Trap");
     }
 
     // Update is called once per frame
@@ -74,6 +84,10 @@ public class PlayerMove : MonoBehaviour
 
     private void OnDisable()
     {
+        CancelInvoke(nameof(ResetIsDashing));
+        ResetIsDashing();
+        StopAllCoroutines();
+        dashTimer = 0f;
         InputSystem.actions.FindAction("Move").performed -= OnMove;
         InputSystem.actions.FindAction("Move").canceled -= OnMove;
         InputSystem.actions.FindAction("Dash").performed -= OnDash;
@@ -89,16 +103,50 @@ public class PlayerMove : MonoBehaviour
     }
     private void Dash()
     {
+        if (isDashing)
+            return;
+
         isDashing = true;
+        for (int i = 0; i < playerColliders.Length; i++)
+        {
+            Collider collider = playerColliders[i];
+            if (collider == null)
+                continue;
+
+            originalExcludeLayers[i] = collider.excludeLayers;
+            originalOverridePriorities[i] = collider.layerOverridePriority;
+            collider.excludeLayers = originalExcludeLayers[i].value | dashIgnoreLayers;
+            collider.layerOverridePriority = int.MaxValue;
+        }
+
+        // Keep wall contacts active and prevent fast movement tunnelling through thin walls.
+        originalCollisionDetection = rb.collisionDetectionMode;
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         rb.AddForce(GetCameraRelativeDirection() * DashForce, ForceMode.Impulse);
-        playerCollider.enabled = false; // Disable collider to avoid collisions during dash
-        Invoke("ResetIsDashing", dashDuration);
+        Invoke(nameof(ResetIsDashing), dashDuration);
         Debug.Log("Dash performed");
     }
     void ResetIsDashing()
     {
+        if (!isDashing)
+            return;
+
+        for (int i = 0; i < playerColliders.Length; i++)
+        {
+            if (playerColliders[i] == null)
+                continue;
+
+            playerColliders[i].excludeLayers = originalExcludeLayers[i];
+            playerColliders[i].layerOverridePriority = originalOverridePriorities[i];
+        }
+
+        if (rb != null)
+        {
+            // Remove the dash velocity before returning to the original detection mode.
+            rb.linearVelocity = new Vector3(0f, rb.linearVelocity.y, 0f);
+            rb.collisionDetectionMode = originalCollisionDetection;
+        }
         isDashing = false;
-        playerCollider.enabled = true; // Re-enable collider after dash
     }
     IEnumerator StartDashCoolDownCountDown()
     {

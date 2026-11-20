@@ -520,7 +520,7 @@ GameObject:
   - component: {fileID: 3535446534605234592}
   - component: {fileID: 361016895449481444}
   - component: {fileID: 2250701093186457971}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ranged_No001
   m_TagString: Enemy
   m_Icon: {fileID: 0}

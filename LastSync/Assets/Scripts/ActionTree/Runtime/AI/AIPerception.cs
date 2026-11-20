@@ -548,7 +548,15 @@ public class AIPerception : MonoBehaviour	// This class is responsible for detec
             hit.GetComponentInParent<CharacterStats>();
 
         if (hitPlayer != null)
+        {
+            // Physics queries do not apply the player's contact layer overrides.
+            if (hitPlayer.TryGetComponent(out PlayerMove movement) && movement.IsDashing)
+            {
+                hitPlayer = null;
+                return BodyContactType.None;
+            }
             return BodyContactType.Player;
+        }
 
         return BodyContactType.None;
     }

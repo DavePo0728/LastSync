@@ -84,6 +84,7 @@ public class WeaponEmitter : MonoBehaviour
 	{
 		GameObject projectile = GameObject.CreatePrimitive(PrimitiveType.Sphere);
 		projectile.name = "Emitter Projectile";
+		projectile.layer = LayerMask.NameToLayer("Bullet");
 		projectile.transform.SetPositionAndRotation(firePoint.position, firePoint.rotation);
 		projectile.transform.localScale = Vector3.one * 0.2f;
 

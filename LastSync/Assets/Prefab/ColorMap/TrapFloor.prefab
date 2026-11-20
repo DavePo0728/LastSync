@@ -157,7 +157,7 @@ GameObject:
   - component: {fileID: 930125269342843889}
   - component: {fileID: 1613905670778634697}
   - component: {fileID: 5825575782783926110}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Cube_1
   m_TagString: Trap
   m_Icon: {fileID: 0}
