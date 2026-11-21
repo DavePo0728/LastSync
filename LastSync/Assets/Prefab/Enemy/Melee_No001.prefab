@@ -449,14 +449,6 @@ MonoBehaviour:
   defense: 0
   moveSpeed: 5
   deathDestroyDelay: 1.5
-  chipDropPrefab:
-  - {fileID: 6368525146602664671, guid: 018b644b8243cc3469bfdbcfb65f57de, type: 3}
-  - {fileID: 7710120336678995396, guid: fcd335fc679cb514fb20897ddea25dc6, type: 3}
-  - {fileID: 2617208276530529000, guid: ad0018c442a76c64b86df79cc63b6abf, type: 3}
-  - {fileID: 4527003203287871138, guid: 3b53b28c710ddd048b875f2b76435232, type: 3}
-  - {fileID: 948533176829348781, guid: 204495dd007538d4dbcfee04f9bdc0e4, type: 3}
-  - {fileID: 6030141879567278254, guid: a4997884a047992409c3307fff2cd1c5, type: 3}
-  - {fileID: 812718902639939524, guid: c56b1d1be08612d46adc4c27627bee65, type: 3}
   healthBar: {fileID: 0}
   healthUIReference: {fileID: 6698071750207824462}
 --- !u!114 &3062643752045434652
@@ -473,6 +465,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AIMovement
   agent: {fileID: 496961857456932076}
   status: {fileID: 3287688770208284312}
+  defaultTurnSpeed: 120
 --- !u!114 &4471193484124462447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -488,6 +481,8 @@ MonoBehaviour:
   detectInterval: 30
   minAttackRange: 0.1
   maxAttackRange: 2.5
+  bodyCollider: {fileID: 0}
+  wallContactPadding: 0.05
 --- !u!114 &6951873721074887541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -534,10 +529,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.81847215
   m_Height: 1.9915233
   m_Direction: 1
-  m_Center: {x: 0, y: 1.0023792, z: 0}
+  m_Center: {x: -0.0072381496, y: 1.0023792, z: 0}
 --- !u!114 &6698071750207824462
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -52,15 +52,16 @@ MonoBehaviour:
   criticalChance: 0
   weaponData: {fileID: 11400000, guid: 13b60f5798b7ba44fa15e2a5a194bcac, type: 2}
   fireForce: 500
-  shotAudio:
-    clip: {fileID: 8300000, guid: 0910b552636052c42a5d5fb6d168dc27, type: 3}
-    volume: 0.7
-    minDistance: 5
-    maxDistance: 40
   BaseBulletAmount: 1
   impulseSource: {fileID: 0}
   bulletPrefab: {fileID: 192486925155096180, guid: 926aedd4338fa554880f4e441780da15, type: 3}
   muzzleFlash: {fileID: 1192211784737388, guid: 67796d7fb6bc3f4449f96e492958f20d, type: 3}
+  shotAudio:
+    clip: {fileID: 8300000, guid: 0910b552636052c42a5d5fb6d168dc27, type: 3}
+    origin: {fileID: 0}
+    volume: 0.7
+    minDistance: 5
+    maxDistance: 40
 --- !u!1 &4051562898199169377
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +109,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4051562898199169377}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 63fd4e070f2fc05498785d0193df0825, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -177,9 +178,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4b1dbb85ec0ca24fa13fde97e2df53e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStats
-  baseMaxHealth: 100
+  baseMaxHealth: 300
   baseDefence: 50
-  baseMoveSpeed: 5
+  baseMoveSpeed: 6.25
   dashCooldown: 1
   shieldRegenDelay: 3
   shieldRegenPerSecond: 5

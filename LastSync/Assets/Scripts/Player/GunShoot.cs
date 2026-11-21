@@ -41,12 +41,13 @@ public class GunShoot : WeaponBase
         {
             Destroy(Instantiate(muzzleFlash, transform.position, transform.rotation), 5f);
         }
+        float half = baseFireAccuracy + ChipSystem.chipSystemInstance.BonusAccuracyOffset * 0.5f;
         for (int i = 0; i < BulletAmount; i++)
         {
-            float half = baseFireAccuracy+ChipSystem.chipSystemInstance.BonusAccuracyOffset * 0.5f;
-            float yaw = Random.Range(-half, half);
-            Quaternion randomRot = Quaternion.AngleAxis(yaw, Vector3.up) * transform.rotation;
-            GameObject bullet = Instantiate(bulletPrefab, transform.position, randomRot);
+            // 單發朝正前方，多發在散射範圍內以相等角度間隔排列。
+            float yaw = BulletAmount == 1 ? 0f : Mathf.Lerp(-half, half, (float)i / (BulletAmount - 1));
+            Quaternion bulletRotation = Quaternion.AngleAxis(yaw, Vector3.up) * transform.rotation;
+            GameObject bullet = Instantiate(bulletPrefab, transform.position, bulletRotation);
 
             // 傳遞最終傷害給子彈
             if (bullet.TryGetComponent<Bullet>(out Bullet bulletScript))

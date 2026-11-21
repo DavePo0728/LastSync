@@ -34,16 +34,6 @@ MonoBehaviour:
     Direction: 0
     Orientation: 0
   - Position: {x: 19, y: 1}
-    End: {x: 23, y: 4}
-    Type: 2
-    Direction: 0
-    Orientation: 0
-  - Position: {x: 19, y: 5}
-    End: {x: 54, y: 9}
-    Type: 2
-    Direction: 0
-    Orientation: 0
-  - Position: {x: 19, y: 10}
     End: {x: 23, y: 13}
     Type: 2
     Direction: 0
@@ -88,11 +78,6 @@ MonoBehaviour:
     Type: 5
     Direction: 0
     Orientation: 2
-  - Position: {x: 54, y: 5}
-    End: {x: 54, y: 5}
-    Type: 5
-    Direction: 0
-    Orientation: 2
   - Position: {x: 0, y: 9}
     End: {x: 0, y: 9}
     Type: 5
@@ -100,11 +85,6 @@ MonoBehaviour:
     Orientation: 2
   - Position: {x: 23, y: 9}
     End: {x: 23, y: 9}
-    Type: 5
-    Direction: 0
-    Orientation: 2
-  - Position: {x: 54, y: 9}
-    End: {x: 54, y: 9}
     Type: 5
     Direction: 0
     Orientation: 2
@@ -133,16 +113,6 @@ MonoBehaviour:
     Type: 3
     Direction: 0
     Orientation: 1
-  - Position: {x: 24, y: 5}
-    End: {x: 53, y: 5}
-    Type: 3
-    Direction: 0
-    Orientation: 0
-  - Position: {x: 24, y: 9}
-    End: {x: 53, y: 9}
-    Type: 3
-    Direction: 0
-    Orientation: 0
   - Position: {x: 0, y: 10}
     End: {x: 0, y: 13}
     Type: 3
@@ -166,11 +136,6 @@ MonoBehaviour:
   - Position: {x: 23, y: 6}
     End: {x: 23, y: 8}
     Type: 4
-    Direction: 4
-    Orientation: 1
-  - Position: {x: 54, y: 6}
-    End: {x: 54, y: 8}
-    Type: 4
     Direction: 1
     Orientation: 1
   Doors:
@@ -182,15 +147,10 @@ MonoBehaviour:
   - Position: {x: 23, y: 6}
     End: {x: 23, y: 8}
     Type: 4
-    Direction: 4
-    Orientation: 1
-  - Position: {x: 54, y: 6}
-    End: {x: 54, y: 8}
-    Type: 4
     Direction: 1
     Orientation: 1
   StructureID: 3-0Room
-  Size: {x: 55, y: 15}
+  Size: {x: 24, y: 15}
   Category: 0
   PresetRole: 5
   Stage: 0

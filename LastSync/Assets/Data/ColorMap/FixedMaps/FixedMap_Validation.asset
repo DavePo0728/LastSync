@@ -22,7 +22,13 @@ MonoBehaviour:
   - Data: {fileID: 11400000, guid: 5b2170721d8236748a9edc731cfcb9a9, type: 2}
     Position: {x: 63, y: 0}
   - Data: {fileID: 11400000, guid: 617b4c11441a9664da250ddbc04ca047, type: 2}
-    Position: {x: 104, y: 0}
+    Position: {x: 88.5, y: 0}
+  - Data: {fileID: 11400000, guid: 784d3e3b7c1413e4ea645270a49c41a6, type: 2}
+    Position: {x: 139, y: 0}
+  - Data: {fileID: 11400000, guid: 08aab514691edc949986c61d6953d9bc, type: 2}
+    Position: {x: 160, y: 0}
+  - Data: {fileID: 11400000, guid: 591bb3af18837184eb00e09e872fc377, type: 2}
+    Position: {x: 186, y: 0}
   BridgeNodes:
   - Data: {fileID: 11400000, guid: 20fa77c5bab2c8d4fb3b426dcc5317d3, type: 2}
     Position: {x: 10.5, y: 0}
@@ -35,6 +41,15 @@ MonoBehaviour:
     Direction: 1
   - Data: {fileID: 11400000, guid: 20fa77c5bab2c8d4fb3b426dcc5317d3, type: 2}
     Position: {x: 73.5, y: 0}
+    Direction: 1
+  - Data: {fileID: 11400000, guid: c863d1bfbb086374db02f7f0c90bfc6f, type: 2}
+    Position: {x: 116, y: 0}
+    Direction: 0
+  - Data: {fileID: 11400000, guid: 20fa77c5bab2c8d4fb3b426dcc5317d3, type: 2}
+    Position: {x: 149.5, y: 0}
+    Direction: 1
+  - Data: {fileID: 11400000, guid: 20fa77c5bab2c8d4fb3b426dcc5317d3, type: 2}
+    Position: {x: 170.5, y: 0}
     Direction: 1
   PrefabNodes:
   - Prefab: {fileID: 5270390693981411858, guid: 911cb6193cd50884ebeeb007882bcfa1, type: 3}

@@ -142,12 +142,12 @@ MonoBehaviour:
   StructureID: 2-1Room
   Size: {x: 15, y: 15}
   Category: 0
-  PresetRole: 0
+  PresetRole: 2
   Stage: 0
   Weight: 1
   Tags: 
   HasPlayerSpawnPoint: 1
-  PlayerSpawnPoint: {x: 2, y: 7}
+  PlayerSpawnPoint: {x: 3, y: 8}
   SpawnPoint:
   - Position: {x: 12, y: 4, z: 0}
     Prefab: {fileID: 4113434695948964413, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
@@ -155,3 +155,12 @@ MonoBehaviour:
   - Position: {x: 12, y: 12, z: 0}
     Prefab: {fileID: 4113434695948964413, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
     WaveIndex: 1
+  - Position: {x: 3, y: 4, z: 0}
+    Prefab: {fileID: 4113434695948964413, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+    WaveIndex: 2
+  - Position: {x: 3, y: 12, z: 0}
+    Prefab: {fileID: 4113434695948964413, guid: 857e5a16a7ef0e94b9ee117721db1ad0, type: 3}
+    WaveIndex: 2
+  - Position: {x: 6, y: 8, z: 0}
+    Prefab: {fileID: 2876786609080843502, guid: 35ccf8573179d4e4d8f114e8b7c7b552, type: 3}
+    WaveIndex: 2

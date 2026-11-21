@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   weaponName: HandGun
   fireRate: 2
-  baseDamage: 10
+  baseDamage: 25
   baseFireAccuracy: 1
   fireRange: 10
-  baseBulletCount: 10
+  baseBulletCount: 1

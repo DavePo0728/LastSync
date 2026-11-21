@@ -20,8 +20,8 @@ public class PlayerMove : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     float dashCooldown = 2f; // Dash cooldown in seconds
     float dashTimer = 0f; // Timer for dash cooldown
-
-    float dashDuration = 0.1f; // Duration of the dash in seconds
+    [SerializeField]
+    float dashDuration = 0.3f; // Duration of the dash in seconds
 
     bool isDashing = false; // Flag to check if the player is currently dashing
     public bool IsDashing => isDashing;

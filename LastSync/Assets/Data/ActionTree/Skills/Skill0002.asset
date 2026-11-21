@@ -15,7 +15,7 @@ MonoBehaviour:
   skillName: Normal_Burst_Shot
   icon: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
   damage: 10
-  range: 8
+  range: 9
   cooldown: 3
   castTime: 0.8
   priority: 0
